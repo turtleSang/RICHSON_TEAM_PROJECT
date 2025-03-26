@@ -51,7 +51,6 @@ export class UserService {
         if (!user) {
             throw new NotFoundException("Not found user")
         }
-
         user = { ...user, role: newRole };
         await this.userRepository.save(user);
         return "User was update";
