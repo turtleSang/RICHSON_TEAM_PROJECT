@@ -1,10 +1,11 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CategoryEntity } from './entity/category-entity';
 import { UserService } from 'src/user/user.service';
 import { UserEntity } from 'src/user/entity/user.entity';
 import { CategoryCreateDto } from './dto/category-create-dto';
+import { CategoryUpdateDto } from './dto/category-update-dto';
 
 
 @Injectable()
@@ -49,8 +50,20 @@ export class CategoryService {
             .getMany()
     }
 
-    async deleteCategory(id: number) {
+    async updateCateory(id: number, categoryUpdate: CategoryUpdateDto) {
+        let category = await this.categoryRepository.findOneBy({ id });
+        if (!category) {
+            throw new NotFoundException("Can not find category");
+        }
+        category = { ...category, ...categoryUpdate };
+        try {
+            return await this.categoryRepository.save(category)
+        } catch (error) {
+            throw new InternalServerErrorException("Can not update", error)
+        }
+    }
 
+    async deleteCategory(id: number) {
         const category = await this.categoryRepository.findOneBy({ id });
 
         if (!category) {
@@ -58,7 +71,7 @@ export class CategoryService {
         }
 
         try {
-            await this.categoryRepository.remove(category);
+            await this.categoryRepository.delete({ id });
             return `Category ${category.name} has removed`;
         } catch (error) {
             throw new BadRequestException('Server error')

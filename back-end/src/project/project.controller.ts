@@ -19,7 +19,6 @@ export class ProjectController {
     return await this.projectService.createProject(projectDto, id);
   }
 
-
   @Get('list')
   async getProjects(
     @Query('page', ParseIntPipe) pageNumber: number = 1,
@@ -31,7 +30,6 @@ export class ProjectController {
 
   @Get("/detail/:id")
   async getDetailProject(@Param('id', ParseIntPipe) id: number) {
-
     return await this.projectService.getDetailProject(id)
   }
 

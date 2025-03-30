@@ -1,8 +1,8 @@
 import { ProjectEntity } from "src/project/entity/project-entity";
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity({ name: 'videos' })
-export class VideosEntity {
+@Entity({ name: 'video' })
+export class VideoEntity {
     @PrimaryGeneratedColumn()
     id: number
 
@@ -15,7 +15,7 @@ export class VideosEntity {
     @Column({ name: 'path', type: 'varchar' })
     filePath: string;
 
-    @OneToOne(() => ProjectEntity, { nullable: true })
+    @OneToOne(() => ProjectEntity, (project) => project.video)
     @JoinColumn()
     project: ProjectEntity
 }

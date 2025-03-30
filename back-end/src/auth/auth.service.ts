@@ -22,7 +22,7 @@ export class AuthService {
             userEntity = await this.userService.createWithGoogle(user);
         }
         const token = await this.registerJwtToken({ id: userEntity.id, role: userEntity.role });
-        return token;
+        return { token };
     }
 
     async getProfile(id: number): Promise<UserEntity> {

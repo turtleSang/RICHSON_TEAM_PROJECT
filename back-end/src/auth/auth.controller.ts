@@ -9,7 +9,7 @@ import { Role, Roles } from './roles/roles.decorator';
 import { ValidatorPipe } from 'src/pipes/validator.pipe';
 
 
-@Controller('auth')
+@Controller('api/auth')
 export class AuthController {
   constructor(
     private readonly authService: AuthService

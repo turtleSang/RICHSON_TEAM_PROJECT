@@ -61,14 +61,15 @@ export class ProjectService {
     async getDetailProject(id: number) {
         return await this.projectRepository
             .createQueryBuilder("project")
-            .select(["project.id", "project.name", "project.imgId", "project.rating", "project.createAt", "project.updateAt", "project.videoId"])
+            .select(["project.id", "project.name", "project.rating", "project.createAt", "project.updateAt"])
             .where("project.id = :id", { id })
             .leftJoin("project.author", "author")
             .addSelect(["author.name", "author.id", "author.avatar"])
             .leftJoin("project.categoryList", "categories")
             .addSelect(["categories.name", "categories.link", "categories.id", "categories.thumb"])
+            .leftJoin("project.video", "video")
+            .addSelect(["video.id"])
             .getOne()
-
 
     }
 

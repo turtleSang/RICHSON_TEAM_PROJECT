@@ -7,8 +7,6 @@ export enum ProjectShort {
     UPDATEAT = "project.updateAt"
 }
 
-
-
 export class ConditionProjectDto {
     @IsEnum(ProjectShort)
     type: ProjectShort;
