@@ -8,9 +8,10 @@ import { CategoryService } from 'src/category/category.service';
 import { UserService } from 'src/user/user.service';
 import { CategoryEntity } from 'src/category/entity/category-entity';
 import { VideoEntity } from 'src/videos/entity/videos-entity';
+import { VideoProjectEntity } from 'src/videos/entity/video-project-entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProjectEntity, UserEntity, CategoryEntity, VideoEntity])],
+  imports: [TypeOrmModule.forFeature([ProjectEntity, UserEntity, CategoryEntity, VideoEntity, VideoProjectEntity])],
   controllers: [ProjectController],
   providers: [ProjectService, CategoryService, UserService],
 })

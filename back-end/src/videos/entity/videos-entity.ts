@@ -1,7 +1,7 @@
-import { ProjectEntity } from "src/project/entity/project-entity";
-import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from "typeorm";
 
 @Entity({ name: 'video' })
+@TableInheritance({ column: { type: "varchar", name: "type" } })
 export class VideoEntity {
     @PrimaryGeneratedColumn()
     id: number
@@ -15,7 +15,5 @@ export class VideoEntity {
     @Column({ name: 'path', type: 'varchar' })
     filePath: string;
 
-    @OneToOne(() => ProjectEntity, (project) => project.video)
-    @JoinColumn()
-    project: ProjectEntity
+
 }

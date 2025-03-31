@@ -6,13 +6,12 @@ import { extname, join } from "path";
 
 
 export const MulterConfigsVideo: MulterOptions = {
-    fileFilter: (req, file, callback) => {
-        if (file.mimetype != "video/mp4") {
-            callback(new BadRequestException("Only accept mp4 file"), false)
-        }
-
-        callback(null, true);
-    },
+    // fileFilter: (req, file, callback) => {
+    //     if (file.mimetype != "video/mp4") {
+    //         callback(new BadRequestException("Only accept mp4 file"), false)
+    //     }
+    //     callback(null, true);
+    // },
     storage: diskStorage({
         destination(req, file, callback) {
             const user: any = req.user;

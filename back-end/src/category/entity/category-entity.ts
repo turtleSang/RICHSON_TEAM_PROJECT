@@ -21,9 +21,6 @@ export class CategoryEntity {
     @Column({ type: 'varchar', length: 200 })
     description: string
 
-    @Column({ type: 'text', nullable: true })
-    thumb: string;
-
     @ManyToOne(() => UserEntity, (user) => user.categoryCreateList)
     user: UserEntity
 

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { RoleGuard } from 'src/auth/roles/roles.guard';
@@ -6,8 +6,10 @@ import { Roles } from 'src/auth/roles/roles.decorator';
 import { ProjectCreateDto } from './dto/project-create-dto';
 import { ValidatorPipe } from 'src/pipes/validator.pipe';
 import { ConditionProjectDto } from './dto/short-condition-dto';
+import { OwnerGuard } from 'src/auth/owner/owner.guard';
+import { ProjectUpdateDto } from './dto/project-update-dto';
 
-@Controller('project')
+@Controller('api/project')
 export class ProjectController {
   constructor(private readonly projectService: ProjectService) { }
 
@@ -31,6 +33,27 @@ export class ProjectController {
   @Get("/detail/:id")
   async getDetailProject(@Param('id', ParseIntPipe) id: number) {
     return await this.projectService.getDetailProject(id)
+  }
+
+  @Put(':projectId')
+  @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
+  @Roles('admin', 'member')
+  async updateProject(@Body(ValidatorPipe) projectUpdate: ProjectUpdateDto, @Param('projectId', ParseIntPipe) projectId: number) {
+    return await this.projectService.updateProject(projectId, projectUpdate)
+  }
+
+  @Delete(':id')
+  @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
+  @Roles('admin', 'member')
+  async deleteProject(@Param('id') id: number) {
+    return await this.projectService.deleteProject(id)
+  }
+
+  @Delete('/admin/:id')
+  @UseGuards(JwtGuard, RoleGuard)
+  @Roles('admin')
+  async deleteByAdmin(@Param('id') id: number) {
+    return await this.projectService.deleteProject(id)
   }
 
 

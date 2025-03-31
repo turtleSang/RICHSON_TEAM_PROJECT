@@ -5,11 +5,13 @@ import { VideosService } from './videos.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProjectEntity } from 'src/project/entity/project-entity';
 import { VideoEntity } from './entity/videos-entity';
+import { VideoProjectEntity } from './entity/video-project-entity';
+import { VideoBackgroundEntity } from './entity/videos-background-entity';
 
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProjectEntity, VideoEntity])],
+  imports: [TypeOrmModule.forFeature([ProjectEntity, VideoEntity, VideoProjectEntity, VideoBackgroundEntity])],
   controllers: [VideosController],
   providers: [VideosService]
 })

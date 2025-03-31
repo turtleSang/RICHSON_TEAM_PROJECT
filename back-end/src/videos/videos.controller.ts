@@ -13,7 +13,7 @@ import { OwnerGuard } from 'src/auth/owner/owner.guard';
 import { VideosService } from './videos.service';
 import { ProjectEntity } from 'src/project/entity/project-entity';
 
-@Controller('video')
+@Controller('api/video')
 export class VideosController {
   constructor(private videosService: VideosService) { }
 
@@ -43,7 +43,7 @@ export class VideosController {
     fileStream.pipe(res);
   }
 
-  @Post('upload/:projectId')
+  @Post('upload/project/:projectId')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('admin', 'member')
   @UseInterceptors(FileInterceptor('file', MulterConfigsVideo))
@@ -51,9 +51,9 @@ export class VideosController {
     const project: ProjectEntity = req.project as ProjectEntity;
     return await this.videosService.createVideoProject(project, file.filename, file.path)
   }
-  @Delete(':id')
+  @Delete('project/:id')
   async deleteVideo(@Param('id', ParseIntPipe) videoid: number) {
-    return this.videosService.deleteVideo(videoid)
+    return this.videosService.deleteVideoProject(videoid)
   }
 
 

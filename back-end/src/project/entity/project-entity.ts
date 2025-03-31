@@ -1,5 +1,6 @@
 import { CategoryEntity } from "src/category/entity/category-entity";
 import { UserEntity } from "src/user/entity/user.entity";
+import { VideoProjectEntity } from "src/videos/entity/video-project-entity";
 import { VideoEntity } from "src/videos/entity/videos-entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, OneToMany, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
@@ -28,9 +29,9 @@ export class ProjectEntity {
     @UpdateDateColumn()
     updateAt: Date;
 
-    @OneToOne(() => VideoEntity, (video) => video.project)
+    @OneToOne(() => VideoProjectEntity, (video) => video.project, { lazy: true, cascade: true, onDelete: "CASCADE" })
     @JoinColumn()
-    video: VideoEntity
+    video: VideoProjectEntity
 
     @ManyToOne(() => UserEntity, (user) => user.listProject, { eager: true })
     author: UserEntity

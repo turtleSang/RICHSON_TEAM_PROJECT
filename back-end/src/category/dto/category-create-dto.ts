@@ -18,9 +18,4 @@ export class CategoryCreateDto {
     @IsNotEmpty({ message: "Description is not empty" })
     description: string;
 
-    @IsString()
-    @IsOptional()
-    @IsEmpty(null)
-    thumb: string;
-
 }

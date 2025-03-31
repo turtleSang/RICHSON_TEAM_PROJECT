@@ -1,14 +1,19 @@
-import { IsArray, IsString, Matches, MaxLength } from "class-validator";
+import { IsArray, IsNotEmpty, IsNumber, IsString, Length, Matches, MaxLength } from "class-validator";
 
 
 export class ProjectCreateDto {
     @IsString()
-    @MaxLength(255)
+    @Length(1, 100, { message: "Name includes 100 characters" })
+    @Matches(/^[A-Za-z0-9 ]+$/, { message: "Only text and space" })
+    @IsNotEmpty({ message: "name is not empty" })
     name: string;
 
     @IsString()
+    @MaxLength(200, { message: 'Description includes 200 characters' })
+    @IsNotEmpty({ message: "Description is not empty" })
     description: string;
 
     @IsArray()
-    categoryId: number[]
+    @IsNumber({}, { each: true })
+    categoryIdList: number[]
 }
