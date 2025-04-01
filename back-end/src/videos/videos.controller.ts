@@ -56,5 +56,4 @@ export class VideosController {
     return this.videosService.deleteVideoProject(videoid)
   }
 
-
 }
