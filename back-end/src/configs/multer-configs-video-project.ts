@@ -5,20 +5,15 @@ import { diskStorage } from "multer";
 import { extname, join } from "path";
 
 
-export const MulterConfigsVideo: MulterOptions = {
-    // fileFilter: (req, file, callback) => {
-    //     if (file.mimetype != "video/mp4") {
-    //         callback(new BadRequestException("Only accept mp4 file"), false)
-    //     }
-    //     callback(null, true);
-    // },
+export const MulterConfigsVideoProject: MulterOptions = {
     storage: diskStorage({
         destination(req, file, callback) {
+            const projectId = req.params.projectId;
             const user: any = req.user;
-            if (!user.id) {
+            if (!user.id && !projectId) {
                 callback(new ForbiddenException, null);
             }
-            const destination = join(process.env.MULTER_DEST_VIDEO, "videos", user.id);
+            const destination = join(process.env.MULTER_DEST, "videos", user.id, projectId);
             if (!existsSync(destination)) {
                 mkdirSync(destination, { recursive: true })
             }
@@ -27,7 +22,7 @@ export const MulterConfigsVideo: MulterOptions = {
         filename(req, file, callback) {
             const user: any = req.user
             const extFile = extname(file.originalname);
-            let fileName = `${user.id}-${Date.now()}-${Math.round(Math.random() * 1e9)}${extFile}`;
+            let fileName = `${user.id}-${Date.now()}-${Math.round(Math.random() * 1e3)}${extFile}`;
 
             callback(null, fileName)
         },

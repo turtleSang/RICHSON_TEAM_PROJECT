@@ -1,4 +1,6 @@
 import { CategoryEntity } from "src/category/entity/category-entity";
+import { ImageProjectEntity } from "src/image/entity/image-project-entity";
+import { ThumbProjectEntity } from "src/image/entity/image-project-thumb-entity";
 import { UserEntity } from "src/user/entity/user.entity";
 import { VideoProjectEntity } from "src/videos/entity/video-project-entity";
 import { VideoEntity } from "src/videos/entity/videos-entity";
@@ -21,13 +23,21 @@ export class ProjectEntity {
         precision: 3,
         scale: 2
     })
-    rating: number
+    rating: number;
+
+    @OneToMany(() => ImageProjectEntity, (image) => image.project, { cascade: true, onDelete: 'CASCADE' })
+    imageList: ImageProjectEntity[]
+
+    @OneToOne(() => ThumbProjectEntity, (thumb) => thumb.project)
+    @JoinColumn()
+    thumb: ThumbProjectEntity;
 
     @CreateDateColumn()
     createAt: Date;
 
     @UpdateDateColumn()
     updateAt: Date;
+
 
     @OneToOne(() => VideoProjectEntity, (video) => video.project, { lazy: true, cascade: true, onDelete: "CASCADE" })
     @JoinColumn()

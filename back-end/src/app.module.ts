@@ -8,10 +8,11 @@ import { CategoryModule } from './category/category.module';
 
 import { VideosModule } from './videos/videos.module';
 import { ProjectModule } from './project/project.module';
+import { ImageModule } from './image/image.module';
 
 
 @Module({
-  imports: [GolbalConfigsModule, AuthModule, DatabaseModule, UserModule, CategoryModule, VideosModule, ProjectModule],
+  imports: [GolbalConfigsModule, AuthModule, DatabaseModule, UserModule, CategoryModule, VideosModule, ProjectModule, ImageModule],
   providers: [UserService],
 })
 export class AppModule { }

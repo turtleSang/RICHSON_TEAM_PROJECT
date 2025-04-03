@@ -7,11 +7,12 @@ import { ProjectEntity } from 'src/project/entity/project-entity';
 import { VideoEntity } from './entity/videos-entity';
 import { VideoProjectEntity } from './entity/video-project-entity';
 import { VideoBackgroundEntity } from './entity/videos-background-entity';
+import { CategoryEntity } from 'src/category/entity/category-entity';
 
 
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProjectEntity, VideoEntity, VideoProjectEntity, VideoBackgroundEntity])],
+  imports: [TypeOrmModule.forFeature([ProjectEntity, VideoEntity, VideoProjectEntity, VideoBackgroundEntity, CategoryEntity])],
   controllers: [VideosController],
   providers: [VideosService]
 })
