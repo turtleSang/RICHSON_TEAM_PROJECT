@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   FileTypeValidator,
+  FileValidator,
   Get,
   MaxFileSizeValidator,
   Param,
@@ -11,6 +12,7 @@ import {
   Post,
   Req,
   Res,
+  StreamableFile,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -18,7 +20,7 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { Request, Response } from 'express';
-import { createReadStream, fstatSync, statSync } from 'fs';
+import { createReadStream, existsSync, fstatSync, statSync } from 'fs';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { RoleGuard } from 'src/auth/roles/roles.guard';
@@ -28,6 +30,8 @@ import { OwnerGuard } from 'src/auth/owner/owner.guard';
 import { VideosService } from './videos.service';
 import { ProjectEntity } from 'src/project/entity/project-entity';
 import { MulterConfigsVideoCategory } from 'src/configs/multer-configs-video-category';
+import { MulterCarousel } from 'src/configs/muter-configs-carousel';
+import { join } from 'path';
 
 @Controller('api/video')
 export class VideosController {
@@ -57,6 +61,26 @@ export class VideosController {
     const fileStream: ReadStream = createReadStream(video.filePath);
     fileStream.pipe(res);
   }
+
+
+  @Get('/carousel')
+  async getCarousel(@Res() res: any) {
+    const path = join(process.env.MULTER_DEST, 'videos/carousel/carousel.mp4')
+    if (!existsSync(path)) {
+      return res.status(404).send('File not found');
+    }
+    const fileStreamm = createReadStream(path);
+
+    fileStreamm.on('close', () => {
+      fileStreamm.destroy();
+    });
+
+    fileStreamm.on('error', (err) => {
+      fileStreamm.destroy();
+    })
+    fileStreamm.pipe(res);
+  }
+
 
   @Post('upload/project/:projectId')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
@@ -98,6 +122,13 @@ export class VideosController {
     return await this.videosService.createVideoCategory(categoryId, file.filename, file.path)
   }
 
+  @Post('upload/carousel')
+  @UseGuards(JwtGuard, RoleGuard)
+  @Roles('admin')
+  @UseInterceptors(FileInterceptor('file', MulterCarousel))
+  async uploadCarousel(@UploadedFile('file') file: Express.Multer.File) {
+    return 'Uploaded Carousel'
+  }
 
   @Delete('project/:id')
   @UseGuards(JwtGuard, RoleGuard)

@@ -28,7 +28,7 @@ export class ProjectEntity {
     @OneToMany(() => ImageProjectEntity, (image) => image.project, { cascade: true, onDelete: 'CASCADE' })
     imageList: ImageProjectEntity[]
 
-    @OneToOne(() => ThumbProjectEntity, (thumb) => thumb.project)
+    @OneToOne(() => ThumbProjectEntity, (thumb) => thumb.project, { cascade: true, onDelete: 'CASCADE' })
     @JoinColumn()
     thumb: ThumbProjectEntity;
 

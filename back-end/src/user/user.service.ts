@@ -27,21 +27,6 @@ export class UserService {
             })
             return newUser;
         } catch (error) {
-            console.log(error);
-
-            throw new BadRequestException(error);
-        }
-    }
-
-    async createWithZalo(user: { name: string, zaloId: bigint, avatar: string }) {
-        try {
-            const newUser = await this.userRepository.save({
-                zaloId: user.zaloId,
-                name: user.name,
-                avatar: user.avatar
-            })
-            return newUser
-        } catch (error) {
             throw new BadRequestException(error);
         }
     }

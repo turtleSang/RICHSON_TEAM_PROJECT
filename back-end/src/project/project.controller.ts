@@ -44,7 +44,7 @@ export class ProjectController {
 
   @Delete(':id')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
-  @Roles('admin', 'member')
+  @Roles('member', 'admin')
   async deleteProject(@Param('id') id: number) {
     return await this.projectService.deleteProject(id)
   }

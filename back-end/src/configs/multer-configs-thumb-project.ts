@@ -4,31 +4,29 @@ import { existsSync, mkdirSync } from "fs";
 import { diskStorage } from "multer";
 import { extname, join } from "path";
 
-export const MulterImageProject: MulterOptions = {
+export const MulterThumbImage: MulterOptions = {
     fileFilter(req, file, callback) {
-        const accept = file.mimetype === 'image/png' || file.mimetype === 'image/jpeg';
-        console.log(accept);
-
+        const accept = file.mimetype === 'image/png' || file.mimetype === 'image/jpeg'
         callback(!accept && new BadRequestException('require file png and jpeg'), accept);
     },
     storage: diskStorage({
         destination(req, file, callback) {
-            const projectId: any = req.params.projectId;
+            const projectId = req.params.projectId;
             if (!projectId) {
-                callback(new BadRequestException('Need category Id'), null)
+                callback(new BadRequestException('Need Category Id'), null)
+            }
 
-            }
-            const destination = join(process.env.MULTER_DEST, 'images', 'project', projectId)
+            const destination = join(process.env.MULTER_DEST, 'images', 'project', projectId);
             if (!existsSync(destination)) {
-                mkdirSync(destination, { recursive: true })
+                mkdirSync(destination, { recursive: true });
             }
-            callback(null, destination)
+            callback(null, destination);
         },
         filename(req, file, callback) {
             const projectId: any = req.params.projectId;
             const ext = extname(file.originalname);
-            const filename = `${projectId}-${Date.now()}-${Math.round(Math.random() * 1e3)}${ext}`
-            callback(null, filename)
+            const filename = `Thumbnail-${projectId}-${Math.round(Math.random() * 1e3)}${ext}`;
+            callback(null, filename);
         },
     })
 }

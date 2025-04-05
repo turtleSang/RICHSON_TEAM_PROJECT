@@ -33,11 +33,6 @@ export class AuthController {
     return { name, email, avatar, id }
   }
 
-  @Post("upgrade/:id")
-  @UseGuards(JwtGuard, RoleGuard)
-  @Roles("admin")
-  async upgradeProfile(@Param('id', ParseIntPipe) id: number, @Body(ValidatorPipe) data: { newRole: Role }) {
-    return await this.authService.upgradeProfile(data.newRole, id);
-  }
+
 
 }

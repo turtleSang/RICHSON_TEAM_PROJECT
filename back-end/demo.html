@@ -8,11 +8,20 @@
 </head>
 
 <body>
-    <video controls width="800">
+    <video id="video" controls width="800" loop autoplay muted>
         <source src="http://localhost:3000/api/video/stream/4" type="video/mp4" />
+        <!-- <source src="http://localhost:3000/api/video/carousel" type="video/mp4" /> -->
+
     </video>
 
-    <img src="http://localhost:3000/api/image/32" />
+    <img src="http://localhost:3000/api/image/39" />
+
+
+    <!-- <script>
+        let videoEle = document.getElementById('video');
+        videoEle.play();
+
+    </script> -->
 </body>
 
 </html>

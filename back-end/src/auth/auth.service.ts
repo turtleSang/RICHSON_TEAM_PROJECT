@@ -33,9 +33,5 @@ export class AuthService {
         }
     }
 
-    async upgradeProfile(newRole: Role, id: number) {
-        return await this.userService.upgradeProfile(newRole, id);
-    }
-
 
 }

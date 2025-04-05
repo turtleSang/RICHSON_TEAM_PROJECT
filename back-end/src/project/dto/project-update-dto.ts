@@ -3,7 +3,7 @@ import { IsArray, IsNotEmpty, IsNumber, IsOptional, IsString, Length, Matches, M
 export class ProjectUpdateDto {
     @IsString()
     @Length(1, 100, { message: "Name includes 100 characters" })
-    @Matches(/^[A-Za-z\s]+$/, { message: "Only text and space" })
+    @Matches(/^[A-Za-z0-9 ]+$/, { message: "Only text and space" })
     @IsOptional({ message: "name is not empty" })
     name: string;
 

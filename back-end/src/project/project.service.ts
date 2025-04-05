@@ -60,6 +60,8 @@ export class ProjectService {
             .addSelect(["author.name", "author.id", "author.avatar"])
             .leftJoin("project.categoryList", "categories")
             .addSelect(["categories.name", "categories.link", "categories.id"])
+            .leftJoin('project.thumb', 'thumb')
+            .addSelect('thumb.id')
             .orderBy(conditionProjectDto.type, conditionProjectDto.short ? "ASC" : "DESC")
             .skip(skip)
             .take(pageSize)
@@ -85,14 +87,32 @@ export class ProjectService {
     }
 
     async deleteProject(id: number) {
-        const project = await this.projectRepository.findOneBy({ id });
+        const project = await this.projectRepository.findOne({
+            where: { id }, relations: {
+                video: true,
+                thumb: true,
+                imageList: true
+            }
+        });
         if (!project) {
             throw new NotFoundException("Not Found project")
         }
-        const video = await project.video
+        const video = project.video;
+        const thumb = project.thumb;
+        const listImg = project.imageList
         try {
             if (video && existsSync(video.filePath)) {
                 await unlink(video.filePath)
+            }
+            if (thumb && existsSync(thumb.path)) {
+                await unlink(thumb.path);
+            }
+            if (listImg.length > 0) {
+                for (const image of listImg) {
+                    if (existsSync(image.path)) {
+                        await unlink(image.path);
+                    }
+                }
             }
             await this.projectRepository.remove(project)
             return `Project ${project.name} has deleted`

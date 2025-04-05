@@ -6,6 +6,10 @@ import { extname, join } from "path";
 
 
 export const MulterConfigsVideoProject: MulterOptions = {
+    fileFilter(req, file, callback) {
+        const accept = file.mimetype === 'video/mp4'
+        callback(!accept && new BadRequestException('require file mp4'), accept);
+    },
     storage: diskStorage({
         destination(req, file, callback) {
             const projectId = req.params.projectId;
