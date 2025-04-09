@@ -18,16 +18,16 @@ export class AuthService {
     async callbackGoogle(user: { name: string, email: string, avatar: string, role: Role, googleId: string }) {
         let userEntity: UserEntity = await this.userService.findOneByEmail(user.email);
         if (!userEntity) {
-
             userEntity = await this.userService.createWithGoogle(user);
         }
         const token = await this.registerJwtToken({ id: userEntity.id, role: userEntity.role });
-        return { token };
+        return token;
     }
 
     async getProfile(id: number): Promise<UserEntity> {
         try {
-            return await this.userService.findOneById(id)
+            const user = await this.userService.findOneById(id)
+            return user;
         } catch (error) {
             throw new BadRequestException('Server errors')
         }

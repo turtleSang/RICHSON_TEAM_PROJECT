@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #0d0d0d;
+  --color-background-item: #333333;
+  --color-accent: #1c1c1c;
+  --color-text: #eaeaea;
+  --color-textsc: #888888;
+  --color-tbnBg: #ff6b00;
+  --color-btnBorter: #00d1ff;
+  --color-hover: #00d1ff;
+  --color-border: #1a1a1a;
+  /* TEXT */
+  --text-navbar-mobile: 14px;
+  --text-hero-mobile: 28px;
+  --text-section-title-mobile: 20px;
+  --text-card-title-mobile: 16px;
+  --text-body-mobile: 14px;
+  --text-caption-mobile: 12px;
+  --text-button-mobile: 14px;
+
+  /* ===== Tablet (641px–1024px) ===== */
+  --text-navbar-tablet: 16px;
+  --text-hero-tablet: 36px;
+  --text-section-title-tablet: 28px;
+  --text-card-title-tablet: 20px;
+  --text-body-tablet: 16px;
+  --text-caption-tablet: 14px;
+  --text-button-tablet: 16px;
+
+  /* ===== Desktop (≥1025px) ===== */
+  --text-navbar-desktop: 18px;
+  --text-hero-desktop: 48px;
+  --text-section-title-desktop: 32px;
+  --text-card-title-desktop: 24px;
+  --text-body-desktop: 18px;
+  --text-caption-desktop: 14px;
+  --text-button-desktop: 18px;
+}
+
+body {
+  background: var(--color-background);
+  color: var(--color-text);
+}

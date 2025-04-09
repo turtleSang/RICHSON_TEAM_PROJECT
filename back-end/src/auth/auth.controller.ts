@@ -1,12 +1,10 @@
-import { Body, Controller, Get, Param, ParseIntPipe, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 import { JwtGuard } from './jwt/jwt.guard';
 import { GoogleGuard } from './google/google.guard';
 import { UserEntity } from 'src/user/entity/user.entity';
-import { RoleGuard } from './roles/roles.guard';
-import { Role, Roles } from './roles/roles.decorator';
-import { ValidatorPipe } from 'src/pipes/validator.pipe';
+
 
 
 @Controller('api/auth')
@@ -20,9 +18,11 @@ export class AuthController {
 
   @Get('google/callback')
   @UseGuards(GoogleGuard)
-  async callbackGooogle(@Req() req: any) {
+  async callbackGooogle(@Req() req: any, @Res() res: Response) {
     const user = req.user;
-    return await this.authService.callbackGoogle(user);
+    const token = await this.authService.callbackGoogle(user);
+    res.redirect(`http://localhost:4000/login-success?token=${token}`);
+
   }
 
   @Get("profile")

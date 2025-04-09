@@ -12,8 +12,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
             clientID: process.env.GOOGLE_APP_ID,
             clientSecret: process.env.GOOGLE_APP_SECRET,
             callbackURL: 'http://localhost:3000/api/auth/google/callback',
-            scope: ['email', 'profile']
+            scope: ['email', 'profile'],
         })
+    }
+
+    authorizationParams(): Record<string, string> {
+        return {
+            prompt: 'select_account', // 👈 dòng này sẽ giúp hiện chọn nhiều tài khoản
+        };
     }
 
     async validate(

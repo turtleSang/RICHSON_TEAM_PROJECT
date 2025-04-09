@@ -13,7 +13,7 @@ export class UserService {
     }
 
     async findOneById(id: number) {
-        return await this.userRepository.findOneBy({ id });
+        return await this.userRepository.findOneByOrFail({ id });
     }
 
     async createWithGoogle(user: { googleId: string, name: string, email: string, avatar: string, role: Role, }) {

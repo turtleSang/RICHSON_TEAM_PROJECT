@@ -43,10 +43,9 @@ export class CategoryService {
 
     async getAllCategory() {
         return await this.categoryRepository.createQueryBuilder('category')
-            .select("category.name")
-            .addSelect("category.id")
-            .addSelect("category.link")
-            .addSelect("category.thumb")
+            .select(["category.name", "category.id", "category.link"])
+            .innerJoin('category.videoThumb', 'videoThumb')
+            .addSelect(['videoThumb.id'])
             .getMany()
     }
 
