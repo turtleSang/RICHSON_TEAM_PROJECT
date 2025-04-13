@@ -25,7 +25,7 @@ export const MulterThumbImage: MulterOptions = {
         filename(req, file, callback) {
             const projectId: any = req.params.projectId;
             const ext = extname(file.originalname);
-            const filename = `Thumbnail-${projectId}-${Math.round(Math.random() * 1e3)}${ext}`;
+            const filename = `Thumbnail-${projectId}-${Math.round(Math.random() * 1e5)}${ext}`;
             callback(null, filename);
         },
     })

@@ -7,6 +7,7 @@ import { unlink, access } from 'fs/promises'
 import { existsSync } from 'fs';
 import { ImageEntity } from './entity/image-entity';
 import { ThumbProjectEntity } from './entity/image-project-thumb-entity';
+import { FileDeleteEntity } from 'src/delete-file/entity/file-delete-entity';
 
 @Injectable()
 export class ImageService {
@@ -23,6 +24,8 @@ export class ImageService {
         @InjectRepository(ProjectEntity)
         private projectRepository: Repository<ProjectEntity>,
 
+        @InjectRepository(FileDeleteEntity)
+        private deleteFileRepository: Repository<FileDeleteEntity>,
 
     ) { }
 
@@ -41,15 +44,20 @@ export class ImageService {
             }
             throw new NotFoundException('Can not found project');
         }
-        const oldImages = project.imageList;
-        if (oldImages.length > 0) {
-            for (const image of oldImages) {
-                if (existsSync(image.path)) {
-                    await unlink(image.path)
+        try {
+            const oldImages = project.imageList;
+            if (oldImages.length > 0) {
+                for (const image of oldImages) {
+                    await this.deleteFileRepository.save({
+                        path: image.path
+                    })
                 }
+                await this.imageProjectRepository.remove(oldImages);
             }
-            await this.imageProjectRepository.remove(oldImages);
+        } catch (error) {
+            throw new InternalServerErrorException('Can not delete old image of Project');
         }
+
         try {
             const listFileSave: ImageProjectEntity[] = listFile.map((file) => {
                 const fileEntity = this.imageProjectRepository.create({
@@ -62,10 +70,10 @@ export class ImageService {
             await this.imageProjectRepository.save(listFileSave);
             return `Update Images for project ${project.name}`
         } catch (error) {
-            for (const image of oldImages) {
-                if (existsSync(image.path)) {
-                    await unlink(image.path)
-                }
+            for (const image of listFile) {
+                await this.deleteFileRepository.save({
+                    path: image.path
+                })
             }
             throw new InternalServerErrorException('Can not upload')
         }
@@ -84,7 +92,7 @@ export class ImageService {
         try {
             if (oldThumb) {
                 await this.thumbRepository.update({ id: oldThumb.id }, { path: file.path });
-                existsSync(oldThumb.path) && await unlink(oldThumb.path);
+                await this.deleteFileRepository.save({ path: oldThumb.path })
             } else {
                 const newThumb = this.thumbRepository.create({
                     path: file.path,
@@ -101,8 +109,7 @@ export class ImageService {
 
     async getImageById(imageId: number) {
         try {
-            return await this.imageRepository.findOneByOrFail({ id: imageId })
-
+            return await this.imageRepository.findOneByOrFail({ id: imageId });
         } catch (error) {
             throw new NotFoundException('Not found image')
         }
@@ -123,7 +130,7 @@ export class ImageService {
             } else {
                 await this.imageRepository.remove(image);
             }
-            await unlink(image.path);
+            await this.deleteFileRepository.save({ path: image.path });
             return 'Image was delete';
         } catch (error) {
             throw new InternalServerErrorException("Server Errors")

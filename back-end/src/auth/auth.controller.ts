@@ -21,7 +21,8 @@ export class AuthController {
   async callbackGooogle(@Req() req: any, @Res() res: Response) {
     const user = req.user;
     const token = await this.authService.callbackGoogle(user);
-    res.redirect(`http://localhost:4000/login-success?token=${token}`);
+    res.cookie('access_token', token, { httpOnly: true, secure: false, sameSite: 'lax' })
+    res.redirect(`http://localhost:4000/`);
 
   }
 

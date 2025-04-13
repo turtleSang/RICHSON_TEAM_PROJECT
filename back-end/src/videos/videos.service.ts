@@ -8,6 +8,7 @@ import * as fs from 'fs/promises';
 import { VideoProjectEntity } from './entity/video-project-entity';
 import { CategoryEntity } from 'src/category/entity/category-entity';
 import { VideoBackgroundEntity } from './entity/videos-background-entity';
+import { FileDeleteEntity } from 'src/delete-file/entity/file-delete-entity';
 
 @Injectable()
 export class VideosService {
@@ -25,7 +26,11 @@ export class VideosService {
         private projectRepository: Repository<ProjectEntity>,
 
         @InjectRepository(CategoryEntity)
-        private categoryRepository: Repository<CategoryEntity>
+        private categoryRepository: Repository<CategoryEntity>,
+
+        @InjectRepository(FileDeleteEntity)
+        private deleteFileRepository: Repository<FileDeleteEntity>,
+
     ) { }
 
     async createVideoProject(project: ProjectEntity, fileName: string, filePath: string) {
@@ -36,18 +41,25 @@ export class VideosService {
             .getOne();
 
         if (oldVideo) {
-            const oldPath = oldVideo.filePath;
-            if (existsSync(oldPath)) {
-                await fs.unlink(oldPath);
+            try {
+                const oldPath = oldVideo.filePath;
+                await this.deleteFileRepository.save({ path: oldPath });
+                await this.videoProjectRepository.update({ id: oldVideo.id }, { fileName, filePath })
+            } catch (error) {
+                throw new InternalServerErrorException('Can not delete Old Videos')
             }
-            await this.videoProjectRepository.update({ id: oldVideo.id }, { fileName, filePath })
         } else {
-            const newVideo = await this.videoProjectRepository.save({
-                fileName,
-                filePath,
-                project
-            })
-            await this.projectRepository.update({ id: project.id }, { video: newVideo });
+            try {
+                const newVideo = await this.videoProjectRepository.save({
+                    fileName,
+                    filePath,
+                    project
+                })
+                await this.projectRepository.update({ id: project.id }, { video: newVideo });
+            } catch (error) {
+                throw new InternalServerErrorException('Can not upload videos');
+            }
+
         }
         return `Videos of project ${project.name} was upload`;
     }
@@ -60,15 +72,18 @@ export class VideosService {
             }
         })
         if (!category) {
-            await fs.unlink(filePath)
+            await this.deleteFileRepository.save({ path: filePath })
             throw new NotFoundException("Can't found Category");
         }
         const oldThumb = category.videoThumb;
         if (oldThumb) {
-            if (existsSync(oldThumb.filePath)) {
-                await fs.unlink(oldThumb.filePath)
+            try {
+                await this.deleteFileRepository.save({ path: oldThumb.filePath });
+                await this.videoBackgroundRepository.update({ id: oldThumb.id }, { fileName, filePath })
+            } catch (error) {
+                await this.deleteFileRepository.save({ path: filePath });
+                throw new InternalServerErrorException('Can not delete old Thumbnail')
             }
-            await this.videoBackgroundRepository.update({ id: oldThumb.id }, { fileName, filePath })
         } else {
             const newThumb = await this.videoBackgroundRepository.save({
                 category,
@@ -110,7 +125,7 @@ export class VideosService {
         }
         await this.projectRepository.update({ id: video.project.id }, { video: null });
         await this.videosRepository.delete({ id: videoId })
-        await fs.unlink(video.filePath);
+        await this.deleteFileRepository.save({ path: video.filePath });
         return 'delteted';
     }
 
@@ -127,7 +142,7 @@ export class VideosService {
         }
         await this.categoryRepository.update({ id: video.category.id }, { videoThumb: null });
         await this.videosRepository.delete({ id: videoId })
-        await fs.unlink(video.filePath);
+        await this.deleteFileRepository.save({ path: video.filePath });
         return 'delteted';
     }
 

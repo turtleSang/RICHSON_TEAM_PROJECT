@@ -32,6 +32,4 @@ export class AuthService {
             throw new BadRequestException('Server errors')
         }
     }
-
-
 }

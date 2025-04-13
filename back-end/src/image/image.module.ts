@@ -6,9 +6,10 @@ import { ImageEntity } from './entity/image-entity';
 import { ProjectEntity } from 'src/project/entity/project-entity';
 import { ImageProjectEntity } from './entity/image-project-entity';
 import { ThumbProjectEntity } from './entity/image-project-thumb-entity';
+import { FileDeleteEntity } from 'src/delete-file/entity/file-delete-entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProjectEntity, ImageEntity, ImageProjectEntity, ThumbProjectEntity])],
+  imports: [TypeOrmModule.forFeature([ProjectEntity, ImageEntity, ImageProjectEntity, ThumbProjectEntity, FileDeleteEntity])],
   controllers: [ImageController],
   providers: [ImageService],
 })

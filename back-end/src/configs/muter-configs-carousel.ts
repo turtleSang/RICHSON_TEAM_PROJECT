@@ -23,10 +23,7 @@ export const MulterCarousel: MulterOptions = {
         filename(req, file, callback) {
             const ext = extname(file.originalname);
             const filename = `carousel${ext}`;
-            const filepath = join(process.env.MULTER_DEST, 'videos', 'carousel', filename);
-            if (existsSync(filepath)) {
-                unlinkSync(filepath);
-            }
+
             callback(null, filename);
         },
     })

@@ -44,7 +44,6 @@ export class VideosController {
       throw new BadRequestException("Only Stream");
     }
     const video = await this.videosService.getOneById(videoId);
-
     const slat = statSync(video.filePath);
     const fileSize = slat.size;
     const part = range.replace("byte=", '').split('-')
@@ -81,7 +80,6 @@ export class VideosController {
     fileStreamm.pipe(res);
   }
 
-
   @Post('upload/project/:projectId')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('admin', 'member')
@@ -114,7 +112,6 @@ export class VideosController {
     @UploadedFile('file', new ParseFilePipe({
       fileIsRequired: true,
       validators: [
-        new FileTypeValidator({ fileType: 'video/mp4' }),
         new MaxFileSizeValidator({ maxSize: 102400000 })
       ]
     })) file: Express.Multer.File
