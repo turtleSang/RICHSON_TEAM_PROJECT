@@ -27,28 +27,8 @@ export default function SearchGroup() {
     },
   };
 
-  const formVariatant: Variants = {
-    open: {
-      opacity: 1,
-      y: ["-270px", "20px", "0"],
-      width: "70%",
-      visibility: "visible",
-    },
-    close: {
-      opacity: 0,
-      y: ["20px", "-250px"],
-      width: "80px",
-      visibility: "hidden",
-    },
-  };
-
-  const handleForm = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(123);
-  };
-
   return (
-    <div>
+    <div className="">
       <button
         onClick={handleActive}
         type="button"
@@ -61,7 +41,7 @@ export default function SearchGroup() {
         variants={blurBgVariatant}
         animate={isActive ? "open" : "close"}
         onClick={handleClose}
-        className="fixed top-0 left-0 bg-background w-full h-[100vh]"
+        className="fixed top-0 left-0 bg-background w-full h-[100vh] z-20"
       ></motion.div>
     </div>
   );

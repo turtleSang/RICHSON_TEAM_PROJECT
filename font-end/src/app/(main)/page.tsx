@@ -1,9 +1,15 @@
-import NavDropDown from "@/components/nav-dropdown";
+import Carousel from "@/components/carousel";
+import Loader from "@/components/loader";
+import GroupCategory from "@/layout/group-category";
+import { GetProfile } from "@/libs/fetching-server";
+import { div } from "framer-motion/client";
+import { cookies } from "next/headers";
 
-export default function MainPage() {
+export default async function MainPage() {
   return (
     <div>
-      <h1 className="h-[200vh]"></h1>
+      <Carousel />
+      <GroupCategory />
     </div>
   );
 }

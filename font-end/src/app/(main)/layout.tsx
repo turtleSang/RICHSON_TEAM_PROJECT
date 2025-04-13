@@ -7,7 +7,7 @@ export default function LayoutMainPage({
   children: React.ReactNode;
 }) {
   return (
-    <main>
+    <main className="pt-16 lg:pt-24">
       <NavBar></NavBar>
       {children}
     </main>

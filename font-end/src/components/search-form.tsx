@@ -28,7 +28,7 @@ export default function SearchForm({ isActive }: { isActive: boolean }) {
       variants={formVariatant}
       initial="close"
       animate={isActive ? "open" : "close"}
-      className="text-hero-mobile lg:text-hero-tablet fixed top-64 left-1/2 -translate-x-1/2 z-30"
+      className="text-hero-mobile lg:text-hero-tablet fixed z-30 top-64 left-1/2 -translate-x-1/2"
       onSubmit={handleForm}
     >
       <label className="flex flex-row justify-between py-3 px-4 bg-background-item rounded-4xl">

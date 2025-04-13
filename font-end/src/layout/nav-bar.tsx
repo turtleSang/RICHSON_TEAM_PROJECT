@@ -1,4 +1,5 @@
 "use client";
+import ProfileInfo from "@/components/profile-infomation";
 import Login from "@/components/login-with-google";
 import Logo from "@/components/nav-logo";
 import NavMenu from "@/components/nav-menu";
@@ -25,13 +26,13 @@ export default function NavBar() {
   return (
     <nav
       className={clsx(
-        "border-2 border-border py-2 fixed top-0 left-0 w-full duration-200 shadow-lg shadow-border flex justify-around items-center",
+        "border-2 bg-background border-border py-2 fixed z-10 top-0 left-0 w-full duration-200 shadow-lg shadow-border flex justify-around items-center",
         active ? "translate-y-0" : "-translate-y-full"
       )}
     >
       <Logo />
       <SearchGroup />
-      <UserInfoBtn />
+      <ProfileInfo />
       <NavMenu />
     </nav>
   );

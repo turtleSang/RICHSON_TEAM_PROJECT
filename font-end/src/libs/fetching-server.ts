@@ -1,11 +1,17 @@
 import axios from "axios";
-
-export async function fetchingCategory() {
+export async function GetProfile(token: string) {
+    if (!token) {
+        return null;
+    }
     try {
-        const response = await axios.get('http://localhost:3000/api/category/all')
-        const listCategory = response.data;
-        return listCategory;
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, {
+            headers: {
+                Cookie: `access_token=${token}`
+            },
+            withCredentials: true
+        })
+        return res.data;
     } catch (error) {
-        return []
+        return null;
     }
 }
