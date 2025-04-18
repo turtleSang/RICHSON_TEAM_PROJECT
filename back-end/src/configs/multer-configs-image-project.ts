@@ -6,7 +6,9 @@ import { extname, join } from "path";
 
 export const MulterImageProject: MulterOptions = {
     fileFilter(req, file, callback) {
-        const accept = file.mimetype === 'image/png' || file.mimetype === 'image/jpeg';
+
+
+        const accept = (file.mimetype === 'image/png' || file.mimetype === 'image/jpeg');
         console.log(accept);
 
         callback(!accept && new BadRequestException('require file png and jpeg'), accept);

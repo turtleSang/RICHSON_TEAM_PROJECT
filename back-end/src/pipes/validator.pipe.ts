@@ -7,6 +7,10 @@ export class ValidatorPipe implements PipeTransform {
         if (!metatype || !this.toValidate(metatype)) {
             return value;
         }
+        if (!value) {
+            throw new BadRequestException('value is not null');
+
+        }
         const obj = plainToInstance(metatype, value);
         const err: ValidationError[] = await validate(obj);
         if (err.length > 0) {

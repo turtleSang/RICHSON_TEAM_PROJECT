@@ -1,4 +1,4 @@
-import { Controller, Delete, FileTypeValidator, Get, InternalServerErrorException, NotFoundException, Param, ParseFilePipe, ParseIntPipe, Post, StreamableFile, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Controller, Delete, FileTypeValidator, Get, InternalServerErrorException, NotFoundException, Param, ParseFilePipe, ParseIntPipe, Post, StreamableFile, UploadedFile, UploadedFiles, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ImageService } from './image.service';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { MulterImageProject } from 'src/configs/multer-configs-image-project';
@@ -21,6 +21,9 @@ export class ImageController {
     @Param('projectId', ParseIntPipe) projectId: number,
     @UploadedFiles() files: Express.Multer.File[]
   ) {
+    if (files.length === 0) {
+      throw new BadRequestException('Files is null')
+    }
     return this.imageService.uploadImageProject(projectId, files);
   }
 

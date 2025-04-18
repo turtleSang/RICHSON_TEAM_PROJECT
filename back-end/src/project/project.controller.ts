@@ -1,11 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { RoleGuard } from 'src/auth/roles/roles.guard';
 import { Roles } from 'src/auth/roles/roles.decorator';
 import { ProjectCreateDto } from './dto/project-create-dto';
 import { ValidatorPipe } from 'src/pipes/validator.pipe';
-import { ConditionProjectDto } from './dto/short-condition-dto';
+import { ProjectShort } from './dto/short-condition-dto';
 import { OwnerGuard } from 'src/auth/owner/owner.guard';
 import { ProjectUpdateDto } from './dto/project-update-dto';
 
@@ -25,9 +25,11 @@ export class ProjectController {
   async getProjects(
     @Query('page', ParseIntPipe) pageNumber: number = 1,
     @Query('size', ParseIntPipe) pageSize: number = 4,
-    @Body(new ValidatorPipe) conditionProjectDto: ConditionProjectDto
+    @Query('type', new ValidatorPipe) type: ProjectShort,
+    @Query('short', ParseBoolPipe) short: boolean
+
   ) {
-    return await this.projectService.getListProject(pageNumber - 1, pageSize, conditionProjectDto);
+    return await this.projectService.getListProject(pageNumber - 1, pageSize, type, short);
   }
 
   @Get("/detail/:id")

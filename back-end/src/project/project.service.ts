@@ -7,10 +7,11 @@ import { UserService } from 'src/user/user.service';
 import { ProjectCreateDto } from './dto/project-create-dto';
 import { UserEntity } from 'src/user/entity/user.entity';
 import { CategoryEntity } from 'src/category/entity/category-entity';
-import { ConditionProjectDto } from './dto/short-condition-dto';
+
 import { unlink } from "fs/promises"
 import { existsSync } from 'fs';
 import { ProjectUpdateDto } from './dto/project-update-dto';
+import { ProjectShort } from './dto/short-condition-dto';
 @Injectable()
 export class ProjectService {
     constructor(
@@ -50,19 +51,19 @@ export class ProjectService {
         }
     }
 
-    async getListProject(pageNumber: number, pageSize: number, conditionProjectDto: ConditionProjectDto
+    async getListProject(pageNumber: number, pageSize: number, type: ProjectShort, short: boolean
     ) {
         const skip: number = pageNumber * pageSize;
         const listProject = await this.projectRepository
             .createQueryBuilder("project")
-            .select(["project.id", "project.name", "project.rating", "project.createAt"])
+            .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt"])
             .leftJoin("project.author", "author")
             .addSelect(["author.name", "author.id", "author.avatar"])
             .leftJoin("project.categoryList", "categories")
             .addSelect(["categories.name", "categories.link", "categories.id"])
             .leftJoin('project.thumb', 'thumb')
             .addSelect('thumb.id')
-            .orderBy(conditionProjectDto.type, conditionProjectDto.short ? "ASC" : "DESC")
+            .orderBy(type, short ? "DESC" : "ASC")
             .skip(skip)
             .take(pageSize)
             .getMany();

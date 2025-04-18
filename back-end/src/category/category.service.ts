@@ -16,9 +16,9 @@ export class CategoryService {
     ) { }
 
     async createCategory(categoryCategoryDto: CategoryCreateDto, userId: number) {
-        let category = await this.categoryRepository.findOneBy({ name: categoryCategoryDto.name });
+        let category = await this.categoryRepository.findOneBy([{ name: categoryCategoryDto.name }, { link: categoryCategoryDto.link }]);
         if (category) {
-            throw new BadRequestException(`Category ${category.name} has existed`)
+            throw new BadRequestException(`Category name ${category.name} or link ${category.link} has existed`)
         }
         const user: UserEntity = await this.userService.findOneById(userId);
 
@@ -44,7 +44,7 @@ export class CategoryService {
     async getAllCategory() {
         return await this.categoryRepository.createQueryBuilder('category')
             .select(["category.name", "category.id", "category.link"])
-            .innerJoin('category.videoThumb', 'videoThumb')
+            .leftJoin('category.videoThumb', 'videoThumb')
             .addSelect(['videoThumb.id'])
             .getMany()
     }

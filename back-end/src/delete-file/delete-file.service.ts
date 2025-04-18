@@ -19,7 +19,6 @@ export class DeleteFileService {
         let listFileDelete: FileDeleteEntity[] = await this.deleteFileRepository.find();
 
         if (listFileDelete.length <= 0) {
-            console.log('Dont have any file to delete');
             return;
         }
 
@@ -34,7 +33,6 @@ export class DeleteFileService {
                 this.logger.log(`Can not try later File ${file.id} ${file.path}`)
 
             }
-
         }
 
     }

@@ -30,6 +30,7 @@ export class ImageService {
     ) { }
 
     async uploadImageProject(projectId: number, listFile: Express.Multer.File[]) {
+
         const project = await this.projectRepository.findOne(
             {
                 where: { id: projectId },
