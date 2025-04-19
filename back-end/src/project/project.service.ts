@@ -56,7 +56,7 @@ export class ProjectService {
         const skip: number = pageNumber * pageSize;
         const listProject = await this.projectRepository
             .createQueryBuilder("project")
-            .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt"])
+            .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt", 'project.updateAt'])
             .leftJoin("project.author", "author")
             .addSelect(["author.name", "author.id", "author.avatar"])
             .leftJoin("project.categoryList", "categories")

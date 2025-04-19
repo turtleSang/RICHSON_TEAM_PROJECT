@@ -26,7 +26,7 @@ export default function NavBar() {
   return (
     <nav
       className={clsx(
-        "border-2 bg-background border-border py-2 fixed z-10 top-0 left-0 w-full duration-200 shadow-lg shadow-border flex justify-around items-center",
+        "border-2 bg-background border-border py-2 fixed z-50 top-0 left-0 w-full duration-200 shadow-lg shadow-border flex justify-around items-center",
         active ? "translate-y-0" : "-translate-y-full"
       )}
     >

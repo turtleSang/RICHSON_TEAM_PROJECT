@@ -37,7 +37,7 @@ export default function NavMenu() {
       <button
         onClick={handleClick}
         type="button"
-        className="top-5 sticky z-30 cursor-pointer overflow-hidden w-7 h-7 md:w-9 md:h-9 lg:w-12 lg:h-12"
+        className="top-5 sticky z-40 cursor-pointer overflow-hidden w-7 h-7 md:w-9 md:h-9 lg:w-12 lg:h-12"
       >
         <motion.span
           className="inline-block"
@@ -57,7 +57,7 @@ export default function NavMenu() {
         </motion.span>
       </button>
       <motion.div
-        className="bg-background-item fixed top-0 right-0 h-[100vh] z-20 rounded-l-2xl pl-10 pt-10 md:pt-14 lg:pt-20  w-4/5 md:w-3/5 lg:w-2/5 "
+        className="bg-background-item fixed top-0 right-0 h-[100vh] z-30 rounded-l-2xl pl-10 pt-10 md:pt-14 lg:pt-20  w-4/5 md:w-3/5 lg:w-2/5 "
         initial="close"
         variants={menuVariant}
         animate={active ? "open" : "close"}

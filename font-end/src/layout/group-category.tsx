@@ -14,13 +14,13 @@ export default async function GroupCategory() {
       id: number;
       name: string;
       link: string;
-      videoThumb: { id: number };
+      videoThumb: { id: number } | null;
     }[] = data;
 
     return (
       <div className="py-14">
         <TitleSection title={title} />
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 -z-10">
           {listCategory.map((val, index) => {
             return (
               <ItemCategory
@@ -28,7 +28,7 @@ export default async function GroupCategory() {
                 link={val.link}
                 key={val.id}
                 name={val.name}
-                videoId={val.videoThumb.id}
+                videoId={val.videoThumb ? val.videoThumb.id : null}
               />
             );
           })}

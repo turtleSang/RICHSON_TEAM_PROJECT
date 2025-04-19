@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { motion } from "framer-motion";
 import { HTMLAttributes } from "react";
 
-export default function DropDownBtn({
+export default function DropDownNavBtn({
   active,
   ...props
 }: { active: boolean } & HTMLAttributes<HTMLButtonElement>) {
@@ -21,7 +21,7 @@ export default function DropDownBtn({
     <button
       type="button"
       className={clsx(
-        active ? "bg-hover" : "bg-tbnBg",
+        active ? "bg-hover" : "bg-btnBg",
         " hover:bg-hover duration-200 cursor-pointer px-5 py-0.5 rounded-md"
       )}
       {...props}

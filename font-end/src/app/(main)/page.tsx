@@ -1,15 +1,14 @@
 import Carousel from "@/components/carousel";
-import Loader from "@/components/loader";
+import ListProject from "@/components/project-list";
 import GroupCategory from "@/layout/group-category";
-import { GetProfile } from "@/libs/fetching-server";
-import { div } from "framer-motion/client";
-import { cookies } from "next/headers";
+import GroupProject from "@/layout/group-project";
 
 export default async function MainPage() {
   return (
     <div>
       <Carousel />
       <GroupCategory />
+      <GroupProject />
     </div>
   );
 }
