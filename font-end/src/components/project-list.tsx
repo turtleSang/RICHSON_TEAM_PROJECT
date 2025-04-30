@@ -9,8 +9,9 @@ import clsx from "clsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import DropDownBtn from "./drop-down-btn";
+import { motion } from "framer-motion";
 
-export default function ListProject() {
+export default function ListProject({ userId }: { userId?: number }) {
   // State
   const pageSize = 4;
 
@@ -26,7 +27,8 @@ export default function ListProject() {
     pageNumber,
     pageSize,
     typeShort,
-    short
+    short,
+    userId
   );
 
   const [listProject, setListProject] = useState<ProjectCardType[]>([]);
@@ -68,55 +70,71 @@ export default function ListProject() {
   };
 
   return (
-    <div>
-      <div className="pb-5 flex flex-row justify-center items-center">
-        <h3 className="text-nowrap">Sort By</h3>
-        <DropDownBtn
-          handleValue={handleShort}
-          listDropDown={[
-            { name: "rating", value: "project.rating" },
-            { name: "Date Create", value: "project.createAt" },
-            { name: "Date Update", value: "project.updateAt" },
-          ]}
-          name="Sort By"
-        />
-        <DropDownBtn
-          handleValue={handleDecreasing}
-          listDropDown={[
-            { name: "Decreasing", value: true },
-            { name: "Increasing", value: false },
-          ]}
-          name=""
-        />
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {listProject.map((project, index) => {
-          const currentPosition = preProsition === 4 ? 1 : preProsition + 1;
-          preProsition = currentPosition;
-          return (
-            <ProjectCard
-              position={currentPosition}
-              project={project}
-              key={index}
+    <div className=" w-full overflow-hidden">
+      {listProject.length > 0 && (
+        <>
+          <div className="pb-5 flex flex-row justify-center items-center">
+            <h3 className="text-nowrap">Sort By</h3>
+            <DropDownBtn
+              handleValue={handleShort}
+              listDropDown={[
+                { name: "rating", value: "project.rating" },
+                { name: "Date Create", value: "project.createAt" },
+                { name: "Date Update", value: "project.updateAt" },
+              ]}
+              name="Sort By"
             />
-          );
-        })}
-      </div>
-      <div className="text-center py-3">
-        <button
-          disabled={disableShowMore}
-          className={clsx(
-            "cursor-pointer bg-border text-button-desktop px-5 py-3 rounded-xl disabled:opacity-20 border-tbnBg border-4"
-          )}
-          onClick={handleShowMore}
-          type="button"
-        >
-          SHOW MORE
-          <span className="ml-3">
-            <FontAwesomeIcon icon={faChevronDown} />
-          </span>
-        </button>
-      </div>
+            <DropDownBtn
+              handleValue={handleDecreasing}
+              listDropDown={[
+                { name: "Decreasing", value: true },
+                { name: "Increasing", value: false },
+              ]}
+              name=""
+            />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {listProject.map((project, index) => {
+              const currentPosition = preProsition === 4 ? 1 : preProsition + 1;
+              preProsition = currentPosition;
+              return (
+                <ProjectCard
+                  position={currentPosition}
+                  project={project}
+                  key={index}
+                />
+              );
+            })}
+          </div>
+          (
+          <div className="text-center py-3">
+            <button
+              disabled={disableShowMore}
+              className={clsx(
+                "cursor-pointer text-button-desktop px-5 py-3 rounded-xl disabled:opacity-20 hover:text-btnBg duration-200 disabled:cursor-not-allowed"
+              )}
+              onClick={handleShowMore}
+              type="button"
+            >
+              SHOW MORE
+              <motion.span
+                animate={{
+                  y: [-10, 0, 10],
+                  opacity: [1, 0.5, 0],
+                }}
+                transition={{
+                  duration: 1,
+                  repeat: Infinity,
+                }}
+                className="ml-3 block"
+              >
+                <FontAwesomeIcon icon={faChevronDown} />
+              </motion.span>
+            </button>
+          </div>
+          )
+        </>
+      )}
     </div>
   );
 }

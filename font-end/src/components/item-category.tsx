@@ -16,7 +16,10 @@ export default function ItemCategory({
   videoId: number | null;
 }) {
   return (
-    <Link className="rounded-4xl overflow-hidden" href={`/project/${link}`}>
+    <Link
+      className="w-full rounded-4xl overflow-hidden"
+      href={`/project/${link}`}
+    >
       <div className="h-52 relative -z-10">
         <div className="w-full min-h-52 h-auto z-10 absolute top-1/2 -translate-y-1/2 bg-btnBg">
           {videoId && (

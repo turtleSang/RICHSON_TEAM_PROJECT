@@ -1,5 +1,5 @@
 import axios from "axios";
-export async function GetProfile(token: string) {
+export async function GetProfileServer(token: string) {
     if (!token) {
         return null;
     }

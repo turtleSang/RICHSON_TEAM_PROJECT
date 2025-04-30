@@ -6,6 +6,7 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPowerOff, faUser } from "@fortawesome/free-solid-svg-icons";
 import { motion, Variants } from "framer-motion";
+import axios from "axios";
 
 export default function UserInfoBtn({
   name,
@@ -36,10 +37,19 @@ export default function UserInfoBtn({
     setActive(!active);
   };
 
+  const handleLogout = () => {
+    axios
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
+        withCredentials: true,
+      })
+      .then((res) => window.location.reload())
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div
       onClick={handleActive}
-      className="cursor-pointer -z-10 bg-background-item relative flex flex-row items-center md:py-1 md:pr-3 rounded-4xl"
+      className="cursor-pointer -z-10 bg-background-item relative flex flex-row items-center lg:py-1 md:pr-3 rounded-4xl"
     >
       <Image
         className="rounded-full"
@@ -63,6 +73,7 @@ export default function UserInfoBtn({
         </li>
         <li className="pl-5 py-3 hover:bg-hover hover:text-accent duration-200">
           <button
+            onClick={handleLogout}
             className="md:text-start cursor-pointer inline-block w-full"
             type="button"
           >

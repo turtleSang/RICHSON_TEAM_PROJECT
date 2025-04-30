@@ -57,7 +57,7 @@ export default function NavMenu() {
         </motion.span>
       </button>
       <motion.div
-        className="bg-background-item fixed top-0 right-0 h-[100vh] z-30 rounded-l-2xl pl-10 pt-10 md:pt-14 lg:pt-20  w-4/5 md:w-3/5 lg:w-2/5 "
+        className="bg-background-item fixed top-0 right-0 h-screen overflow-y-auto overflow-x-hidden z-30 rounded-l-2xl pl-10 pt-10 md:pt-14 lg:pt-20  w-4/5 md:w-3/5 lg:w-2/5 "
         initial="close"
         variants={menuVariant}
         animate={active ? "open" : "close"}

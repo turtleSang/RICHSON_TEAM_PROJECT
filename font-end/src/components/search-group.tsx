@@ -36,7 +36,7 @@ export default function SearchGroup() {
       >
         <FontAwesomeIcon icon={faMagnifyingGlass} /> <span>Search</span>
       </button>
-      <SearchForm isActive={isActive} />
+      <SearchForm isActive={isActive} handleClose={handleClose} />
       <motion.div
         variants={blurBgVariatant}
         animate={isActive ? "open" : "close"}

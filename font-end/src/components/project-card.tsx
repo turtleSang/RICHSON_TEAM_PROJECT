@@ -1,4 +1,5 @@
-import { HeaderFont2, ContentFont } from "@/font/font";
+"use client";
+import { ContentFont } from "@/font/font";
 import { TruncateTxt } from "@/libs/helper";
 import { ProjectCardType } from "@/types/define.type";
 import clsx from "clsx";
