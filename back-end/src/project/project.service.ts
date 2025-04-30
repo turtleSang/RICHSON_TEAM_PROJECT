@@ -32,6 +32,7 @@ export class ProjectService {
             }
             return category;
         }))
+        console.log(listCategory);
 
 
         if (listCategory.length === 0) {
@@ -42,10 +43,10 @@ export class ProjectService {
             const project = await this.projectRepository.save({
                 author,
                 categoryList: listCategory,
-                description: projectDto.description,
-                name: projectDto.name
+                description: projectDto.description.trim(),
+                name: projectDto.name.trim(),
             })
-            return `${project.name} has created`;
+            return { id: project.id, name: project.name };
         } catch (error) {
             throw new BadRequestException('Server error', error)
         }
@@ -81,6 +82,8 @@ export class ProjectService {
                 .addSelect(["categories.name", "categories.link", "categories.id"])
                 .leftJoin("project.video", 'video')
                 .addSelect('video.id')
+                .leftJoin("project.imageList", "imageList")
+                .addSelect("imageList.id")
                 .getOneOrFail();
         } catch (error) {
             throw new NotFoundException("Not Found project", error)
@@ -141,6 +144,51 @@ export class ProjectService {
         project = { ...project, ...projectUpdate, categoryList: listCategory };
         await this.projectRepository.save(project);
         return `Project ${project.name} was updated`;
+    }
+
+    async getNameProject(txtSearch: string) {
+        return await this.projectRepository
+            .createQueryBuilder('project')
+            .select(['project.name', 'project.id'])
+            .where('project.name LIKE :txtSearch', { txtSearch: `%${txtSearch}%` })
+            .orderBy('project.name', 'ASC')
+            .take(5)
+            .getMany()
+
+    }
+
+    async getProjectByName(name: string) {
+        return await this.projectRepository
+            .createQueryBuilder('project')
+            .select()
+            .where('project.name LIKE :name', { name: `%${name}%` })
+            .orderBy('project.name', 'ASC')
+            .leftJoin("project.author", "author")
+            .addSelect(["author.name", "author.id", "author.avatar"])
+            .leftJoin("project.categoryList", "categories")
+            .addSelect(["categories.name", "categories.link", "categories.id"])
+            .leftJoin('project.thumb', 'thumb')
+            .addSelect('thumb.id')
+            .addOrderBy('project.createAt', 'DESC')
+            .getMany();
+    }
+
+    async getListProjectByUserId(userId: number, pageNumber: number, pageSize: number, type: ProjectShort, short: boolean) {
+        const skip: number = pageNumber * pageSize;
+        const listProject = await this.projectRepository.createQueryBuilder("project")
+            .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt", 'project.updateAt'])
+            .leftJoin("project.author", "author")
+            .addSelect(["author.name", "author.id", "author.avatar"])
+            .where("author.id = :userId", { userId })
+            .leftJoin("project.categoryList", "categories")
+            .addSelect(["categories.name", "categories.link", "categories.id"])
+            .leftJoin('project.thumb', 'thumb')
+            .addSelect('thumb.id')
+            .orderBy(type, short ? "DESC" : 'ASC')
+            .skip(skip)
+            .take(pageSize)
+            .getMany()
+        return listProject;
     }
 
 

@@ -4,7 +4,7 @@ import { IsArray, IsNotEmpty, IsNumber, IsString, Length, Matches, MaxLength } f
 export class ProjectCreateDto {
     @IsString()
     @Length(1, 100, { message: "Name includes 100 characters" })
-    @Matches(/^[A-Za-z0-9 ]+$/, { message: "Only text and space" })
+    @Matches(/^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯẶẮẴẰẶẲẶắẵằẳặềếễểệồốỗổộờớỡởợừứữửựýỳỷỹỵ0-9\s]+$/, { message: "Only text and space" })
     @IsNotEmpty({ message: "name is not empty" })
     name: string;
 

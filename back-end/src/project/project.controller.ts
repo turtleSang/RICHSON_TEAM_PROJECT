@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseBoolPipe, ParseIntPipe, Post, Put, Query, Req, UseGuards } from '@nestjs/common';
 import { ProjectService } from './project.service';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { RoleGuard } from 'src/auth/roles/roles.guard';
@@ -8,6 +8,7 @@ import { ValidatorPipe } from 'src/pipes/validator.pipe';
 import { ProjectShort } from './dto/short-condition-dto';
 import { OwnerGuard } from 'src/auth/owner/owner.guard';
 import { ProjectUpdateDto } from './dto/project-update-dto';
+import { ProjectEntity } from './entity/project-entity';
 
 @Controller('api/project')
 export class ProjectController {
@@ -32,9 +33,43 @@ export class ProjectController {
     return await this.projectService.getListProject(pageNumber - 1, pageSize, type, short);
   }
 
+  @Get('list/user/:userId')
+  async getProjectsByUserId(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Query('page', ParseIntPipe) pageNumber: number = 1,
+    @Query('size', ParseIntPipe) pageSize: number = 4,
+    @Query('type', new ValidatorPipe) type: ProjectShort,
+    @Query('short', ParseBoolPipe) short: boolean) {
+    const listProject = await this.projectService.getListProjectByUserId(userId, pageNumber - 1, pageSize, type, short);
+    if (listProject.length === 0) {
+      throw new NotFoundException("Not found project")
+
+    }
+
+    return await this.projectService.getListProjectByUserId(userId, pageNumber - 1, pageSize, type, short);
+  }
   @Get("/detail/:id")
   async getDetailProject(@Param('id', ParseIntPipe) id: number) {
     return await this.projectService.getDetailProject(id)
+  }
+
+  @Get('/search/name/:txtSearch')
+  async getNameProject(@Param('txtSearch') txtSearch: string) {
+    const listName: ProjectEntity[] = await this.projectService.getNameProject(txtSearch);
+    if (listName.length === 0) {
+      throw new NotFoundException()
+    }
+    return listName;
+
+  }
+
+  @Get('name/:name')
+  async getProjectsByName(@Param('name') name: string) {
+    const listProject: ProjectEntity[] = await this.projectService.getProjectByName(name);
+    if (listProject.length === 0) {
+      throw new NotFoundException()
+    }
+    return listProject;
   }
 
   @Put(':projectId')
@@ -57,6 +92,4 @@ export class ProjectController {
   async deleteByAdmin(@Param('id') id: number) {
     return await this.projectService.deleteProject(id)
   }
-
-
 }

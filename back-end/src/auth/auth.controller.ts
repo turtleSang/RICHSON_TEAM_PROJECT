@@ -30,10 +30,15 @@ export class AuthController {
   @UseGuards(JwtGuard)
   async getProfile(@Req() req: any) {
     const { id } = req.user
-    const { name, email, avatar }: UserEntity = await this.authService.getProfile(id);
-    return { name, email, avatar, id }
+    const { name, email, avatar, role }: UserEntity = await this.authService.getProfile(id);
+    return { name, email, avatar, id, role }
   }
 
-
+  @Get('logout')
+  @UseGuards(JwtGuard)
+  async Logout(@Res({ passthrough: true }) res: Response) {
+    res.clearCookie('access_token')
+    res.send({ mess: 'was logout' })
+  }
 
 }
