@@ -48,7 +48,7 @@ export default function VideoBackGround({ src }: { src: string }) {
         delay: 0.5,
       }}
     >
-      <video className="w-full h-auto" autoPlay loop muted ref={videoRef}>
+      <video className="w-full h-auto z-30" autoPlay loop muted ref={videoRef}>
         <source src={src} type="video/mp4" />
       </video>
       {!ready && (

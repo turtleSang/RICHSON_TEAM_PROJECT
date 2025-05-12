@@ -8,6 +8,8 @@ import { CreateProject, useCategory } from "@/libs/fetching-client";
 import InputCheckBox from "./input-check-box";
 import { useRouter } from "next/navigation";
 import { AxiosError } from "axios";
+import Loader from "./loader";
+import NotFoundComponent from "./not-found-component";
 
 export default function CreateProjectForm() {
   const route = useRouter();
@@ -80,9 +82,9 @@ export default function CreateProjectForm() {
     const isValid = checkVaidateionProject();
     if (!isValid) return;
     try {
-      const { id, name } = await CreateProject(project);
-      if (data) {
-        route.push(`/profile/update/${id}`);
+      const { id } = await CreateProject(project);
+      if (id) {
+        route.push(`/project/detail/${id}/update`);
       }
     } catch (error) {
       const status = (error as AxiosError).status;
@@ -171,8 +173,8 @@ export default function CreateProjectForm() {
               {errorMessage.categoryIdList}
             </p>
           )}
-          {isLoading && <p>Loading...</p>}
-          {error && <p>Error</p>}
+          {isLoading && <Loader />}
+          {error && <NotFoundComponent name={"Category"} />}
           {data &&
             data.map((item) => {
               return (
@@ -180,6 +182,7 @@ export default function CreateProjectForm() {
                   key={item.id}
                   id={`${item.id}`}
                   name={item.name}
+                  checked={project.categoryIdList.includes(item.id)}
                   onChange={(e) => handleCheckBoxCategoryChange(e, item.id)}
                 />
               );

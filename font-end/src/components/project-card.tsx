@@ -47,25 +47,20 @@ export default function ProjectCard({
     <motion.div
       variants={variants}
       initial="hidden"
-      whileInView={"show"}
+      animate="show"
       whileHover={"hover"}
       transition={{
         delay: position * 0.2,
       }}
-      className={clsx(
-        "overflow-hidden group",
-        position === 1 && "md:col-span-2 lg:col-span-3",
-        position === 3 && "xl:col-span-2",
-        position === 4 && "md:col-span-2 lg:col-span-1 xl:col-span-2"
-      )}
+      className={clsx("overflow-hidden group col-span-1")}
     >
-      <Link className="relative z-0" href={`/project/${project.id}`}>
-        <div className="relative block z-0 h-72 overflow-hidden">
+      <Link className="relative z-0" href={`/project/detail/${project.id}`}>
+        <div className="relative block z-0 w-full aspect-video overflow-hidden">
           <Image
             src={imgSrc}
             alt={`Thumbnail project ${project.name}`}
             fill
-            className="object-cover "
+            sizes="100vw"
             onError={() => handleImgErr()}
           />
         </div>

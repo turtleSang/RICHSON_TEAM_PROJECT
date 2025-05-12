@@ -3,10 +3,12 @@ import { HTMLAttributes } from "react";
 export default function InputCheckBox({
   id,
   name,
+  checked,
   ...props
 }: {
   id: string;
   name: string;
+  checked: boolean;
 } & HTMLAttributes<HTMLInputElement>) {
   return (
     <div className="flex flex-row items-center">
@@ -20,6 +22,7 @@ export default function InputCheckBox({
           name={name}
           type="checkbox"
           className="hidden"
+          checked={checked}
           {...props}
         />
       </label>

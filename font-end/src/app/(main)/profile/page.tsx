@@ -7,6 +7,7 @@ import ListProject from "@/components/project-list";
 import TitleSection from "@/components/title-section";
 import clsx from "clsx";
 import { HeaderFont2 } from "@/font/font";
+import ListProjectLayOut from "@/layout/list-project-layout";
 
 export default async function PageProfile() {
   const cookieStorage = cookies();
@@ -28,15 +29,11 @@ export default async function PageProfile() {
   return (
     <div>
       <ProfileNavLayout profile={profile} />
-      <h4
-        className={clsx(
-          "uppercase text-card-title-mobile text-center font-bold my-5",
-          HeaderFont2.className
-        )}
-      >
-        All project upload by {profile.name}
-      </h4>
-      <ListProject userId={profile.id} />
+
+      <ListProjectLayOut
+        name={`project of ${profile.name}`}
+        userId={profile.id}
+      />
     </div>
   );
 }

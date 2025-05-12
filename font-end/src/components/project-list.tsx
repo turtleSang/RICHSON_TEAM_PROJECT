@@ -1,140 +1,98 @@
 "use client";
 
-import { useProjects } from "@/libs/fetching-client";
-import Loader from "./loader";
+import { getListProject, useProjects } from "@/libs/fetching-client";
+import { ProjectCardType, TypeShort } from "@/types/define.type";
+import ListProjectSkeleton from "./skeleton/list-project-skeleton";
 import ProjectCard from "./project-card";
 import { useEffect, useState } from "react";
-import { ProjectCardType, TypeShort } from "@/types/define.type";
-import clsx from "clsx";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
-import DropDownBtn from "./drop-down-btn";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import NotFoundComponent from "./not-found-component";
+import clsx from "clsx";
+import { div } from "framer-motion/client";
 
-export default function ListProject({ userId }: { userId?: number }) {
-  // State
+export default function ListProject({
+  short,
+  typeShort,
+  userId,
+  categoryLink,
+}: {
+  typeShort: TypeShort;
+  short: boolean;
+  userId?: number;
+  categoryLink?: string;
+}) {
   const pageSize = 4;
-
+  let preProjectPositon = 4;
   const [pageNumber, setPageNumber] = useState(1);
-
-  const [disableShowMore, SetDisableShowMore] = useState(false);
-
-  const [typeShort, setTypeShort] = useState<TypeShort>("project.rating");
-
-  const [short, setShort] = useState<boolean>(true);
-
-  const { data, error, isLoading } = useProjects(
+  const { data, isLoading, error } = useProjects(
     pageNumber,
     pageSize,
     typeShort,
     short,
-    userId
+    { userId, categoryLink }
   );
-
   const [listProject, setListProject] = useState<ProjectCardType[]>([]);
-
-  let preProsition = 4;
-
-  // useEffect
+  const [canShowMore, setCanShowMore] = useState<boolean>(true);
 
   useEffect(() => {
-    setPageNumber(1);
     setListProject([]);
-  }, [short, typeShort]);
+    setPageNumber(1);
+  }, [typeShort, short]);
 
   useEffect(() => {
-    handleNewList();
-  }, [data]);
-
-  // Handler
-  const handleNewList = () => {
-    const newLoadedProject: ProjectCardType[] | null = data || null;
-    if (newLoadedProject && newLoadedProject.length > 0) {
-      setListProject((preList) => [...preList, ...newLoadedProject]);
-      SetDisableShowMore(false);
-    } else {
-      SetDisableShowMore(true);
+    if (!data || data.length === 0) {
+      setCanShowMore(false);
+      return;
     }
-  };
+    if (data) {
+      setListProject((pre) => {
+        return [...pre, ...data];
+      });
+      setCanShowMore(true);
+    }
+  }, [data]);
 
   const handleShowMore = () => {
     setPageNumber(pageNumber + 1);
   };
 
-  const handleShort = (type: TypeShort) => {
-    setTypeShort(type);
-  };
-
-  const handleDecreasing = (isDecresing: boolean) => {
-    setShort(isDecresing);
-  };
-
   return (
-    <div className=" w-full overflow-hidden">
-      {listProject.length > 0 && (
-        <>
-          <div className="pb-5 flex flex-row justify-center items-center">
-            <h3 className="text-nowrap">Sort By</h3>
-            <DropDownBtn
-              handleValue={handleShort}
-              listDropDown={[
-                { name: "rating", value: "project.rating" },
-                { name: "Date Create", value: "project.createAt" },
-                { name: "Date Update", value: "project.updateAt" },
-              ]}
-              name="Sort By"
-            />
-            <DropDownBtn
-              handleValue={handleDecreasing}
-              listDropDown={[
-                { name: "Decreasing", value: true },
-                { name: "Increasing", value: false },
-              ]}
-              name=""
-            />
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {listProject.map((project, index) => {
-              const currentPosition = preProsition === 4 ? 1 : preProsition + 1;
-              preProsition = currentPosition;
-              return (
-                <ProjectCard
-                  position={currentPosition}
-                  project={project}
-                  key={index}
-                />
-              );
-            })}
-          </div>
-          (
-          <div className="text-center py-3">
-            <button
-              disabled={disableShowMore}
-              className={clsx(
-                "cursor-pointer text-button-desktop px-5 py-3 rounded-xl disabled:opacity-20 hover:text-btnBg duration-200 disabled:cursor-not-allowed"
-              )}
-              onClick={handleShowMore}
-              type="button"
-            >
-              SHOW MORE
-              <motion.span
-                animate={{
-                  y: [-10, 0, 10],
-                  opacity: [1, 0.5, 0],
-                }}
-                transition={{
-                  duration: 1,
-                  repeat: Infinity,
-                }}
-                className="ml-3 block"
-              >
-                <FontAwesomeIcon icon={faChevronDown} />
-              </motion.span>
-            </button>
-          </div>
-          )
-        </>
+    <>
+      {isLoading && <ListProjectSkeleton />}
+      <div className="w-full overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+        {listProject ? (
+          listProject.map((val) => {
+            const positon = preProjectPositon === 4 ? 1 : preProjectPositon + 1;
+            preProjectPositon = positon;
+            return (
+              <ProjectCard project={val} position={positon} key={val.id} />
+            );
+          })
+        ) : (
+          <NotFoundComponent name="project" />
+        )}
+      </div>
+
+      {canShowMore && (
+        <div
+          className={clsx(
+            "flex flex-col items-center py-3 hover:text-btnBg cursor-pointer"
+          )}
+          onClick={handleShowMore}
+        >
+          <h3>Show more</h3>
+          <motion.span
+            animate={{ opacity: [0, 1, 0], translateY: [-10, 0, 10] }}
+            transition={{
+              repeat: Infinity,
+            }}
+          >
+            <FontAwesomeIcon icon={faArrowDown} />
+          </motion.span>
+        </div>
       )}
-    </div>
+    </>
   );
 }

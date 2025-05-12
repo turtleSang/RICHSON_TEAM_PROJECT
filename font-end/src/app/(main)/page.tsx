@@ -1,14 +1,14 @@
 import Carousel from "@/components/carousel";
 import ListProject from "@/components/project-list";
 import GroupCategory from "@/layout/group-category";
-import GroupProject from "@/layout/group-project";
+import ListProjectLayOut from "@/layout/list-project-layout";
 
 export default async function MainPage() {
   return (
     <div>
       <Carousel />
       <GroupCategory />
-      <GroupProject />
+      <ListProjectLayOut name="Project HighLight" />
     </div>
   );
 }

@@ -3,6 +3,7 @@ export type UserProfile = {
     email: string;
     avatar: string;
     id: number;
+    role: string
 }
 
 export type CategoryType = {
@@ -11,7 +12,7 @@ export type CategoryType = {
     link: string;
     videoThumb: {
         id: number;
-    }
+    } | null
 }
 
 export type ProjectCardType = {
@@ -35,6 +36,26 @@ export type ProjectCardType = {
     };
 }
 
+export type ProjectDetail = {
+    id: number,
+    name: string,
+    description: string,
+    rating: number,
+    createAt: Date,
+    updateAt: Date,
+    author: {
+        id: number,
+        name: string,
+        avatar: string
+    },
+    video: { id: number } | null,
+    thumb: {
+        id: number;
+    } | null,
+    imageList?: { id: number }[],
+    categoryList: { name: string, id: number, link: string }[]
+}
+
 export type TypeShort = "project.rating" | "project.createAt" | "project.updateAt"
 
 export type ProjectNameSearch = {
@@ -52,3 +73,7 @@ export type ProjectDto = {
     categoryIdList: number[];
 }
 
+export type ProjectGetOption = {
+    userId?: number
+    categoryLink?: string
+}

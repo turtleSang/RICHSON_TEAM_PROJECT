@@ -1,3 +1,4 @@
+"use client";
 import { useProjectNameSearch } from "@/libs/fetching-client";
 import { TruncateTxt } from "@/libs/helper";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
@@ -86,12 +87,12 @@ export default function SearchForm({
       </label>
       <motion.div layout>
         {isLoading && (
-          <div>
+          <motion.div>
             <Loader />
-          </div>
+          </motion.div>
         )}
         {data && (
-          <ul className="fixed z-30 top-[105%] bg-background-item w-11/12 left-1/2 -translate-x-1/2 overflow-hidden rounded-2xl p-1 ">
+          <motion.ul className="fixed z-30 top-[105%] bg-background-item w-11/12 left-1/2 -translate-x-1/2 overflow-hidden rounded-2xl p-1 ">
             {data.map((val) => {
               return (
                 <li
@@ -104,7 +105,7 @@ export default function SearchForm({
                 </li>
               );
             })}
-          </ul>
+          </motion.ul>
         )}
       </motion.div>
     </motion.form>

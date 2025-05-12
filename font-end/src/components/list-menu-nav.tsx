@@ -20,7 +20,11 @@ const listItem: { name: string; link: string }[] = [
   },
 ];
 
-export default function ListItemMenu() {
+export default function ListItemMenu({
+  handleClose,
+}: {
+  handleClose: () => void;
+}) {
   return (
     <ul className="text-hero-mobile md:text-hero-tablet h-[70vh] flex flex-col justify-around">
       {listItem.map((val, index) => {
@@ -30,12 +34,13 @@ export default function ListItemMenu() {
             key={index}
             transition={{ duration: 0.1, type: "tween" }}
             className="hover:text-hover duration-200"
+            onClick={handleClose}
           >
             <Link href={val.link}>{val.name.toUpperCase()}</Link>
           </motion.li>
         );
       })}
-      <NavDropDown />
+      <NavDropDown handleClose={handleClose} />
     </ul>
   );
 }

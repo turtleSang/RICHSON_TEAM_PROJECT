@@ -32,6 +32,10 @@ export default function NavMenu() {
     setActive(!active);
   }
 
+  const handleClose = () => {
+    setActive(false);
+  };
+
   return (
     <div>
       <button
@@ -62,7 +66,7 @@ export default function NavMenu() {
         variants={menuVariant}
         animate={active ? "open" : "close"}
       >
-        <ListItemMenu />
+        <ListItemMenu handleClose={handleClose} />
       </motion.div>
       <motion.div
         variants={menuBackgroundVariant}

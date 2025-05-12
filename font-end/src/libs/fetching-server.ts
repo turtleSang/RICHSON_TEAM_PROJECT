@@ -1,5 +1,6 @@
+import { UserProfile } from "@/types/define.type";
 import axios from "axios";
-export async function GetProfileServer(token: string) {
+export async function GetProfileServer(token: string | undefined) {
     if (!token) {
         return null;
     }
@@ -10,7 +11,8 @@ export async function GetProfileServer(token: string) {
             },
             withCredentials: true
         })
-        return res.data;
+        const userProfile: UserProfile = res.data
+        return userProfile;
     } catch (error) {
         return null;
     }
