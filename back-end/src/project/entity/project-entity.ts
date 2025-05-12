@@ -38,7 +38,7 @@ export class ProjectEntity {
     @UpdateDateColumn()
     updateAt: Date;
 
-    @OneToOne(() => VideoProjectEntity, (video) => video.project, { lazy: true, cascade: true, onDelete: "CASCADE" })
+    @OneToOne(() => VideoProjectEntity, (video) => video.project, { cascade: true, onDelete: "CASCADE" })
     @JoinColumn()
     video: VideoProjectEntity
 

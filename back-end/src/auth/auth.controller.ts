@@ -36,7 +36,7 @@ export class AuthController {
 
   @Get('logout')
   @UseGuards(JwtGuard)
-  async Logout(@Res({ passthrough: true }) res: Response) {
+  async Logout(@Res() res: Response) {
     res.clearCookie('access_token')
     res.send({ mess: 'was logout' })
   }

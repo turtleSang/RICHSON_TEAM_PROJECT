@@ -48,6 +48,18 @@ export class ProjectController {
 
     return await this.projectService.getListProjectByUserId(userId, pageNumber - 1, pageSize, type, short);
   }
+
+  @Get('list/category/:categoryLink')
+  async getProjectsByCategory(
+    @Param('categoryLink') categoryLink: string,
+    @Query('page', ParseIntPipe) pageNumber: number = 1,
+    @Query('size', ParseIntPipe) pageSize: number = 4,
+    @Query('type', new ValidatorPipe) type: ProjectShort,
+    @Query('short', ParseBoolPipe) short: boolean
+  ) {
+    return await this.projectService.getListProjectByCategory(categoryLink, pageNumber - 1, pageSize, type, short)
+  }
+
   @Get("/detail/:id")
   async getDetailProject(@Param('id', ParseIntPipe) id: number) {
     return await this.projectService.getDetailProject(id)

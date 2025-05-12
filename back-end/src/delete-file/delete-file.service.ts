@@ -2,7 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { FileDeleteEntity } from './entity/file-delete-entity';
-import { Cron, Interval } from '@nestjs/schedule';
+import { Interval } from '@nestjs/schedule';
 import { existsSync } from 'fs';
 import { unlink } from 'fs/promises';
 
@@ -18,7 +18,7 @@ export class DeleteFileService {
     async deleteFile() {
         let listFileDelete: FileDeleteEntity[] = await this.deleteFileRepository.find();
 
-        if (listFileDelete.length <= 0) {
+        if (listFileDelete.length === 0) {
             return;
         }
 

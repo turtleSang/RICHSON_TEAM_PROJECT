@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, Req, UseGuards } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { RoleGuard } from 'src/auth/roles/roles.guard';
@@ -6,6 +6,7 @@ import { Roles } from 'src/auth/roles/roles.decorator';
 import { CategoryCreateDto } from './dto/category-create-dto';
 import { ValidatorPipe } from 'src/pipes/validator.pipe';
 import { CategoryUpdateDto } from './dto/category-update-dto';
+import { CategoryLinkParams } from './dto/category-link-params';
 
 @Controller('api/category')
 export class CategoryController {
@@ -22,6 +23,12 @@ export class CategoryController {
   @Get('/all')
   async getAllCategory() {
     return this.categoryService.getAllCategory();
+  }
+
+  @Get('/detail/:link')
+  async getGetDetailByLink(@Param(new ValidatorPipe) params: CategoryLinkParams) {
+    return await this.categoryService.getCategoryByLink(params.link)
+
   }
 
   @Put(':id')

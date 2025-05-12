@@ -32,9 +32,6 @@ export class ProjectService {
             }
             return category;
         }))
-        console.log(listCategory);
-
-
         if (listCategory.length === 0) {
             throw new NotFoundException("Not found category");
         }
@@ -77,17 +74,21 @@ export class ProjectService {
                 .createQueryBuilder('project')
                 .select()
                 .where('project.id = :id', { id })
+                .leftJoin("project.author", "author")
                 .addSelect(["author.name", "author.id", "author.avatar"])
-                .leftJoin("project.categoryList", "categories")
-                .addSelect(["categories.name", "categories.link", "categories.id"])
-                .leftJoin("project.video", 'video')
+                .leftJoin('project.video', 'video')
                 .addSelect('video.id')
+                .leftJoin('project.thumb', 'thumb')
+                .addSelect('thumb.id')
                 .leftJoin("project.imageList", "imageList")
                 .addSelect("imageList.id")
-                .getOneOrFail();
+                .leftJoin("project.categoryList", "categories")
+                .addSelect(["categories.name", "categories.link", "categories.id"])
+                .getOne();
         } catch (error) {
-            throw new NotFoundException("Not Found project", error)
+            throw new NotFoundException()
         }
+
     }
 
     async deleteProject(id: number) {
@@ -191,6 +192,22 @@ export class ProjectService {
         return listProject;
     }
 
+    async getListProjectByCategory(categoryLink: string, pageNumber: number, pageSize: number, type: ProjectShort, short: boolean) {
+        const skip = pageNumber * pageSize;
+        return await this.projectRepository.createQueryBuilder('project')
+            .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt", 'project.updateAt'])
+            .leftJoin("project.author", "author")
+            .addSelect(["author.name", "author.id", "author.avatar"])
+            .leftJoin("project.categoryList", "categories")
+            .addSelect(["categories.name", "categories.link", "categories.id"])
+            .where('categories.link = :categoryLink', { categoryLink })
+            .leftJoin('project.thumb', 'thumb')
+            .addSelect('thumb.id')
+            .orderBy(type, short ? "DESC" : "ASC")
+            .skip(skip)
+            .take(pageSize)
+            .getMany();
+    }
 
 
 }

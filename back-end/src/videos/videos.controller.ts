@@ -88,15 +88,8 @@ export class VideosController {
   )
   async uploadVideoProject(
     @Req() req: any,
-    @UploadedFile('file', new ParseFilePipe({
-      fileIsRequired: true,
-      validators: [
-        new FileTypeValidator({ fileType: 'video/mp4' }),
-      ]
-    })) file: Express.Multer.File
+    @UploadedFile('file') file: Express.Multer.File
   ) {
-    console.log(file.size);
-
     const project: ProjectEntity = req.project as ProjectEntity;
     return await this.videosService.createVideoProject(project, file.filename, file.path);
   }

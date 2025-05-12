@@ -34,8 +34,6 @@ export class CategoryService {
             })
             return `Category ${categoryCategoryDto.name} has create`
         } catch (error) {
-            console.log(error);
-
             throw new BadRequestException('Server Error', { cause: error })
         }
 
@@ -47,6 +45,15 @@ export class CategoryService {
             .leftJoin('category.videoThumb', 'videoThumb')
             .addSelect(['videoThumb.id'])
             .getMany()
+    }
+
+    async getCategoryByLink(link: string) {
+        try {
+            return await this.categoryRepository.createQueryBuilder('category').select().where('category.link = :link', { link }).getOneOrFail()
+
+        } catch (error) {
+            throw new NotFoundException();
+        }
     }
 
     async updateCateory(id: number, categoryUpdate: CategoryUpdateDto) {
