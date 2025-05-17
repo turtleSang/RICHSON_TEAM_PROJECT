@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
 import { Repository } from 'typeorm';
 import { Role } from 'src/auth/roles/roles.decorator';
+import { take } from 'rxjs';
 
 @Injectable()
 export class UserService {
@@ -15,6 +16,22 @@ export class UserService {
     async findOneById(id: number) {
         return await this.userRepository.findOneByOrFail({ id });
     }
+
+    async getListUser(pageSize: number, pageNumber: number,) {
+        const [users, total] = await this.userRepository.findAndCount({
+            skip: (pageNumber - 1) * pageSize,
+            take: pageSize,
+            order: {
+                createAt: 'DESC'
+            }
+        });
+        const totalPage = Math.ceil(total / pageSize)
+        return {
+            listUser: users, totalPage
+        }
+    }
+
+
 
     async createWithGoogle(user: { googleId: string, name: string, email: string, avatar: string, role: Role, }) {
         try {
@@ -38,8 +55,7 @@ export class UserService {
         }
         user = { ...user, role: newRole };
         await this.userRepository.save(user);
-        return "User was update";
-
+        return `User ${user.name} was updated`;
 
     }
 

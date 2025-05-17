@@ -17,7 +17,6 @@ export class DeleteFileService {
     @Interval(60000)
     async deleteFile() {
         let listFileDelete: FileDeleteEntity[] = await this.deleteFileRepository.find();
-
         if (listFileDelete.length === 0) {
             return;
         }

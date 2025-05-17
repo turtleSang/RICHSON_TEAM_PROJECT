@@ -1,20 +1,31 @@
-import { Body, Controller, Param, ParseIntPipe, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe, Query, UseGuards, Put } from '@nestjs/common';
 import { JwtGuard } from 'src/auth/jwt/jwt.guard';
 import { Role, Roles } from 'src/auth/roles/roles.decorator';
 import { RoleGuard } from 'src/auth/roles/roles.guard';
 import { ValidatorPipe } from 'src/pipes/validator.pipe';
 import { UserService } from './user.service';
+import { UpgradeUserDto } from './dto/upgrade-user-dto';
 
-@Controller('user')
+@Controller('api/user')
 export class UserController {
     constructor(
         private userService: UserService
     ) { }
 
-    @Post("upgrade/:id")
+    @Get('/list')
+    @UseGuards(JwtGuard, RoleGuard)
+    @Roles('admin')
+    async getListUser(
+        @Query('pageNumber', ParseIntPipe) pageNumber: number,
+        @Query('pageSize', ParseIntPipe) pageSize: number
+    ) {
+        return this.userService.getListUser(pageSize, pageNumber);
+    }
+
+    @Put("upgrade/:id")
     @UseGuards(JwtGuard, RoleGuard)
     @Roles("admin")
-    async upgradeProfile(@Param('id', ParseIntPipe) id: number, @Body(ValidatorPipe) data: { newRole: Role }) {
-        return await this.userService.upgradeProfile(data.newRole, id);
+    async upgradeProfile(@Param('id') userId: number, @Body(ValidatorPipe) upgradeUse: UpgradeUserDto) {
+        return await this.userService.upgradeProfile(upgradeUse.newRole, userId);
     }
 }
