@@ -18,7 +18,11 @@ export default async function CategoryPage({
 
   return (
     <div className="w-full">
-      <ListProjectLayOut name={`${name} project`} description={description} />
+      <ListProjectLayOut
+        name={`${name} project`}
+        description={description}
+        categoryLink={category}
+      />
     </div>
   );
 }

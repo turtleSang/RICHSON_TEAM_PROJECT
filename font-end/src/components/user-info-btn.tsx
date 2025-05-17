@@ -11,11 +11,9 @@ import axios from "axios";
 export default function UserInfoBtn({
   name,
   avatar,
-  id,
 }: {
   name: string;
   avatar: string;
-  id: string;
 }) {
   const [active, setActive] = useState(false);
   const userMenuVariants: Variants = {

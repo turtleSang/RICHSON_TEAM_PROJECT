@@ -13,7 +13,7 @@ export default function ProfileInfo() {
     return <Login />;
   }
 
-  const { name, avatar, id } = data;
+  const { name, avatar } = data;
 
-  return <UserInfoBtn id={id} name={name} avatar={avatar} />;
+  return <UserInfoBtn name={name} avatar={avatar} />;
 }

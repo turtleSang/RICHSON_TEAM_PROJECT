@@ -15,7 +15,6 @@ import { useProjectContext } from "@/layout/update-project-layout";
 
 export default function UpdateProjectVideo() {
   const { project, handleNofication } = useProjectContext();
-  const router = useRouter();
   const [isActive, setActive] = useState(false);
 
   const [videoUrl, setVideoUrl] = useState<string>("");
@@ -36,6 +35,7 @@ export default function UpdateProjectVideo() {
     formData.append("file", file);
     const url = `${process.env.NEXT_PUBLIC_API_URL}/video/upload/project/${project.id}`;
     try {
+      setVideoUrl("");
       const res = await axios.post(url, formData, {
         withCredentials: true,
         headers: {
@@ -48,7 +48,16 @@ export default function UpdateProjectVideo() {
       };
       handleNofication(nofication);
       handleClose();
+      const newURL = URL.createObjectURL(file);
+
+      setVideoUrl(newURL);
     } catch (error) {
+      if (project.video) {
+        const timestamp = Date.now();
+        setVideoUrl(
+          `${process.env.NEXT_PUBLIC_API_URL}/video/stream/${project.video.id}?t=${timestamp}`
+        );
+      }
       handleNofication({ mess: "server error", type: "error" });
     }
   };
@@ -60,12 +69,12 @@ export default function UpdateProjectVideo() {
         `${process.env.NEXT_PUBLIC_API_URL}/video/stream/${project.video.id}?t=${timestamp}`
       );
     }
-  }, [project]);
+  }, []);
 
   return (
     <div className="mt-3 bg-background-item text-right p-3">
       <div>
-        {videoUrl && project.video?.id ? (
+        {videoUrl ? (
           <video className="w-full" controls>
             <source src={videoUrl} />
           </video>

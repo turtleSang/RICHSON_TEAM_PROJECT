@@ -3,7 +3,6 @@ import ProjectDetailLayout from "@/layout/project-detail";
 import { GetProfileServer } from "@/libs/fetching-server";
 import { ProjectDetail, UserProfile } from "@/types/define.type";
 import axios from "axios";
-import { div } from "framer-motion/client";
 import { cookies } from "next/headers";
 import Link from "next/link";
 

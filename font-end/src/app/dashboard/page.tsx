@@ -2,17 +2,14 @@ import { GetProfileServer } from "@/libs/fetching-server";
 import { cookies } from "next/headers";
 
 export default async function PageDashBoard() {
-  const cookieStorage = await cookies();
-  const token = cookieStorage.get("access_token");
-  if (!token) {
-    return <div>Require login</div>;
-  }
-  const user: { name: string; email: string } = await GetProfileServer(
-    token.value
+  return (
+    <div className="min-h-screen flex items-center justify-center px-4">
+      <div className="bg-background-item shadow-lg rounded-lg p-8 max-w-md w-full text-center">
+        <h1 className="text-3xl font-bold text-text">Welcome, Admin!</h1>
+        <p className="mt-4 text-textsc">
+          You have successfully accessed the admin dashboard.
+        </p>
+      </div>
+    </div>
   );
-  if (!user) {
-    return <div>Require login</div>;
-  }
-
-  return <div>{token.value}</div>;
 }

@@ -20,7 +20,7 @@ export default async function GroupCategory() {
     return (
       <div className="py-14 ">
         <TitleSection title={title} />
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 -z-10 w-full overflow-hidden">
+        <div className="grid grid-cols-2 xl:grid-cols-4 gap-1 -z-10 w-full overflow-hidden">
           {listCategory.map((val, index) => {
             return (
               <ItemCategory

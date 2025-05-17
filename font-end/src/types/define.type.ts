@@ -3,8 +3,11 @@ export type UserProfile = {
     email: string;
     avatar: string;
     id: number;
-    role: string
+    role: Role
+    createAt: Date
 }
+
+export type Role = "admin" | "viewer" | "member";
 
 export type CategoryType = {
     id: number;

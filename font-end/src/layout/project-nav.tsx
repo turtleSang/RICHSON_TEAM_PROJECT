@@ -1,5 +1,7 @@
 "use client";
+import VideoBackGround from "@/components/video-background";
 import { useCategory } from "@/libs/fetching-client";
+import { CategoryType } from "@/types/define.type";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -8,7 +10,6 @@ import { useEffect, useState } from "react";
 export default function ProjectNav() {
   const { data, error, isLoading } = useCategory();
   const { category } = useParams<{ category: string }>();
-
   const [activeTab, setActiveTab] = useState<string | null>(category);
 
   return (
