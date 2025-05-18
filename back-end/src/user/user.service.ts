@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entity/user.entity';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Like, Repository } from 'typeorm';
 import { Role } from 'src/auth/roles/roles.decorator';
 import { take } from 'rxjs';
 
@@ -17,21 +17,32 @@ export class UserService {
         return await this.userRepository.findOneByOrFail({ id });
     }
 
-    async getListUser(pageSize: number, pageNumber: number,) {
+    async getListUser(pageSize: number, pageNumber: number, name?: string) {
+
+        const where: FindOptionsWhere<UserEntity> = {}
+
+        if (name) {
+            where.name = Like(`%${name}%`)
+        }
+
         const [users, total] = await this.userRepository.findAndCount({
             skip: (pageNumber - 1) * pageSize,
             take: pageSize,
             order: {
                 createAt: 'DESC'
-            }
+            },
+            where
         });
         const totalPage = Math.ceil(total / pageSize)
+
+        if (users.length === 0) {
+            throw new NotFoundException();
+        }
+
         return {
             listUser: users, totalPage
         }
     }
-
-
 
     async createWithGoogle(user: { googleId: string, name: string, email: string, avatar: string, role: Role, }) {
         try {

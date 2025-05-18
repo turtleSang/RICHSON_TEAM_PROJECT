@@ -22,6 +22,15 @@ export class UserController {
         return this.userService.getListUser(pageSize, pageNumber);
     }
 
+    @Get('/list/:name')
+    async getListByName(
+        @Query('pageNumber', ParseIntPipe) pageNumber: number,
+        @Query('pageSize', ParseIntPipe) pageSize: number,
+        @Param('name') name: string
+    ) {
+        return this.userService.getListUser(pageSize, pageNumber, name);
+    }
+
     @Put("upgrade/:id")
     @UseGuards(JwtGuard, RoleGuard)
     @Roles("admin")
