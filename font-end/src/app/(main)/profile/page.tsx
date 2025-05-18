@@ -1,39 +1,28 @@
-import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
-import axios from "axios";
-import { UserProfile } from "@/types/define.type";
+"use client";
 import ProfileNavLayout from "@/layout/profile-nav";
-import ListProject from "@/components/project-list";
-import TitleSection from "@/components/title-section";
-import clsx from "clsx";
-import { HeaderFont2 } from "@/font/font";
-import ListProjectLayOut from "@/layout/list-project-layout";
 
-export default async function PageProfile() {
-  const cookieStorage = cookies();
-  const token = (await cookieStorage).get("access_token")?.value || null;
-  if (!token) {
-    redirect("/");
-  }
-  const res = await axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/auth/profile`,
-    {
-      headers: {
-        Cookie: `access_token=${token}`,
-      },
-      withCredentials: true,
-    }
-  );
-  const profile: UserProfile = res.data;
+import ListProjectLayOut from "@/layout/list-project-layout";
+import { AuthContext } from "@/libs/AuthProvider";
+import { useContext } from "react";
+import ListProjectSkeleton from "@/components/skeleton/list-project-skeleton";
+import NoPermission from "@/components/no-permission";
+
+export default function PageProfile() {
+  const { isLoading, user, error } = useContext(AuthContext);
 
   return (
     <div>
-      <ProfileNavLayout profile={profile} />
-
-      <ListProjectLayOut
-        name={`project of ${profile.name}`}
-        userId={profile.id}
-      />
+      {error && <NoPermission />}
+      {isLoading && <ListProjectSkeleton />}
+      {user && (
+        <div>
+          <ProfileNavLayout profile={user} />
+          <ListProjectLayOut
+            name={`project of ${user.name}`}
+            userId={user.id}
+          />
+        </div>
+      )}
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { ContentFont } from "@/font/font";
 
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import AuthProvider from "@/libs/AuthProvider";
 config.autoAddCss = false;
 
 export const metadata: Metadata = {
@@ -22,7 +23,7 @@ export default function RootLayout({
         className={`${ContentFont.className} sm:text-body-mobile md:text-body-tablet lg:text-body-desktop antialiased`}
         cz-shortcut-listen="true"
       >
-        {children}
+        <AuthProvider>{children}</AuthProvider>
       </body>
     </html>
   );

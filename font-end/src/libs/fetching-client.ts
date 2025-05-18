@@ -1,23 +1,26 @@
 'use client'
 
 import { CategoryType, ProjectCardType, ProjectDto, ProjectGetOption, ProjectNameSearch, TypeShort, UserProfile } from "@/types/define.type";
-import axios from "axios"
+import axios, { AxiosError } from "axios"
 import useSWR from "swr"
 
 // Profile
 const getProfile = async (url: string) => {
     try {
         const res = await axios.get(url, { withCredentials: true });
-        return res.data;
+        const profile: UserProfile = res.data;
+
+        return profile;
     } catch (error) {
-        return null;
+        const axiosErr = error as AxiosError;
+        throw new Error(axiosErr.message)
     }
 
 }
 
 export const useProfile = () => {
     const { data, error, isLoading } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}/auth/profile`, url => getProfile(url));
-    return [data, error, isLoading]
+    return { data, error, isLoading }
 }
 
 // Category
@@ -96,18 +99,29 @@ export const CreateProject = async (project: ProjectDto) => {
 }
 
 const getListUser = async (url: string, pageNumber: number, pageSize: number) => {
-    const res = await axios.get(url, {
-        withCredentials: true,
-        params: {
-            pageNumber, pageSize
-        }
-    })
-    const { listUser, totalPage } = res.data;
-    return { listUser: listUser as UserProfile[], totalPage: totalPage as number };
+    try {
+        const res = await axios.get(url, {
+            withCredentials: true,
+            params: {
+                pageNumber, pageSize, name
+            }
+        })
+        const { listUser, totalPage } = res.data;
+        return { listUser: listUser as UserProfile[], totalPage: totalPage as number };
+    } catch (error) {
+        const axiosErr = error as AxiosError
+
+        throw new Error(axiosErr.message)
+    }
+
 }
 
-export const useListUser = (pageSize: number, pageNumber = 1) => {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/user/list`
+export const useListUser = (pageSize: number, pageNumber = 1, name?: string) => {
+    let url = `${process.env.NEXT_PUBLIC_API_URL}/user/list`;
+    if (name) {
+        url = `${process.env.NEXT_PUBLIC_API_URL}/user/list/${encodeURIComponent(name)}`;
+    }
+
     const { data, error, isLoading } = useSWR([url, pageSize, pageNumber], ([url, pageSize, pageNumber]) => getListUser(url, pageNumber, pageSize))
 
     return { data, error, isLoading }

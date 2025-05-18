@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { NotificationProps } from "./notification-component";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 const listRole: Role[] = ["admin", "viewer", "member"];
 
@@ -21,6 +21,7 @@ export default function UserCard({
 }) {
   const [roleSelect, setRoleSelect] = useState<Role>(profile.role);
   const createAt = new Date(profile.createAt);
+  const [dissableBtn, setDissableBtn] = useState(false);
 
   const [isOpen, setOpen] = useState(false);
 
@@ -53,7 +54,8 @@ export default function UserCard({
       handleOpen(false);
       handleUpdated(profile.id, roleSelect);
     } catch (error) {
-      console.error(error);
+      const axiosErr = error as AxiosError;
+      handleNotification({ mess: axiosErr.message, type: "error" });
     }
   };
 
@@ -68,10 +70,12 @@ export default function UserCard({
           alt="avatar"
         />
         <div className="ml-3 w-1/3">
-          <h2 className="">Name: {profile.name}</h2>
-          <p className="">Role: {profile.role}</p>
-          <p className="">{profile.email}</p>
-          <p className="">{createAt.toLocaleDateString("vi-VN")}</p>
+          <h2 className="text-text text-card-title-desktop">{profile.name}</h2>
+          <p className="text-hover text-card-title-mobile">{profile.role}</p>
+          <p className="text-textsc">{profile.email}</p>
+          <p className="text-btnBg">
+            Register date: {createAt.toLocaleDateString("vi-VN")}
+          </p>
         </div>
         <div className="w-1/3 flex flex-row justify-around">
           <AnimatePresence mode="popLayout">
@@ -86,8 +90,12 @@ export default function UserCard({
                 <button
                   type="button"
                   className="inline-block mr-3 w-10 h-10 text-2xl hover:bg-background-item text-green-600 cursor-pointer disabled:text-gray-600 disabled:cursor-not-allowed"
-                  disabled={roleSelect === profile.role}
-                  onClick={() => handleUpdateRole()}
+                  disabled={roleSelect === profile.role || dissableBtn}
+                  onClick={async () => {
+                    setDissableBtn(true);
+                    await handleUpdateRole();
+                    setDissableBtn(false);
+                  }}
                 >
                   <FontAwesomeIcon icon={faCheck} />
                 </button>
