@@ -9,10 +9,11 @@ import { useRouter } from "next/navigation";
 import { useProjectContext } from "@/layout/update-project-layout";
 
 export default function UpdateThumbForm() {
-  const { handleNofication, project } = useProjectContext();
+  const { handleNofication, project, handleProcess, handleUpload } =
+    useProjectContext();
   const router = useRouter();
 
-  const handleUpload = async (file: File) => {
+  const handleUploadFile = async (file: File) => {
     if (!file) {
       handleNofication({ mess: "Not found Image to upload", type: "error" });
       return;
@@ -20,19 +21,28 @@ export default function UpdateThumbForm() {
     const formData = new FormData();
     formData.append("file", file);
     const url = `${process.env.NEXT_PUBLIC_API_URL}/image/upload/thumb-project/${project.id}`;
+    handleUpload(true);
     try {
       const res = await axios.post(url, formData, {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        onUploadProgress: (progressEvent) => {
+          const { total, loaded } = progressEvent;
+          if (typeof total === "number" && total > 0) {
+            const percentage = Math.round((loaded * 100) / total);
+            handleProcess(percentage);
+          }
+        },
       });
       const mess = res.data as string;
-      handleNofication({ mess, type: "suscess" });
+      handleNofication({ mess, type: "success" });
       router.refresh();
     } catch (error) {
       handleNofication({ mess: "Server error", type: "error" });
     }
+    handleUpload(false);
   };
 
   return (
@@ -41,7 +51,7 @@ export default function UpdateThumbForm() {
         Upload Thumbnail of Project
       </h1>
       <InputSingleImage
-        handleUpload={handleUpload}
+        handleUpload={handleUploadFile}
         thumbId={project.thumb?.id}
       />
     </div>

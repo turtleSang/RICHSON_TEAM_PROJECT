@@ -10,17 +10,17 @@ import { useEffect, useState } from "react";
 
 export type NotificationProps = {
   mess: string;
-  type: "suscess" | "error" | "warning";
+  type: "success" | "error" | "warning";
 };
 
 const styleBgNofication = {
-  suscess: "bg-green-600",
+  success: "bg-green-600",
   error: "bg-red-600",
   warning: "bg-yellow-600",
 };
 
 const styleTextNofication = {
-  suscess: "text-green-600",
+  success: "text-green-600",
   error: "text-red-600",
   warning: "text-yellow-600",
 };
@@ -30,7 +30,7 @@ export default function NotificationComponent(nofi: NotificationProps) {
 
   let icon: IconProp;
   switch (nofi.type) {
-    case "suscess":
+    case "success":
       icon = faCheck;
       break;
     case "error":

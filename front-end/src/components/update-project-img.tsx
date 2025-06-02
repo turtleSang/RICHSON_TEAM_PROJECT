@@ -6,13 +6,15 @@ import { useProjectContext } from "@/layout/update-project-layout";
 import { NotificationProps } from "./notification-component";
 
 export default function UpdateProjectImg() {
-  const { handleNofication, project } = useProjectContext();
-  const handleUpload = async (fileList: File[]) => {
+  const { handleNofication, project, handleProcess, handleUpload } =
+    useProjectContext();
+  const handleUploadFile = async (fileList: File[]) => {
     if (fileList.length === 0) {
       return;
     }
     const url = `${process.env.NEXT_PUBLIC_API_URL}/image/upload/project/${project.id}`;
     const formData = new FormData();
+    handleUpload(true);
     fileList.forEach((file) => {
       formData.append("files", file);
     });
@@ -22,10 +24,17 @@ export default function UpdateProjectImg() {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        onUploadProgress: (progressEvent) => {
+          const { total, loaded } = progressEvent;
+          if (typeof total === "number" && total > 0) {
+            const percentage = Math.round((loaded * 100) / total);
+            handleProcess(percentage);
+          }
+        },
       });
       const newNotification: NotificationProps = {
         mess: res.data as string,
-        type: "suscess",
+        type: "success",
       };
       handleNofication(newNotification);
     } catch (error) {
@@ -34,6 +43,7 @@ export default function UpdateProjectImg() {
         type: "error",
       });
     }
+    handleUpload(false);
   };
 
   return (
@@ -43,7 +53,7 @@ export default function UpdateProjectImg() {
       </h1>
       <InputMultipleImage
         listImgId={project.imageList}
-        handleUpload={handleUpload}
+        handleUpload={handleUploadFile}
       />
     </div>
   );

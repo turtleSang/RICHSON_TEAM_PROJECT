@@ -23,7 +23,7 @@ export default function ModalGroup({
   };
 
   return (
-    <div className="mt-4 relative">
+    <div className="mt-3 relative">
       <button
         onClick={handleOpen}
         type="button"

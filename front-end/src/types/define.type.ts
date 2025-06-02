@@ -13,6 +13,7 @@ export type CategoryType = {
     id: number;
     name: string;
     link: string;
+    description: string;
     videoThumb: {
         id: number;
     } | null

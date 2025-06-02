@@ -1,4 +1,5 @@
 import ItemCategory from "@/components/item-category";
+import NotFoundComponent from "@/components/not-found-component";
 import TitleSection from "@/components/title-section";
 import axios from "axios";
 
@@ -20,19 +21,25 @@ export default async function GroupCategory() {
     return (
       <div className="py-14 ">
         <TitleSection title={title} />
-        <div className="grid grid-cols-2 xl:grid-cols-4 gap-1 -z-10 w-full overflow-hidden">
-          {listCategory.map((val, index) => {
-            return (
-              <ItemCategory
-                id={val.id}
-                link={val.link}
-                key={val.id}
-                name={val.name}
-                videoId={val.videoThumb ? val.videoThumb.id : null}
-              />
-            );
-          })}
-        </div>
+        {listCategory.length > 0 ? (
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-1 -z-10 w-full overflow-hidden">
+            {listCategory.map((val, index) => {
+              return (
+                <ItemCategory
+                  id={val.id}
+                  link={val.link}
+                  key={val.id}
+                  name={val.name}
+                  videoId={val.videoThumb ? val.videoThumb.id : null}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <div>
+            <NotFoundComponent name="Category" />
+          </div>
+        )}
       </div>
     );
   } catch (error) {

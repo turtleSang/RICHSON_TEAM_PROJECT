@@ -10,17 +10,6 @@ export default function Carousel() {
             src={`${process.env.NEXT_PUBLIC_API_URL}/video/carousel`}
           />
         </div>
-        {/* <video
-          className="w-full h-auto absolute -z-20 top-1/2 -translate-y-1/2"
-          autoPlay
-          loop
-          muted
-        >
-          <source
-            src={`${process.env.NEXT_PUBLIC_API_URL}/video/carousel`}
-            type="video/mp4"
-          />
-        </video> */}
         <TitleCarousel />
       </div>
     </div>

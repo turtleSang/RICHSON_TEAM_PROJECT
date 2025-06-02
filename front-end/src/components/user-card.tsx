@@ -50,7 +50,7 @@ export default function UserCard({
     try {
       const res = await axios.put(url, userUpgrade, { withCredentials: true });
       const mess: string = res.data;
-      handleNotification({ mess, type: "suscess" });
+      handleNotification({ mess, type: "success" });
       handleOpen(false);
       handleUpdated(profile.id, roleSelect);
     } catch (error) {

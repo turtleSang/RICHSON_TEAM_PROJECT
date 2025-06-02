@@ -24,7 +24,8 @@ import {
 } from "@/layout/update-project-layout";
 
 export default function UpdateProjectFormBase() {
-  const { handleNofication, project } = useProjectContext();
+  const { handleNofication, project, handleProcess, handleUpload } =
+    useProjectContext();
   const [isActive, setActive] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<ErrorMessageType>({});
   const [projectDto, setProjectDto] = useState<ProjectDto>({
@@ -94,13 +95,23 @@ export default function UpdateProjectFormBase() {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const url = `${process.env.NEXT_PUBLIC_API_URL}/project/${project.id}`;
+    handleUpload(true);
     try {
-      const res = await axios.put(url, projectDto, { withCredentials: true });
+      const res = await axios.put(url, projectDto, {
+        withCredentials: true,
+        onUploadProgress: (progressEvent) => {
+          const { total, loaded } = progressEvent;
+          if (typeof total === "number" && total > 0) {
+            const percentage = Math.round((loaded * 100) / total);
+            handleProcess(percentage);
+          }
+        },
+      });
       const mess = String(res.data);
       setActive(false);
       handleNofication({
         mess,
-        type: "suscess",
+        type: "success",
       });
       route.refresh();
     } catch (error) {
@@ -109,6 +120,7 @@ export default function UpdateProjectFormBase() {
         type: "error",
       });
     }
+    handleUpload(false);
   };
 
   const handleActiveForm = () => {

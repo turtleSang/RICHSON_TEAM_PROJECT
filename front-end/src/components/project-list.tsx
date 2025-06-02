@@ -34,7 +34,7 @@ export default function ListProject({
     { userId, categoryLink }
   );
   const [listProject, setListProject] = useState<ProjectCardType[]>([]);
-  const [canShowMore, setCanShowMore] = useState<boolean>(true);
+  const [canShowMore, setCanShowMore] = useState<boolean>(false);
 
   useEffect(() => {
     setListProject([]);
@@ -42,15 +42,14 @@ export default function ListProject({
   }, [typeShort, short]);
 
   useEffect(() => {
-    if (!data || data.length === 0) {
-      setCanShowMore(false);
-      return;
-    }
-    if (data) {
-      setListProject((pre) => {
-        return [...pre, ...data];
-      });
+    if (data && data.maxPage && data.maxPage > pageNumber) {
       setCanShowMore(true);
+    }
+
+    if (data && data.listProject && data.listProject.length > 0) {
+      setListProject((pre) => {
+        return [...pre, ...data.listProject];
+      });
     }
   }, [data]);
 
@@ -62,16 +61,22 @@ export default function ListProject({
     <>
       {isLoading && <ListProjectSkeleton />}
       <div className="w-full overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
-        {listProject ? (
-          listProject.map((val) => {
+        {listProject.length > 0 ? (
+          listProject.map((val, index) => {
             const positon = preProjectPositon === 4 ? 1 : preProjectPositon + 1;
             preProjectPositon = positon;
             return (
-              <ProjectCard project={val} position={positon} key={val.id} />
+              <ProjectCard
+                project={val}
+                position={positon}
+                key={`${val.id}-${index}`}
+              />
             );
           })
         ) : (
-          <NotFoundComponent name="project" />
+          <div className="col-span-full flex items-center justify-center w-full h-full">
+            <NotFoundComponent name="project" />
+          </div>
         )}
       </div>
 

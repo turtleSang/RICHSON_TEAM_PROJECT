@@ -9,7 +9,6 @@ const getProfile = async (url: string) => {
     try {
         const res = await axios.get(url, { withCredentials: true });
         const profile: UserProfile = res.data;
-
         return profile;
     } catch (error) {
         const axiosErr = error as AxiosError;
@@ -53,8 +52,9 @@ export const getListProject = async (url: string, page: number, size: number, ty
         }
 
     })
-    const listProject: ProjectCardType[] = res.data
-    return listProject
+    const { listProject, maxPage } = res.data as { listProject: ProjectCardType[], maxPage: number }
+
+    return { listProject, maxPage }
 
 
 }

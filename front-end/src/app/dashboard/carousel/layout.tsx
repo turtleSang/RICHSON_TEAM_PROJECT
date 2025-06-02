@@ -1,13 +1,13 @@
 import TitleSection from "@/components/title-section";
 
-export default function LayoutCategoryManager({
+export default function CarouselPageLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
     <>
-      <TitleSection title="Category Manager" />
+      <TitleSection title="Carousel Manager" />
       {children}
     </>
   );

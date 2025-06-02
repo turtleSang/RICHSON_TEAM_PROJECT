@@ -1,10 +1,8 @@
 "use client";
 import ProfileInfo from "@/components/profile-infomation";
-import Login from "@/components/login-with-google";
 import Logo from "@/components/nav-logo";
 import NavMenu from "@/components/nav-menu";
 import SearchGroup from "@/components/search-group";
-import UserInfoBtn from "@/components/user-info-btn";
 import useScrollY from "@/libs/scroll-state";
 import clsx from "clsx";
 import { useEffect, useState } from "react";

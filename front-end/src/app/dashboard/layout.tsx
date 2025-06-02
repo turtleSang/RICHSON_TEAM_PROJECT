@@ -13,17 +13,17 @@ export default function LayoutDashBoard({
 }) {
   const { error, isLoading, user } = useContext(AuthContext);
   return (
-    <>
+    <main className="w-full h-screen bg-background">
       {isLoading && <DashboardSkeleton />}
       {error && <NoPermission />}
       {user && (
-        <section className="flex flex-row justify-between gap-1">
-          <div className="w-2/12 h-[100vh] bg-background-item">
+        <div className="flex flex-row justify-between gap-1">
+          <div className="w-2/12 h-[100vh] bg-background-item ">
             <NavBarDashBoard profile={user} />
           </div>
-          <div className="w-10/12 h-[100vh] overflow-y-auto">{children}</div>
-        </section>
+          <div className="w-10/12 max-h-screen overflow-y-auto">{children}</div>
+        </div>
       )}
-    </>
+    </main>
   );
 }

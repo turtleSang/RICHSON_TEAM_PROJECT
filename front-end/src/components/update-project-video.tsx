@@ -5,16 +5,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import InputVideoFile from "./input-single-videos";
-import { useRouter } from "next/navigation";
+
 import NotFoundComponent from "./not-found-component";
 import axios from "axios";
-import NotificationComonent, {
-  NotificationProps,
-} from "./notification-component";
+import { NotificationProps } from "./notification-component";
 import { useProjectContext } from "@/layout/update-project-layout";
 
 export default function UpdateProjectVideo() {
-  const { project, handleNofication } = useProjectContext();
+  const { project, handleNofication, handleProcess, handleUpload } =
+    useProjectContext();
   const [isActive, setActive] = useState(false);
 
   const [videoUrl, setVideoUrl] = useState<string>("");
@@ -26,7 +25,7 @@ export default function UpdateProjectVideo() {
     setActive(true);
   };
 
-  const handleUpload = async (file: File) => {
+  const handleUploadFile = async (file: File) => {
     if (!file) {
       handleNofication({ mess: "Not Found Video to upload", type: "error" });
       return;
@@ -34,6 +33,7 @@ export default function UpdateProjectVideo() {
     const formData = new FormData();
     formData.append("file", file);
     const url = `${process.env.NEXT_PUBLIC_API_URL}/video/upload/project/${project.id}`;
+    handleUpload(true);
     try {
       setVideoUrl("");
       const res = await axios.post(url, formData, {
@@ -41,15 +41,21 @@ export default function UpdateProjectVideo() {
         headers: {
           "Content-Type": "multipart/form-data",
         },
+        onUploadProgress: (progressEvent) => {
+          const { total, loaded } = progressEvent;
+          if (typeof total === "number" && total > 0) {
+            const percentage = Math.round((loaded * 100) / total);
+            handleProcess(percentage);
+          }
+        },
       });
       const nofication: NotificationProps = {
         mess: res.data as string,
-        type: "suscess",
+        type: "success",
       };
       handleNofication(nofication);
       handleClose();
       const newURL = URL.createObjectURL(file);
-
       setVideoUrl(newURL);
     } catch (error) {
       if (project.video) {
@@ -60,6 +66,7 @@ export default function UpdateProjectVideo() {
       }
       handleNofication({ mess: "server error", type: "error" });
     }
+    handleUpload(false);
   };
 
   useEffect(() => {
@@ -123,7 +130,7 @@ export default function UpdateProjectVideo() {
       </motion.div>
 
       <motion.div className="mt-3" layout>
-        {isActive && <InputVideoFile handleUpload={handleUpload} />}
+        {isActive && <InputVideoFile handleUpload={handleUploadFile} />}
       </motion.div>
     </div>
   );

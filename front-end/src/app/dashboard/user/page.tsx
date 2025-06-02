@@ -25,7 +25,7 @@ export default function UserManagerPage() {
   const [listUser, setListUser] = useState<UserProfile[]>([]);
   const [notification, setNotification] = useState<NotificationProps | null>({
     mess: "",
-    type: "suscess",
+    type: "success",
   });
   const [txtValue, setTxtValue] = useState("");
 

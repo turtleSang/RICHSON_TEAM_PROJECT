@@ -1,3 +1,5 @@
+import DeleteProject from "@/components/delete-project";
+import ModalGroup from "@/components/modal-group";
 import NotFoundComponent from "@/components/not-found-component";
 import ProjectDetailLayout from "@/layout/project-detail";
 import { GetProfileServer } from "@/libs/fetching-server";
@@ -26,6 +28,10 @@ export default async function PageDetailProject({
   const project: ProjectDetail = (await _res).data;
   profile = await _profile;
 
+  if (!project) {
+    return <NotFoundComponent name={"Project"} />;
+  }
+
   return (
     <section className="mt-5">
       {project ? (
@@ -36,13 +42,14 @@ export default async function PageDetailProject({
         <NotFoundComponent name="project" />
       )}
       {profile && profile.id === project.author.id && (
-        <div className="text-center">
+        <div className="text-center flex flex-row justify-around items-center my-5">
           <Link
-            className="inline-block cursor-pointer border-2 p-5 rounded-md hover:border-border hover:text-hover duration-200"
+            className=" py-1 px-2 inline-block border-2 border-btnBorder hover:bg-hover hover:text-background cursor-pointer duration-200 rounded-md text-body-mobile md:text-body-tablet lg:text-body-desktop"
             href={`./${projectId}/update`}
           >
             Update Project
           </Link>
+          <DeleteProject project={project} />
         </div>
       )}
     </section>
