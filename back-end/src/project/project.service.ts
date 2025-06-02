@@ -12,10 +12,12 @@ import { unlink } from "fs/promises"
 import { existsSync } from 'fs';
 import { ProjectUpdateDto } from './dto/project-update-dto';
 import { ProjectShort } from './dto/short-condition-dto';
+import { FileDeleteEntity } from 'src/delete-file/entity/file-delete-entity';
 @Injectable()
 export class ProjectService {
     constructor(
         @InjectRepository(ProjectEntity) private projectRepository: Repository<ProjectEntity>,
+        @InjectRepository(FileDeleteEntity) private deleteFileRepository: Repository<FileDeleteEntity>,
         private categoryService: CategoryService,
         private userService: UserService
     ) { }
@@ -51,8 +53,8 @@ export class ProjectService {
 
     async getListProject(pageNumber: number, pageSize: number, type: ProjectShort, short: boolean
     ) {
-        const skip: number = pageNumber * pageSize;
-        const listProject = await this.projectRepository
+        const skip: number = (pageNumber - 1) * pageSize;
+        const [listProject, count] = await this.projectRepository
             .createQueryBuilder("project")
             .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt", 'project.updateAt'])
             .leftJoin("project.author", "author")
@@ -64,8 +66,9 @@ export class ProjectService {
             .orderBy(type, short ? "DESC" : "ASC")
             .skip(skip)
             .take(pageSize)
-            .getMany();
-        return listProject;
+            .getManyAndCount();
+        const maxPage = Math.ceil(count / pageSize);
+        return { listProject, maxPage };
     }
 
     async getDetailProject(id: number) {
@@ -107,16 +110,14 @@ export class ProjectService {
         const listImg = project.imageList
         try {
             if (video && existsSync(video.filePath)) {
-                await unlink(video.filePath)
+                await this.deleteFileRepository.save({ path: video.filePath });
             }
             if (thumb && existsSync(thumb.path)) {
-                await unlink(thumb.path);
+                await this.deleteFileRepository.save({ path: thumb.path });
             }
             if (listImg.length > 0) {
                 for (const image of listImg) {
-                    if (existsSync(image.path)) {
-                        await unlink(image.path);
-                    }
+                    await this.deleteFileRepository.save({ path: image.path });
                 }
             }
             await this.projectRepository.remove(project)
@@ -175,8 +176,8 @@ export class ProjectService {
     }
 
     async getListProjectByUserId(userId: number, pageNumber: number, pageSize: number, type: ProjectShort, short: boolean) {
-        const skip: number = pageNumber * pageSize;
-        const listProject = await this.projectRepository.createQueryBuilder("project")
+        const skip: number = (pageNumber - 1) * pageSize;
+        const [listProject, count] = await this.projectRepository.createQueryBuilder("project")
             .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt", 'project.updateAt'])
             .leftJoin("project.author", "author")
             .addSelect(["author.name", "author.id", "author.avatar"])
@@ -188,25 +189,31 @@ export class ProjectService {
             .orderBy(type, short ? "DESC" : 'ASC')
             .skip(skip)
             .take(pageSize)
-            .getMany()
-        return listProject;
+            .getManyAndCount()
+        const maxPage = Math.ceil(count / pageSize);
+        return { listProject, maxPage };
     }
 
     async getListProjectByCategory(categoryLink: string, pageNumber: number, pageSize: number, type: ProjectShort, short: boolean) {
-        const skip = pageNumber * pageSize;
-        return await this.projectRepository.createQueryBuilder('project')
+
+
+        const skip: number = (pageNumber - 1) * pageSize;
+        const [listProject, count] = await this.projectRepository
+            .createQueryBuilder("project")
             .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt", 'project.updateAt'])
             .leftJoin("project.author", "author")
             .addSelect(["author.name", "author.id", "author.avatar"])
             .leftJoin("project.categoryList", "categories")
             .addSelect(["categories.name", "categories.link", "categories.id"])
-            .where('categories.link = :categoryLink', { categoryLink })
+            .where("categories.link = :categoryLink", { categoryLink })
             .leftJoin('project.thumb', 'thumb')
             .addSelect('thumb.id')
             .orderBy(type, short ? "DESC" : "ASC")
             .skip(skip)
             .take(pageSize)
-            .getMany();
+            .getManyAndCount();
+        const maxPage = Math.ceil(count / pageSize);
+        return { listProject, maxPage };
     }
 
 

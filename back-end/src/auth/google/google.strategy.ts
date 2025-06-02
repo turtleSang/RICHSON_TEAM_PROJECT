@@ -11,14 +11,14 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
         super({
             clientID: process.env.GOOGLE_APP_ID,
             clientSecret: process.env.GOOGLE_APP_SECRET,
-            callbackURL: 'http://localhost:3000/api/auth/google/callback',
+            callbackURL: process.env.GOOGLE_CALLBACK_URL,
             scope: ['email', 'profile'],
         })
     }
 
     authorizationParams(): Record<string, string> {
         return {
-            prompt: 'select_account', // 👈 dòng này sẽ giúp hiện chọn nhiều tài khoản
+            prompt: 'select_account',
         };
     }
 

@@ -8,7 +8,7 @@ import { Role } from './roles/roles.decorator';
 export class AuthService {
     constructor(
         private jwtService: JwtService,
-        private userService: UserService
+        private userService: UserService,
     ) { }
 
     async registerJwtToken(payload: object) {

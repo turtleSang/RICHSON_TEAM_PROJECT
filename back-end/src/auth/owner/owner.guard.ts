@@ -11,9 +11,9 @@ export class OwnerGuard implements CanActivate {
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
         const req: any = context.switchToHttp().getRequest();
-        const params: any = req.params
+        const params: any = req.params;
         const { id } = req.user
-        if (!params.projectId) {
+        if (!params.id) {
             throw new BadRequestException("need id project to update")
         }
 
@@ -21,7 +21,7 @@ export class OwnerGuard implements CanActivate {
             throw new ForbiddenException();
         }
         try {
-            const projectId = parseInt(params.projectId);
+            const projectId = parseInt(params.id);
             const project = await this.projectRepository.findOneByOrFail({ id: projectId })
             if (project.author.id != id) {
                 return false;

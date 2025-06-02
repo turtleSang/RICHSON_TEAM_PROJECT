@@ -11,7 +11,7 @@ export const MulterThumbImage: MulterOptions = {
     },
     storage: diskStorage({
         destination(req, file, callback) {
-            const projectId = req.params.projectId;
+            const projectId = req.params.id;
             if (!projectId) {
                 callback(new BadRequestException('Need Category Id'), null)
             }

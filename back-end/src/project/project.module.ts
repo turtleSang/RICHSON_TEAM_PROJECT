@@ -12,9 +12,10 @@ import { VideoProjectEntity } from 'src/videos/entity/video-project-entity';
 import { ImageEntity } from 'src/image/entity/image-entity';
 import { ImageProjectEntity } from 'src/image/entity/image-project-entity';
 import { ThumbProjectEntity } from 'src/image/entity/image-project-thumb-entity';
+import { FileDeleteEntity } from 'src/delete-file/entity/file-delete-entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ProjectEntity, UserEntity, CategoryEntity, VideoEntity, VideoProjectEntity, ImageEntity, ImageProjectEntity, ThumbProjectEntity])],
+  imports: [TypeOrmModule.forFeature([ProjectEntity, UserEntity, CategoryEntity, VideoEntity, VideoProjectEntity, ImageEntity, ImageProjectEntity, ThumbProjectEntity, FileDeleteEntity])],
   controllers: [ProjectController],
   providers: [ProjectService, CategoryService, UserService],
 })

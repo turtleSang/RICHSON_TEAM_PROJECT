@@ -11,7 +11,7 @@ export const MulterImageProject: MulterOptions = {
     },
     storage: diskStorage({
         destination(req, file, callback) {
-            const projectId: any = req.params.projectId;
+            const projectId: any = req.params.id;
             if (!projectId) {
                 callback(new BadRequestException('Need category Id'), null)
 

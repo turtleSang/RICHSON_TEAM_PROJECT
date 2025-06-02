@@ -30,7 +30,12 @@ export class ProjectController {
     @Query('short', ParseBoolPipe) short: boolean
 
   ) {
-    return await this.projectService.getListProject(pageNumber - 1, pageSize, type, short);
+    const { listProject, maxPage } = await this.projectService.getListProject(pageNumber, pageSize, type, short);
+    if (listProject.length === 0) {
+      throw new NotFoundException("Not found project")
+    }
+
+    return { listProject, maxPage };
   }
 
   @Get('list/user/:userId')
@@ -40,13 +45,12 @@ export class ProjectController {
     @Query('size', ParseIntPipe) pageSize: number = 4,
     @Query('type', new ValidatorPipe) type: ProjectShort,
     @Query('short', ParseBoolPipe) short: boolean) {
-    const listProject = await this.projectService.getListProjectByUserId(userId, pageNumber - 1, pageSize, type, short);
+    const { listProject, maxPage } = await this.projectService.getListProjectByUserId(userId, pageNumber, pageSize, type, short);
     if (listProject.length === 0) {
       throw new NotFoundException("Not found project")
-
     }
 
-    return await this.projectService.getListProjectByUserId(userId, pageNumber - 1, pageSize, type, short);
+    return { listProject, maxPage };
   }
 
   @Get('list/category/:categoryLink')
@@ -57,7 +61,12 @@ export class ProjectController {
     @Query('type', new ValidatorPipe) type: ProjectShort,
     @Query('short', ParseBoolPipe) short: boolean
   ) {
-    return await this.projectService.getListProjectByCategory(categoryLink, pageNumber - 1, pageSize, type, short)
+
+    const { listProject, maxPage } = await this.projectService.getListProjectByCategory(categoryLink, pageNumber, pageSize, type, short);
+    if (listProject.length === 0) {
+      throw new NotFoundException("Not found project")
+    }
+    return { listProject, maxPage };
   }
 
   @Get("/detail/:id")
@@ -91,7 +100,7 @@ export class ProjectController {
     return await this.projectService.updateProject(projectId, projectUpdate)
   }
 
-  @Delete(':id')
+  @Delete('/:id')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('member', 'admin')
   async deleteProject(@Param('id') id: number) {

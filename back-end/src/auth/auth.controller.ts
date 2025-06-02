@@ -4,13 +4,15 @@ import { Request, Response } from 'express';
 import { JwtGuard } from './jwt/jwt.guard';
 import { GoogleGuard } from './google/google.guard';
 import { UserEntity } from 'src/user/entity/user.entity';
+import { ConfigService } from '@nestjs/config';
 
 
 
 @Controller('api/auth')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private configService: ConfigService
   ) { }
   @Get('google')
   @UseGuards(GoogleGuard)
@@ -20,9 +22,10 @@ export class AuthController {
   @UseGuards(GoogleGuard)
   async callbackGooogle(@Req() req: any, @Res() res: Response) {
     const user = req.user;
+    const homeUrl = this.configService.get<string>('FRONT_END_URL');
     const token = await this.authService.callbackGoogle(user);
     res.cookie('access_token', token, { httpOnly: true, secure: false, sameSite: 'lax' })
-    res.redirect(`http://localhost:4000/`);
+    res.redirect(homeUrl);
 
   }
 

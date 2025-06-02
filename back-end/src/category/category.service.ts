@@ -6,13 +6,15 @@ import { UserService } from 'src/user/user.service';
 import { UserEntity } from 'src/user/entity/user.entity';
 import { CategoryCreateDto } from './dto/category-create-dto';
 import { CategoryUpdateDto } from './dto/category-update-dto';
+import { FileDeleteEntity } from 'src/delete-file/entity/file-delete-entity';
 
 
 @Injectable()
 export class CategoryService {
     constructor(
         @InjectRepository(CategoryEntity) private categoryRepository: Repository<CategoryEntity>,
-        private userService: UserService
+        private userService: UserService,
+        @InjectRepository(FileDeleteEntity) private deleteFileRepository: Repository<FileDeleteEntity>,
     ) { }
 
     async createCategory(categoryCategoryDto: CategoryCreateDto, userId: number) {
@@ -26,13 +28,13 @@ export class CategoryService {
             throw new BadRequestException(`User not found`)
         }
         try {
-            await this.categoryRepository.save({
+            const newCategory = await this.categoryRepository.save({
                 name: categoryCategoryDto.name,
                 description: categoryCategoryDto.description,
                 link: categoryCategoryDto.link,
                 user: user
             })
-            return `Category ${categoryCategoryDto.name} has create`
+            return newCategory;
         } catch (error) {
             throw new BadRequestException('Server Error', { cause: error })
         }
@@ -41,7 +43,7 @@ export class CategoryService {
 
     async getAllCategory() {
         return await this.categoryRepository.createQueryBuilder('category')
-            .select(["category.name", "category.id", "category.link"])
+            .select(["category.name", "category.id", "category.link", "category.description"])
             .leftJoin('category.videoThumb', 'videoThumb')
             .addSelect(['videoThumb.id'])
             .getMany()
@@ -50,7 +52,6 @@ export class CategoryService {
     async getCategoryByLink(link: string) {
         try {
             return await this.categoryRepository.createQueryBuilder('category').select().where('category.link = :link', { link }).getOneOrFail()
-
         } catch (error) {
             throw new NotFoundException();
         }
@@ -70,10 +71,23 @@ export class CategoryService {
     }
 
     async deleteCategory(id: number) {
-        const category = await this.categoryRepository.findOneBy({ id });
+        const category = await this.categoryRepository.findOne(
+            {
+                where: { id },
+                relations: ['videoThumb']
+            }
+        );
 
         if (!category) {
             throw new NotFoundException('Not found Category');
+        }
+
+        if (category.videoThumb) {
+            try {
+                await this.deleteFileRepository.save({ path: category.videoThumb.filePath });
+            } catch (error) {
+                throw new BadRequestException('Server error')
+            }
         }
 
         try {

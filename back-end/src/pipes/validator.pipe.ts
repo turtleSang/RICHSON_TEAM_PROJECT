@@ -10,7 +10,7 @@ export class ValidatorPipe implements PipeTransform {
         if (!value) {
             throw new BadRequestException('value is not null');
         }
-        console.log(metatype, value);
+
         const obj = plainToInstance(metatype, value);
         const err: ValidationError[] = await validate(obj);
         if (err.length > 0) {

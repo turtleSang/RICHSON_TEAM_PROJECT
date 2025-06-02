@@ -11,8 +11,9 @@ async function bootstrap() {
   });
   const service = app.get(ConfigService);
   const serverPort = service.get<number>('SERVER_PORT');
+  const fontEndUrl = service.get<string>('FRONT_END_URL');
   app.enableCors({
-    origin: 'http://localhost:4000',
+    origin: fontEndUrl,
     credentials: true
   })
   app.use(cookieParser())

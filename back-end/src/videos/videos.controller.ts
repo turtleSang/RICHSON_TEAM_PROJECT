@@ -80,7 +80,7 @@ export class VideosController {
     fileStreamm.pipe(res);
   }
 
-  @Post('upload/project/:projectId')
+  @Post('upload/project/:id')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('admin', 'member')
   @UseInterceptors(
@@ -117,7 +117,7 @@ export class VideosController {
   @Roles('admin')
   @UseInterceptors(FileInterceptor('file', MulterCarousel))
   async uploadCarousel(@UploadedFile('file') file: Express.Multer.File) {
-    return 'Uploaded Carousel'
+    return 'Uploaded Carousel';
   }
 
   @Delete('project/:id')

@@ -13,12 +13,12 @@ import { MulterThumbImage } from 'src/configs/multer-configs-thumb-project';
 export class ImageController {
   constructor(private readonly imageService: ImageService) { }
 
-  @Post('upload/project/:projectId')
+  @Post('upload/project/:id')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('admin', 'member')
   @UseInterceptors(FilesInterceptor('files', 8, MulterImageProject))
   async uploadImagesProject(
-    @Param('projectId', ParseIntPipe) projectId: number,
+    @Param('id', ParseIntPipe) projectId: number,
     @UploadedFiles() files: Express.Multer.File[]
   ) {
     if (files.length === 0) {
@@ -27,12 +27,12 @@ export class ImageController {
     return this.imageService.uploadImageProject(projectId, files);
   }
 
-  @Post('upload/thumb-project/:projectId')
+  @Post('upload/thumb-project/:id')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('admin', 'member')
   @UseInterceptors(FileInterceptor('file', MulterThumbImage))
   async uploadThumbProject(
-    @Param('projectId') projectId: number,
+    @Param('id') projectId: number,
     @UploadedFile('file', new ParseFilePipe({
       fileIsRequired: true,
     })) file: Express.Multer.File) {

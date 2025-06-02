@@ -20,12 +20,11 @@ export class DeleteFileService {
         if (listFileDelete.length === 0) {
             return;
         }
-
         for (const file of listFileDelete) {
             try {
                 if (existsSync(file.path)) {
                     await unlink(file.path);
-                    await this.deleteFileRepository.remove(file)
+                    await this.deleteFileRepository.remove(file);
                     this.logger.log(`Delete File ${file.id} ${file.path}`)
                 }
             } catch (error) {

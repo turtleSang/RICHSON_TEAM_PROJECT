@@ -12,12 +12,12 @@ export const MulterConfigsVideoProject: MulterOptions = {
     },
     storage: diskStorage({
         destination(req, file, callback) {
-            const projectId = req.params.projectId;
+            const id = req.params.id;
             const user: any = req.user;
-            if (!user.id && !projectId) {
+            if (!user.id && !id) {
                 callback(new ForbiddenException, null);
             }
-            const destination = join(process.env.MULTER_DEST, "videos", user.id, projectId);
+            const destination = join(process.env.MULTER_DEST, "videos", 'project', id);
             if (!existsSync(destination)) {
                 mkdirSync(destination, { recursive: true })
             }
