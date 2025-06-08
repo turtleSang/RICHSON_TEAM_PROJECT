@@ -31,3 +31,16 @@ export const ValidateDescriptionProject = (descriptionProject: string) => {
     }
 
 }
+
+export const ValidateProjectId = (projectId: string) => {
+    const regex = /[0-9]/
+    if (!regex.test(projectId)) {
+        return false;
+    }
+    return true;
+}
+
+export const FormatRenderDescription = (text: string): string[] => {
+    const txtFormat = text.split('\n');
+    return txtFormat;
+}

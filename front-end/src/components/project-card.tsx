@@ -49,9 +49,6 @@ export default function ProjectCard({
       initial="hidden"
       animate="show"
       whileHover={"hover"}
-      transition={{
-        delay: position * 0.2,
-      }}
       className={clsx("overflow-hidden group col-span-1")}
     >
       <Link className="relative z-0" href={`/project/detail/${project.id}`}>
@@ -64,11 +61,11 @@ export default function ProjectCard({
             onError={() => handleImgErr()}
           />
         </div>
-        <div className="absolute w-1/2 md:w-3/4 z-10 bottom-0 left-3 duration-200 md:translate-y-2/3 bg-accent px-3 rounded-t-xl md:group-hover:translate-y-0">
+        <div className="absolute w-1/2 md:w-3/4 z-10 bottom-0 left-3 duration-200 md:translate-y-3/4 bg-black/50 px-3 rounded-t-xl md:group-hover:translate-y-0">
           <h2
             className={clsx(
               ContentFont.className,
-              "text-card-title-mobile md:text-card-title-tablet lg:text-card-title-desktopuppercase md:py-5 uppercase"
+              "text-card-title-mobile md:text-card-title-tablet lg:text-card-title-desktopuppercase md:py-3 uppercase"
             )}
           >
             {TruncateTxt(project.name, 20)}
@@ -86,12 +83,11 @@ export default function ProjectCard({
             />
             <span>{project.author.name}</span>
           </h3>
-
           <div className="flex flex-row flex-wrap justify-baseline py-3 items-center ">
             {project.categoryList.map((category) => {
               return (
                 <div
-                  className="ml-2 text-body-mobile text-nowrap bg-accent py-1 px-2 rounded-2xl"
+                  className="ml-2 text-black text-body-mobile text-nowrap bg-hover py-1 px-2 rounded-2xl"
                   key={`${project.id}-${category.id}`}
                 >
                   <span>{category.name}</span>

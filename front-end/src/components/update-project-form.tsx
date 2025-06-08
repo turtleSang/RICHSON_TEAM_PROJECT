@@ -58,9 +58,7 @@ export default function UpdateProjectFormBase() {
     setProjectDto((prev) => {
       return { ...prev, description: value };
     });
-
     const error = ValidateDescriptionProject(value);
-
     if (error) {
       setErrorMessage((prev) => ({ ...prev, [name]: error }));
     } else {
@@ -115,6 +113,8 @@ export default function UpdateProjectFormBase() {
       });
       route.refresh();
     } catch (error) {
+      console.log(error);
+
       handleNofication({
         mess: "Server error",
         type: "error",

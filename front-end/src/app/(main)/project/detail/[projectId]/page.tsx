@@ -1,9 +1,8 @@
 import DeleteProject from "@/components/delete-project";
-import ModalGroup from "@/components/modal-group";
 import NotFoundComponent from "@/components/not-found-component";
 import ProjectDetailLayout from "@/layout/project-detail";
 import { GetProfileServer } from "@/libs/fetching-server";
-import { ProjectDetail, UserProfile } from "@/types/define.type";
+import { ProjectDetail } from "@/types/define.type";
 import axios from "axios";
 import { cookies } from "next/headers";
 import Link from "next/link";

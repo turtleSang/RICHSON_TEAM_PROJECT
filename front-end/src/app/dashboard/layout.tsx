@@ -12,10 +12,15 @@ export default function LayoutDashBoard({
   children: React.ReactNode;
 }) {
   const { error, isLoading, user } = useContext(AuthContext);
+
+  if (error || user?.role != "admin") {
+    return <NoPermission />;
+  }
+
   return (
     <main className="w-full h-screen bg-background">
       {isLoading && <DashboardSkeleton />}
-      {error && <NoPermission />}
+      {error || (user?.role != "admin" && <NoPermission />)}
       {user && (
         <div className="flex flex-row justify-between gap-1">
           <div className="w-2/12 h-[100vh] bg-background-item ">

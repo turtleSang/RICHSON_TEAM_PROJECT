@@ -1,8 +1,9 @@
+import DescriptionDetail from "@/components/description-detail";
 import ListImgProject from "@/components/list-img-project";
 import NotFoundComponent from "@/components/not-found-component";
-import TitleSection from "@/components/title-section";
 import VideoPlayer from "@/components/video-player";
 import { HeaderFont2 } from "@/font/font";
+import { FormatRenderDescription } from "@/libs/helper";
 import { ProjectDetail } from "@/types/define.type";
 import clsx from "clsx";
 
@@ -12,6 +13,7 @@ export default function ProjectDetailLayout({
   project: ProjectDetail;
 }) {
   const createAt: Date = new Date(project.createAt);
+  const listText = FormatRenderDescription(project.description);
 
   return (
     <>
@@ -28,7 +30,7 @@ export default function ProjectDetailLayout({
         <p className="text-caption-mobile">
           Date Create {createAt.toLocaleDateString("vi-VN")}
         </p>
-        {project.description}
+        <DescriptionDetail listText={listText} />
       </div>
       {project.imageList && project.imageList.length > 0 ? (
         <ListImgProject listImg={project.imageList} />

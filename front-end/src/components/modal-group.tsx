@@ -57,7 +57,10 @@ export default function ModalGroup({
               animate={{ opacity: 0.5 }}
               exit={{ opacity: 0 }}
               className="fixed z-10 w-full h-screen bg-background top-0 left-0"
-              onClick={handleClose}
+              onClick={async () => {
+                handleClose();
+                setIsOpen(false);
+              }}
             ></motion.div>
           </>
         )}
