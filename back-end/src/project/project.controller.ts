@@ -93,10 +93,10 @@ export class ProjectController {
     return listProject;
   }
 
-  @Put(':projectId')
+  @Put(':id')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('admin', 'member')
-  async updateProject(@Body(ValidatorPipe) projectUpdate: ProjectUpdateDto, @Param('projectId', ParseIntPipe) projectId: number) {
+  async updateProject(@Body(ValidatorPipe) projectUpdate: ProjectUpdateDto, @Param('id', ParseIntPipe) projectId: number) {
     return await this.projectService.updateProject(projectId, projectUpdate)
   }
 
