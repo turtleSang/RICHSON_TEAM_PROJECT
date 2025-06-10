@@ -1,5 +1,5 @@
 "use client";
-import { ValidateProjectId } from "@/libs/helper";
+import { TruncateTxt, ValidateProjectId } from "@/libs/helper";
 import { ProjectDetail } from "@/types/define.type";
 import {
   faDeleteLeft,
@@ -114,7 +114,7 @@ export default function PageProjectManager() {
       ) : project ? (
         <div className="bg-background-item mt-3 px-3 py-9 flex flex-row flex-wrap justify-around items-center relative">
           <h1>Name: {project.name}</h1>
-          <p>Description: {project.description}</p>
+          <p>Description: {TruncateTxt(project.description, 20)}</p>
           <h3 className="flex flex-row items-center">
             <Image
               src={project.author.avatar}

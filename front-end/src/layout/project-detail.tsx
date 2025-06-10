@@ -29,7 +29,10 @@ export default function ProjectDetailLayout({
         </h1>
         <p className="text-caption-mobile">
           Date Create {createAt.toLocaleDateString("vi-VN")}
+          <br />
+          Rating: {project.rating}/10
         </p>
+
         <DescriptionDetail listText={listText} />
       </div>
       {project.imageList && project.imageList.length > 0 ? (

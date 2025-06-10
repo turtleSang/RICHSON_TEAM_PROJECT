@@ -1,12 +1,10 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import Loader from "./loader";
-import { read } from "fs";
+import { useRef } from "react";
+
 import { motion, Variants } from "framer-motion";
 
 export default function VideoBackGround({ src }: { src: string }) {
-  const [ready, setReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   const variants: Variants = {

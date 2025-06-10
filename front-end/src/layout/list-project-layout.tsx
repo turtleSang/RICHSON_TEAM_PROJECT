@@ -30,7 +30,7 @@ export default function ListProjectLayOut({
   };
 
   return (
-    <div className="w-full">
+    <div className="mt-10 w-full">
       <TitleSection title={name} />
       {description && (
         <p className="mb-5 md:mb-7 lg:mb-10 text-center capitalize">

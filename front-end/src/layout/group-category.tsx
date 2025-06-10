@@ -1,6 +1,8 @@
 import ItemCategory from "@/components/item-category";
+import ListCategoryHome from "@/components/list-category-home";
 import NotFoundComponent from "@/components/not-found-component";
 import TitleSection from "@/components/title-section";
+import { CategoryType } from "@/types/define.type";
 import axios from "axios";
 
 export default async function GroupCategory() {
@@ -11,30 +13,13 @@ export default async function GroupCategory() {
       `${process.env.NEXT_PUBLIC_API_URL}/category/all`
     );
 
-    const listCategory: {
-      id: number;
-      name: string;
-      link: string;
-      videoThumb: { id: number } | null;
-    }[] = data;
+    const listCategory: CategoryType[] = data;
 
     return (
-      <div className="py-14 ">
+      <div className="mt-10">
         <TitleSection title={title} />
         {listCategory.length > 0 ? (
-          <div className="grid grid-cols-2 xl:grid-cols-4 gap-1 -z-10 w-full overflow-hidden">
-            {listCategory.map((val, index) => {
-              return (
-                <ItemCategory
-                  id={val.id}
-                  link={val.link}
-                  key={val.id}
-                  name={val.name}
-                  videoId={val.videoThumb ? val.videoThumb.id : null}
-                />
-              );
-            })}
-          </div>
+          <ListCategoryHome listCategory={listCategory} />
         ) : (
           <div>
             <NotFoundComponent name="Category" />
@@ -43,6 +28,6 @@ export default async function GroupCategory() {
       </div>
     );
   } catch (error) {
-    return <div>Not Found</div>;
+    return <NotFoundComponent name="Category" />;
   }
 }

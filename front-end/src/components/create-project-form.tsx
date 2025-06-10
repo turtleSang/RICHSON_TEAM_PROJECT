@@ -159,7 +159,7 @@ export default function CreateProjectForm() {
       />
       <InputTextArea
         title="Description"
-        placeholder="Write descriptin here"
+        placeholder="Write description here"
         name="description"
         onChange={handleTextAreaChange}
         errorMessage={errorMessage.description || ""}
