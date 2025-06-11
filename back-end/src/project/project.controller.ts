@@ -9,6 +9,7 @@ import { ProjectShort } from './dto/short-condition-dto';
 import { OwnerGuard } from 'src/auth/owner/owner.guard';
 import { ProjectUpdateDto } from './dto/project-update-dto';
 import { ProjectEntity } from './entity/project-entity';
+import { UpdateRatingDto } from './dto/update-rating-dto';
 
 @Controller('api/project')
 export class ProjectController {
@@ -93,11 +94,18 @@ export class ProjectController {
     return listProject;
   }
 
-  @Put(':id')
+  @Put('base/:id')
   @UseGuards(JwtGuard, OwnerGuard, RoleGuard)
   @Roles('admin', 'member')
   async updateProject(@Body(ValidatorPipe) projectUpdate: ProjectUpdateDto, @Param('id', ParseIntPipe) projectId: number) {
     return await this.projectService.updateProject(projectId, projectUpdate)
+  }
+
+  @Put('rating')
+  @UseGuards(JwtGuard, RoleGuard)
+  @Roles('admin')
+  async updateRaingProject(@Body(ValidatorPipe) updateRating: UpdateRatingDto) {
+    return await this.projectService.updateRatingProject(updateRating)
   }
 
   @Delete('/:id')

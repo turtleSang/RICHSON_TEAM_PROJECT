@@ -23,7 +23,7 @@ export const MulterImageProject: MulterOptions = {
             callback(null, destination)
         },
         filename(req, file, callback) {
-            const projectId: any = req.params.projectId;
+            const projectId: any = req.params.id;
             const ext = extname(file.originalname);
             const filename = `${projectId}-${Date.now()}-${Math.round(Math.random() * 1e3)}${ext}`
             callback(null, filename)

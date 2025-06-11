@@ -13,6 +13,7 @@ import { existsSync } from 'fs';
 import { ProjectUpdateDto } from './dto/project-update-dto';
 import { ProjectShort } from './dto/short-condition-dto';
 import { FileDeleteEntity } from 'src/delete-file/entity/file-delete-entity';
+import { UpdateRatingDto } from './dto/update-rating-dto';
 @Injectable()
 export class ProjectService {
     constructor(
@@ -148,6 +149,22 @@ export class ProjectService {
         return `Project ${project.name} was updated`;
     }
 
+    async updateRatingProject(updateRatingDto: UpdateRatingDto) {
+        let project = await this.projectRepository.findOne({ where: { id: updateRatingDto.id } });
+        if (!project) {
+            throw new NotFoundException();
+        }
+        project = { ...project, rating: updateRatingDto.rating }
+        try {
+            await this.projectRepository.save(project)
+            return `Rating of ${project.name} was upload`
+        } catch (error) {
+            throw new InternalServerErrorException()
+        }
+
+
+    }
+
     async getNameProject(txtSearch: string) {
         return await this.projectRepository
             .createQueryBuilder('project')
@@ -195,8 +212,6 @@ export class ProjectService {
     }
 
     async getListProjectByCategory(categoryLink: string, pageNumber: number, pageSize: number, type: ProjectShort, short: boolean) {
-
-
         const skip: number = (pageNumber - 1) * pageSize;
         const [listProject, count] = await this.projectRepository
             .createQueryBuilder("project")
@@ -215,6 +230,8 @@ export class ProjectService {
         const maxPage = Math.ceil(count / pageSize);
         return { listProject, maxPage };
     }
+
+
 
 
 }
