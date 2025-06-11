@@ -92,7 +92,7 @@ export default function UpdateProjectFormBase() {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-    const url = `${process.env.NEXT_PUBLIC_API_URL}/project/${project.id}`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}/project/base/${project.id}`;
     handleUpload(true);
     try {
       const res = await axios.put(url, projectDto, {

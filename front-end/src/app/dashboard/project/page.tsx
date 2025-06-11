@@ -19,6 +19,7 @@ import NotificationComponent, {
 import { useRouter } from "next/navigation";
 import Loader from "@/components/loader";
 import ProjectCardManagerSkelecton from "@/components/skeleton/project-manager-card-skeleton";
+import UpdateRatingForm from "@/components/update-rating-form";
 
 export default function PageProjectManager() {
   const [projectId, setProjectId] = useState("");
@@ -130,26 +131,28 @@ export default function PageProjectManager() {
               <Loader />
             </div>
           )}
-          <ModalGroup
-            btn={
-              <div className="w-1/2">
-                <FontAwesomeIcon icon={faRemove}></FontAwesomeIcon>
+
+          <div className="w-full flex flex-row justify-around items-center mt-3">
+            <UpdateRatingForm
+              ratingOld={project.rating}
+              handleNotification={handleNotification}
+              projectId={project.id}
+            />
+            <ModalGroup btn={<div className="w-1/2">Delete</div>}>
+              <div className="text-center text-section-title-mobile md:text-section-title-mobile lg:text-section-title-desktop">
+                Delete Project {project.name}
               </div>
-            }
-          >
-            <div className="text-center text-section-title-mobile md:text-section-title-mobile lg:text-section-title-desktop">
-              Delete Project {project.name}
-            </div>
-            <div className="border-t-2 border-border p-3 text-center">
-              <button
-                className=" py-2 px-4 cursor-pointer rounded-md bg-red-600 hover:bg-red-400 duration-200"
-                type="button"
-                onClick={() => handleDelte(project.id)}
-              >
-                Delete
-              </button>
-            </div>
-          </ModalGroup>
+              <div className="border-t-2 border-border p-3 text-center">
+                <button
+                  className=" py-2 px-4 cursor-pointer rounded-md bg-red-600 hover:bg-red-400 duration-200"
+                  type="button"
+                  onClick={() => handleDelte(project.id)}
+                >
+                  Delete
+                </button>
+              </div>
+            </ModalGroup>
+          </div>
         </div>
       ) : (
         <NotFoundComponent name="Not Found Project" />
