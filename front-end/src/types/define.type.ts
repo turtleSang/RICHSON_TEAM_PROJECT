@@ -1,3 +1,5 @@
+import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
+
 export type UserProfile = {
     name: string;
     email: string;
@@ -80,5 +82,13 @@ export type ProjectDto = {
 export type ProjectGetOption = {
     userId?: number
     categoryLink?: string
+}
+
+export type ContactType = {
+    type: string;
+    icon: IconDefinition;
+    link: string;
+    image: string;
+    content: string;
 }
 

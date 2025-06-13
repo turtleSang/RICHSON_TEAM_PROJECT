@@ -10,7 +10,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
 import NotFoundComponent from "./not-found-component";
 import clsx from "clsx";
-import { div } from "framer-motion/client";
 
 export default function ListProject({
   short,
@@ -42,8 +41,12 @@ export default function ListProject({
   }, [typeShort, short]);
 
   useEffect(() => {
-    if (data && data.maxPage && data.maxPage > pageNumber) {
-      setCanShowMore(true);
+    if (data && data.maxPage) {
+      if (data.maxPage > pageNumber) {
+        setCanShowMore(true);
+      } else {
+        setCanShowMore(false);
+      }
     }
 
     if (data && data.listProject && data.listProject.length > 0) {
@@ -79,7 +82,6 @@ export default function ListProject({
           </div>
         )}
       </div>
-
       {canShowMore && (
         <div
           className={clsx(

@@ -21,6 +21,8 @@ export default function CreateProjectForm() {
     categoryIdList: [],
   });
 
+  const [isCreating, setIsCreating] = useState(false);
+
   const handleInputNameChange = (e: FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     const name = e.currentTarget.name;
@@ -81,6 +83,7 @@ export default function CreateProjectForm() {
     e.preventDefault();
     const isValid = checkVaidateionProject();
     if (!isValid) return;
+    setIsCreating(true);
     try {
       const { id } = await CreateProject(project);
       if (id) {
@@ -102,6 +105,7 @@ export default function CreateProjectForm() {
         return { ...prev, serverErr: "can not create project" };
       });
     }
+    setIsCreating(false);
   };
 
   const checkVaidateionProject = () => {
@@ -143,7 +147,7 @@ export default function CreateProjectForm() {
 
   return (
     <form
-      className="block w-full p-4 text-body-mobile md:text-body-tablet lg:text-body-desktop"
+      className="block w-full p-4 text-body-mobile md:text-body-tablet lg:text-body-desktop relative"
       onSubmit={(e) => handleSubmit(e)}
     >
       {errorMessage.serverErr && (
@@ -189,13 +193,17 @@ export default function CreateProjectForm() {
             })}
         </div>
       </div>
-
       <button
         className="bg-btnBg text-background px-3 py-2 rounded-xl mx-auto block w-1/2 mt-3 cursor-pointer  duration-200 hover:bg-hover hover:text-text"
         type="submit"
       >
         CREATE PROJECT
       </button>
+      {isCreating && (
+        <div className="flex justify-center items-center absolute w-full h-full bg-background/50 top-0 left-0">
+          <Loader />
+        </div>
+      )}
     </form>
   );
 }

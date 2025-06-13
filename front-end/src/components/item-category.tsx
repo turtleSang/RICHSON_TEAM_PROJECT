@@ -28,7 +28,7 @@ export default function ItemCategory({
         <h1
           className={clsx(
             HeaderFont2.className,
-            "absolute z-10 left-1/2 top-1/2 -translate-1/2 text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop"
+            "absolute z-10 left-1/2 top-1/2 uppercase -translate-1/2 text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop"
           )}
         >
           {name}

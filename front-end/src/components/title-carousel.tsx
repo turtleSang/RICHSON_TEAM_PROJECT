@@ -43,7 +43,9 @@ export default function TitleCarousel() {
         }}
         className="text-body-mobile md:text-body-tablet lg:text-body-desktop"
       >
-        <Link href={"/contact"}>Contact with us</Link>
+        <Link className="hover:text-btnBg duration-200" href={"/contact"}>
+          Contact with us
+        </Link>
       </motion.h2>
     </div>
   );

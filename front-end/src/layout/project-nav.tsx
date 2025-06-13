@@ -44,7 +44,7 @@ export default function ProjectNav() {
               onClick={() => handleActiveTab(category)}
             >
               <Link
-                className="block h-full border-2  px-3 py-2  border-border rounded-md"
+                className="block h-full uppercase border-2  px-3 py-2  border-border rounded-md"
                 href={`/project/${category.link}`}
               >
                 {category.name}
