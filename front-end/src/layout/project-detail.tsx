@@ -20,7 +20,7 @@ export default function ProjectDetailLayout({
       <VideoPlayer videoId={project.video?.id} thumbId={project.thumb?.id} />
       <div
         className={clsx(
-          "mt-3 mb-10 px-8 md:px-10 lg:px-20 text-justify text-body-mobile md:text-body-tablet lg:text-body-desktop",
+          "mt-3 mb-10 w-10/12 mx-auto text-justify text-body-mobile md:text-body-tablet lg:text-body-desktop",
           HeaderFont2.className
         )}
       >

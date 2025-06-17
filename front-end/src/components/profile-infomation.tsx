@@ -1,4 +1,3 @@
-import { useProfile } from "@/libs/fetching-client";
 import Login from "./login-with-google";
 import UserInfoBtn from "./user-info-btn";
 import { useContext } from "react";

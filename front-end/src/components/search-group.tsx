@@ -32,9 +32,9 @@ export default function SearchGroup() {
       <button
         onClick={handleActive}
         type="button"
-        className="cursor-pointer hover:bg-btnBorter hover:text-background duration-200 text-body-mobile md:text-body-tablet lg:text-body-desktop bg-background-item py-1 px-3 md:py-2 md:px-5 lg:py-4 lg:px-6 rounded-4xl"
+        className="cursor-pointer hover:text-hover duration-200 text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop"
       >
-        <FontAwesomeIcon icon={faMagnifyingGlass} /> <span>Search</span>
+        <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>
       <SearchForm isActive={isActive} handleClose={handleClose} />
       <motion.div

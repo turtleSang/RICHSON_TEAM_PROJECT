@@ -16,9 +16,9 @@ export default function ItemCategory({
   videoId: number | null;
 }) {
   return (
-    <Link className="w-full overflow-hidden" href={`/project/${link}`}>
-      <div className="h-52 relative -z-10">
-        <div className="w-full aspect-video h-auto z-10 absolute top-1/2 -translate-y-1/2 bg-btnBg">
+    <Link className="w-full" href={`/project/${link}`}>
+      <div className="relative aspect-video overflow-hidden -z-10">
+        <div className="w-full h-auto z-10 absolute top-1/2 -translate-y-1/2 bg-btnBg">
           {videoId && (
             <VideoBackGround
               src={`${process.env.NEXT_PUBLIC_API_URL}/video/stream/${videoId}`}

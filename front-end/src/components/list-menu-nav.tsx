@@ -11,6 +11,10 @@ const listItem: { name: string; link: string }[] = [
     name: "home",
   },
   {
+    link: "/project",
+    name: "project",
+  },
+  {
     link: "/about-us",
     name: "about us",
   },
@@ -40,7 +44,6 @@ export default function ListItemMenu({
           </motion.li>
         );
       })}
-      <NavDropDown handleClose={handleClose} />
     </ul>
   );
 }

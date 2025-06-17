@@ -46,7 +46,7 @@ export default function NavDropDown({
           <DropDownBtn active={active} onClick={handleActive} />
         </div>
       </li>
-      <motion.div>
+      <motion.div className="">
         <AnimatePresence>
           {active && (
             <motion.ul
@@ -67,7 +67,10 @@ export default function NavDropDown({
                       <Link
                         href={`/project/${category.link}`}
                         className="hover:text-hover duration-200 uppercase"
-                        onClick={handleClose}
+                        onClick={() => {
+                          handleClose();
+                          setActive(false);
+                        }}
                       >
                         {category.name}
                       </Link>

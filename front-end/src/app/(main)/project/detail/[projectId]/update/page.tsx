@@ -12,22 +12,10 @@ export default async function UpdateProjectPage({
   params: Promise<{ projectId: number }>;
 }) {
   const projectId = (await params).projectId;
-  const cookieStorage = await cookies();
-  const token = cookieStorage.get("access_token");
-  if (!token) {
-    redirect("/");
-  }
-  const profile = await GetProfileServer(token.value);
+
   const url = `${process.env.NEXT_PUBLIC_API_URL}/project/detail/${projectId}`;
   const project: ProjectDetail = (await axios.get(url)).data;
-  if (
-    !profile ||
-    !project ||
-    profile.id != project.author.id ||
-    profile.role === "viewer"
-  ) {
-    return <NoPermission />;
-  }
+
   return (
     <section>
       <LayoutUpdateProject project={project} />

@@ -1,4 +1,6 @@
 "use client";
+import Loader from "@/components/loader";
+import NoPermission from "@/components/no-permission";
 import NotificationComponent, {
   NotificationProps,
 } from "@/components/notification-component";
@@ -7,6 +9,7 @@ import UpdateProjectFormBase from "@/components/update-project-form";
 import UpdateProjectImg from "@/components/update-project-img";
 import UpdateProjectVideo from "@/components/update-project-video";
 import UpdateThumbForm from "@/components/update-thumb-image";
+import { AuthContext } from "@/libs/AuthProvider";
 import { ProjectDetail } from "@/types/define.type";
 import { createContext, useContext, useState } from "react";
 
@@ -33,6 +36,7 @@ export default function LayoutUpdateProject({
   const [notification, setNotification] = useState<NotificationProps | null>(
     null
   );
+  const { error, isLoading, user } = useContext(AuthContext);
 
   const handleNofication = (nofiticationNew: NotificationProps) => {
     setNotification(nofiticationNew);
@@ -53,26 +57,37 @@ export default function LayoutUpdateProject({
   };
 
   return (
-    <section className="mt-3 ">
-      {isUpload && (
-        <div className="fixed top-0 left-0 w-full h-screen bg-black/50 flex items-center justify-center z-50">
-          <ProcessBar percentage={percentageUpload} />
+    <>
+      {isLoading && (
+        <div>
+          <Loader />
         </div>
       )}
-      <ProjectContext
-        value={{ handleNofication, project, handleProcess, handleUpload }}
-      >
-        {notification && (
-          <NotificationComponent
-            mess={notification.mess}
-            type={notification.type}
-          />
-        )}
-        <UpdateProjectFormBase />
-        <UpdateProjectVideo />
-        <UpdateThumbForm />
-        <UpdateProjectImg />
-      </ProjectContext>
-    </section>
+      {user && user.id === project.author.id ? (
+        <section className="mt-3 ">
+          {isUpload && (
+            <div className="fixed top-0 left-0 w-full h-screen bg-black/50 flex items-center justify-center z-50">
+              <ProcessBar percentage={percentageUpload} />
+            </div>
+          )}
+          <ProjectContext
+            value={{ handleNofication, project, handleProcess, handleUpload }}
+          >
+            {notification && (
+              <NotificationComponent
+                mess={notification.mess}
+                type={notification.type}
+              />
+            )}
+            <UpdateProjectFormBase />
+            <UpdateProjectVideo />
+            <UpdateThumbForm />
+            <UpdateProjectImg />
+          </ProjectContext>
+        </section>
+      ) : (
+        <NoPermission />
+      )}
+    </>
   );
 }

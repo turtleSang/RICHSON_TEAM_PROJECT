@@ -62,7 +62,7 @@ export default function ProjectNav() {
       ) : (
         <NotFoundComponent name="Category" />
       )}
-      <div className="-z-20 w-full bg-btnBg/50 aspect-video opacity-40 absolute">
+      <div className="-z-20 w-full bg-background/50 aspect-video opacity-40 absolute">
         <AnimatePresence mode="wait">
           {data &&
             data.map((val, index) => {
@@ -77,6 +77,9 @@ export default function ProjectNav() {
                 </motion.div>
               );
             })}
+          {!activeTab && (
+            <VideoBackGround src="/project/project-background.mp4" />
+          )}
         </AnimatePresence>
       </div>
     </div>

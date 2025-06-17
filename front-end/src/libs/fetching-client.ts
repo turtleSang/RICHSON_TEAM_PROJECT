@@ -25,7 +25,7 @@ export const useProfile = () => {
 // Category
 const getListCategory = async (url: string) => {
     try {
-        const res = await axios.get(url);
+        const res = await axios.get(url, { withCredentials: true });
         const listCategory: CategoryType[] = res.data
         return listCategory
     } catch (error) {
@@ -49,7 +49,7 @@ export const getListProject = async (url: string, page: number, size: number, ty
             size,
             type,
             short
-        }
+        }, withCredentials: true
 
     })
     const { listProject, maxPage } = res.data as { listProject: ProjectCardType[], maxPage: number }
