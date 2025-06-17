@@ -10,6 +10,7 @@ import { OwnerGuard } from 'src/auth/owner/owner.guard';
 import { ProjectUpdateDto } from './dto/project-update-dto';
 import { ProjectEntity } from './entity/project-entity';
 import { UpdateRatingDto } from './dto/update-rating-dto';
+import { ListProjectQueryDto } from './dto/list-project-query-dto';
 
 @Controller('api/project')
 export class ProjectController {
@@ -25,13 +26,9 @@ export class ProjectController {
 
   @Get('list')
   async getProjects(
-    @Query('page', ParseIntPipe) pageNumber: number = 1,
-    @Query('size', ParseIntPipe) pageSize: number = 4,
-    @Query('type', new ValidatorPipe) type: ProjectShort,
-    @Query('short', ParseBoolPipe) short: boolean
-
+    @Query(new ValidatorPipe) query: ListProjectQueryDto
   ) {
-    const { listProject, maxPage } = await this.projectService.getListProject(pageNumber, pageSize, type, short);
+    const { listProject, maxPage } = await this.projectService.getListProject(query.page, query.size, query.type, query.short);
     if (listProject.length === 0) {
       throw new NotFoundException("Not found project")
     }
@@ -42,11 +39,9 @@ export class ProjectController {
   @Get('list/user/:userId')
   async getProjectsByUserId(
     @Param('userId', ParseIntPipe) userId: number,
-    @Query('page', ParseIntPipe) pageNumber: number = 1,
-    @Query('size', ParseIntPipe) pageSize: number = 4,
-    @Query('type', new ValidatorPipe) type: ProjectShort,
-    @Query('short', ParseBoolPipe) short: boolean) {
-    const { listProject, maxPage } = await this.projectService.getListProjectByUserId(userId, pageNumber, pageSize, type, short);
+    @Query(new ValidatorPipe) query: ListProjectQueryDto
+  ) {
+    const { listProject, maxPage } = await this.projectService.getListProjectByUserId(userId, query.page, query.size, query.type, query.short);
     if (listProject.length === 0) {
       throw new NotFoundException("Not found project")
     }
@@ -57,13 +52,10 @@ export class ProjectController {
   @Get('list/category/:categoryLink')
   async getProjectsByCategory(
     @Param('categoryLink') categoryLink: string,
-    @Query('page', ParseIntPipe) pageNumber: number = 1,
-    @Query('size', ParseIntPipe) pageSize: number = 4,
-    @Query('type', new ValidatorPipe) type: ProjectShort,
-    @Query('short', ParseBoolPipe) short: boolean
+    @Query(new ValidatorPipe) query: ListProjectQueryDto
   ) {
 
-    const { listProject, maxPage } = await this.projectService.getListProjectByCategory(categoryLink, pageNumber, pageSize, type, short);
+    const { listProject, maxPage } = await this.projectService.getListProjectByCategory(categoryLink, query.page, query.size, query.type, query.short);
     if (listProject.length === 0) {
       throw new NotFoundException("Not found project")
     }

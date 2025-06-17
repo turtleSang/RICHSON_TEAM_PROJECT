@@ -43,21 +43,27 @@ export class VideosController {
     if (!range) {
       throw new BadRequestException("Only Stream");
     }
+    // Get File Info
     const video = await this.videosService.getOneById(videoId);
     const slat = statSync(video.filePath);
     const fileSize = slat.size;
-    const part = range.replace("byte=", '').split('-')
-    const start = parseInt(part[1])
-    const end = part[2] ? parseInt(part[2]) : fileSize - 1
+
+    // Get Part
+    const part = range.replace("bytes=", '').split('-')
+    const start = parseInt(part[0])
+    const end = part[1] ? parseInt(part[1]) : fileSize - 1
     const chunkSize = end - start + 1;
     if (start >= fileSize || end >= fileSize) {
       throw new BadRequestException("File size not accpeptRequested Range Not Satisfiable")
     }
+    const fileStream: ReadStream = createReadStream(video.filePath, { start, end });
+
+    // Stream
     res.setHeader('Content-Range', `bytes ${start}-${end}/${fileSize}`);
     res.setHeader('Accept-Ranges', 'bytes');
     res.setHeader('Content-Type', 'video/mp4');
     res.setHeader('Content-Length', chunkSize);
-    const fileStream: ReadStream = createReadStream(video.filePath);
+    res.status(206)
     fileStream.pipe(res);
   }
 

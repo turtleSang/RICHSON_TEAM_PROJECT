@@ -24,9 +24,8 @@ export class AuthController {
     const user = req.user;
     const homeUrl = this.configService.get<string>('FRONT_END_URL');
     const token = await this.authService.callbackGoogle(user);
-    res.cookie('access_token', token, { httpOnly: true, secure: false, sameSite: 'lax' })
+    res.cookie('access_token', token, { httpOnly: true, secure: true, sameSite: 'none' })
     res.redirect(homeUrl);
-
   }
 
   @Get("profile")
