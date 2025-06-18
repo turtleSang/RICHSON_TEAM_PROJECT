@@ -5,7 +5,6 @@ import clsx from "clsx";
 import { HeaderFont2 } from "@/font/font";
 
 export default function ItemCategory({
-  id,
   name,
   link,
   videoId,

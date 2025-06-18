@@ -1,27 +1,18 @@
 "use client";
 import CategoryDashboardCard from "@/components/category-dashboard-card";
 import CreateCategoryForm from "@/components/create-category-form";
-import ModalGroup from "@/components/modal-group";
 import NotificationComponent, {
   NotificationProps,
 } from "@/components/notification-component";
+import { PageCategoryContext } from "@/libs/CategoryPageContext";
 import { useCategory } from "@/libs/fetching-client";
 import { CategoryType } from "@/types/define.type";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { createContext, useEffect, useState } from "react";
-
-export type PageCategoryContextType = {
-  handleNotification: (newNotification: NotificationProps) => void;
-  handleActiveForm: (active: boolean) => void;
-  handleAddCardType: (category: CategoryType) => void;
-};
-
-export const PageCategoryContext =
-  createContext<PageCategoryContextType | null>(null);
+import { useEffect, useState } from "react";
 
 export default function PageCategoryManager() {
-  const { data, error, isLoading } = useCategory();
+  const { data } = useCategory();
   const [listCategory, setListCategory] = useState<CategoryType[]>([]);
   const [activeForm, setActiveForm] = useState(false);
   const [notification, setNotification] = useState<NotificationProps | null>(
@@ -50,7 +41,7 @@ export default function PageCategoryManager() {
   };
 
   return (
-    <PageCategoryContext
+    <PageCategoryContext.Provider
       value={{ handleNotification, handleActiveForm, handleAddCardType }}
     >
       <div className="">
@@ -79,6 +70,6 @@ export default function PageCategoryManager() {
           </div>
         </div>
       </div>
-    </PageCategoryContext>
+    </PageCategoryContext.Provider>
   );
 }

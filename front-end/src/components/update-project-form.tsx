@@ -1,12 +1,8 @@
 "use client";
 
 import { useCategory } from "@/libs/fetching-client";
-import {
-  ErrorMessageType,
-  ProjectDetail,
-  ProjectDto,
-} from "@/types/define.type";
-import { FormEvent, useContext, useEffect, useState } from "react";
+import { ErrorMessageType, ProjectDto } from "@/types/define.type";
+import { FormEvent, useState } from "react";
 import InputTxt from "./input-txt";
 import InputTextArea from "./input-text-area";
 import InputCheckBox from "./input-check-box";
@@ -18,10 +14,7 @@ import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/navigation";
-import {
-  ProjectContext,
-  useProjectContext,
-} from "@/layout/update-project-layout";
+import { useProjectContext } from "@/layout/update-project-layout";
 
 export default function UpdateProjectFormBase() {
   const { handleNofication, project, handleProcess, handleUpload } =

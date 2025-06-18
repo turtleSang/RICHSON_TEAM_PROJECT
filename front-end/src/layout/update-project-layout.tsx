@@ -36,7 +36,7 @@ export default function LayoutUpdateProject({
   const [notification, setNotification] = useState<NotificationProps | null>(
     null
   );
-  const { error, isLoading, user } = useContext(AuthContext);
+  const { isLoading, user } = useContext(AuthContext);
 
   const handleNofication = (nofiticationNew: NotificationProps) => {
     setNotification(nofiticationNew);

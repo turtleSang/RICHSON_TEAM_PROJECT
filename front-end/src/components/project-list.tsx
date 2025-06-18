@@ -1,6 +1,6 @@
 "use client";
 
-import { getListProject, useProjects } from "@/libs/fetching-client";
+import { useProjects } from "@/libs/fetching-client";
 import { ProjectCardType, TypeShort } from "@/types/define.type";
 import ListProjectSkeleton from "./skeleton/list-project-skeleton";
 import ProjectCard from "./project-card";
@@ -23,9 +23,9 @@ export default function ListProject({
   categoryLink?: string;
 }) {
   const pageSize = 4;
-  let preProjectPositon = 4;
+
   const [pageNumber, setPageNumber] = useState(1);
-  const { data, isLoading, error } = useProjects(
+  const { data, isLoading } = useProjects(
     pageNumber,
     pageSize,
     typeShort,
@@ -66,15 +66,7 @@ export default function ListProject({
       <div className="w-full overflow-hidden grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
         {listProject.length > 0 ? (
           listProject.map((val, index) => {
-            const positon = preProjectPositon === 4 ? 1 : preProjectPositon + 1;
-            preProjectPositon = positon;
-            return (
-              <ProjectCard
-                project={val}
-                position={positon}
-                key={`${val.id}-${index}`}
-              />
-            );
+            return <ProjectCard project={val} key={`${val.id}-${index}`} />;
           })
         ) : (
           <div className="col-span-full flex items-center justify-center w-full h-full">

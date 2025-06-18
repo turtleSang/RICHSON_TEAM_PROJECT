@@ -21,7 +21,7 @@ export default async function CategoryPage({
       <ListProjectLayOut
         name={`${name} project`}
         description={description}
-        categoryLink={category}
+        categoryLink={link}
       />
     </div>
   );

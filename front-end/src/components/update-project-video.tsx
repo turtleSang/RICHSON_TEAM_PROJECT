@@ -58,6 +58,7 @@ export default function UpdateProjectVideo() {
       const newURL = URL.createObjectURL(file);
       setVideoUrl(newURL);
     } catch (error) {
+      console.error(error);
       if (project.video) {
         const timestamp = Date.now();
         setVideoUrl(

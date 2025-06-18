@@ -1,4 +1,3 @@
-import ItemCategory from "@/components/item-category";
 import ListCategoryHome from "@/components/list-category-home";
 import NotFoundComponent from "@/components/not-found-component";
 import TitleSection from "@/components/title-section";
@@ -28,6 +27,7 @@ export default async function GroupCategory() {
       </div>
     );
   } catch (error) {
+    console.error(error);
     return <NotFoundComponent name="Category" />;
   }
 }

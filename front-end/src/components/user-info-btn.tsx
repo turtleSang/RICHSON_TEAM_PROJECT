@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -40,7 +40,7 @@ export default function UserInfoBtn({
       .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
         withCredentials: true,
       })
-      .then((res) => window.location.reload())
+      .then(() => window.location.reload())
       .catch((err) => console.log(err));
   };
 

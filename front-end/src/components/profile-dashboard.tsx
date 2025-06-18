@@ -20,7 +20,7 @@ export default function ProfileDashBoard({
       .get(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`, {
         withCredentials: true,
       })
-      .then((res) => router.replace("/"))
+      .then(() => router.replace("/"))
       .catch((err) => console.log(err));
   };
   return (

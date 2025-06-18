@@ -1,14 +1,10 @@
 "use client";
 import { TruncateTxt, ValidateProjectId } from "@/libs/helper";
 import { ProjectDetail } from "@/types/define.type";
-import {
-  faDeleteLeft,
-  faRemove,
-  faSearch,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import axios, { AxiosError } from "axios";
-import { div } from "framer-motion/client";
+import axios from "axios";
+
 import { FormEvent, useState } from "react";
 import Image from "next/image";
 import NotFoundComponent from "@/components/not-found-component";
@@ -51,14 +47,17 @@ export default function PageProjectManager() {
 
   const handleDelte = async (id: number) => {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/project/admin/${id}`;
+    setIsDelete(true);
     try {
       const res = await axios.delete(url, { withCredentials: true });
       const mess = res.data as string;
       handleNotification({ mess, type: "success" });
       setProject(null);
     } catch (error) {
+      console.error(error);
       handleNotification({ mess: "Server Error", type: "error" });
     }
+    setIsDelete(false);
     setTimeout(() => {
       router.refresh();
     }, 2000);

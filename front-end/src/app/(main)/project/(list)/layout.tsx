@@ -1,6 +1,6 @@
 import ListProjectSkeleton from "@/components/skeleton/list-project-skeleton";
 import TitleSection from "@/components/title-section";
-import { HeaderFont1, HeaderFont2 } from "@/font/font";
+import { HeaderFont2 } from "@/font/font";
 import ProjectNav from "@/layout/project-nav";
 import clsx from "clsx";
 import { Suspense } from "react";

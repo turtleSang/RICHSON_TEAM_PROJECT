@@ -1,5 +1,4 @@
 "use client";
-import Loader from "@/components/loader";
 import NoPermission from "@/components/no-permission";
 import DashboardSkeleton from "@/components/skeleton/dashboard-skeleton";
 import NavBarDashBoard from "@/layout/nav-bar-dashboard";

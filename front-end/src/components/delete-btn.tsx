@@ -1,8 +1,6 @@
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import ModalGroup from "./modal-group";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { span } from "framer-motion/client";
-import { useState } from "react";
 
 export default function DeleteBtn({
   mess,

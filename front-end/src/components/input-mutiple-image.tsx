@@ -3,7 +3,7 @@
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { FileWithPath, useDropzone } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import NotFoundComponent from "./not-found-component";
 import Image from "next/image";
 

@@ -2,14 +2,13 @@
 import { CategoryType } from "@/types/define.type";
 import ItemCategory from "./item-category";
 import { motion } from "framer-motion";
-import clsx from "clsx";
 
 export default function ListCategoryHome({
   listCategory,
 }: {
   listCategory: CategoryType[];
 }) {
-  let layout = listCategory.length % 4;
+  const layout = listCategory.length % 4;
 
   return (
     <div

@@ -19,7 +19,7 @@ export default function ListImgProject({
   );
 
   const sliderList = (): SlideImage[] => {
-    let list: SlideImage[] = listUrlImg
+    const list: SlideImage[] = listUrlImg
       .filter((val) => val != chossenImg)
       .map((val) => {
         const slide: SlideImage = { src: val };

@@ -1,6 +1,6 @@
 "use client";
 import { ValidateDescriptionProject, ValidateNameProject } from "@/libs/helper";
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import InputTxt from "./input-txt";
 import { ErrorMessageType, ProjectDto } from "@/types/define.type";
 import InputTextArea from "./input-text-area";
@@ -109,7 +109,7 @@ export default function CreateProjectForm() {
   };
 
   const checkVaidateionProject = () => {
-    let err = Object.values(errorMessage).find((error) => error !== "");
+    const err = Object.values(errorMessage).find((error) => error !== "");
     if (err) return false;
 
     if (!project.name || !project.name.trim()) {

@@ -1,6 +1,3 @@
-import { GetProfileServer } from "@/libs/fetching-server";
-import { cookies } from "next/headers";
-
 export default async function PageDashBoard() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4">

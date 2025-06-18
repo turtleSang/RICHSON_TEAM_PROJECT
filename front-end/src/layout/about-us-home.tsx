@@ -2,7 +2,7 @@
 import TitleSection from "@/components/title-section";
 import { HeaderFont1, HeaderFont3 } from "@/font/font";
 import clsx from "clsx";
-import { motion, Variants } from "framer-motion";
+import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 

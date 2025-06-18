@@ -4,14 +4,11 @@ import { InputHTMLAttributes } from "react";
 export default function InputTxt({
   errorMessage,
   title,
-  isLoadingCheckName,
-  isExits,
+
   ...props
 }: {
   title: string;
   errorMessage?: string;
-  isLoadingCheckName?: boolean;
-  isExits?: boolean | null;
 } & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <motion.label

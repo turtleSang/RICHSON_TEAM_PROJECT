@@ -30,8 +30,6 @@ const listProcess: {
 ];
 
 export default function PageAboutUs() {
-  const delay = 2 / listProcess.length;
-
   return (
     <div
       className={clsx(

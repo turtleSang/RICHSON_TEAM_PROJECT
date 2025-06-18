@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 
 export default function useScrollY() {
-    let [y, setY] = useState<number>(0);
+    const [y, setY] = useState<number>(0);
     useEffect(() => {
         if (!window) {
             return;

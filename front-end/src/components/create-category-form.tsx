@@ -6,7 +6,6 @@ import InputTxt from "./input-txt";
 import useCategoryPageContext from "@/libs/CategoryPageContext";
 import { useState } from "react";
 import { CategoryType, ErrorMessageType } from "@/types/define.type";
-import { log } from "node:console";
 import Loader from "./loader";
 
 export default function CreateCategoryForm() {

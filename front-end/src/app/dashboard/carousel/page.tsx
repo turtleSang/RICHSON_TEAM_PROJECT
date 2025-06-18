@@ -8,7 +8,7 @@ import ProcessBar from "@/components/process-bar";
 import { faClose, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 
 export default function CarouselPage() {
   const [videoUrl, setVideoUrl] = useState<string | null>(
@@ -48,6 +48,7 @@ export default function CarouselPage() {
       setVideoUrl(URL.createObjectURL(file));
       handleNotification({ mess, type: "success" });
     } catch (error) {
+      console.error(error);
       setVideoUrl(`${process.env.NEXT_PUBLIC_API_URL}/video/carousel`);
       handleNotification({ mess: "Server Error", type: "success" });
     }

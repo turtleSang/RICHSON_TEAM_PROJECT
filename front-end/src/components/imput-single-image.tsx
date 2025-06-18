@@ -4,7 +4,7 @@ import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useDropzone, FileError, ErrorCode } from "react-dropzone";
+import { useDropzone } from "react-dropzone";
 import NotFoundComponent from "./not-found-component";
 
 export default function InputSingleImage({

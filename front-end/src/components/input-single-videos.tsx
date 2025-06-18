@@ -1,12 +1,10 @@
 "use client";
 import { faUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { video } from "framer-motion/client";
-import dynamic from "next/dynamic";
-import "plyr-react/plyr.css";
-import { useEffect, useState } from "react";
 
-import { useDropzone, FileError, ErrorCode } from "react-dropzone";
+import "plyr-react/plyr.css";
+
+import { useDropzone } from "react-dropzone";
 
 export default function InputVideoFile({
   handleUpload,

@@ -1,7 +1,6 @@
 import { Role, UserProfile } from "@/types/define.type";
 import { faCheck, faClose, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import clsx from "clsx";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
@@ -137,7 +136,7 @@ export default function UserCard({
               return (
                 <div
                   className="uppercase relative z-10 p-3 cursor-pointer"
-                  key={`${profile.id}-${val}`}
+                  key={`${profile.id}-${val}-${index}`}
                   onClick={() => handleRoleSelect(val)}
                 >
                   <div className="z-auto"> {val}</div>

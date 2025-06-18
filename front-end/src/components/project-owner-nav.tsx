@@ -3,7 +3,6 @@
 import Link from "next/link";
 import DeleteProject from "./delete-project";
 import { ProjectDetail } from "@/types/define.type";
-import { useProfile } from "@/libs/fetching-client";
 import { useContext } from "react";
 import { AuthContext } from "@/libs/AuthProvider";
 
@@ -12,7 +11,7 @@ export default function ProjectOwnerNav({
 }: {
   project: ProjectDetail;
 }) {
-  const { error, isLoading, user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
 
   return (
     <>

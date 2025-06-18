@@ -7,7 +7,6 @@ import { faMailBulk, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import clsx from "clsx";
 import { AnimatePresence, motion, Variants } from "framer-motion";
-import { div } from "framer-motion/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";

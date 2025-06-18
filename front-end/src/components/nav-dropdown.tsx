@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { AnimatePresence, motion, Variant, Variants } from "framer-motion";
+import { AnimatePresence, motion, Variants } from "framer-motion";
 import DropDownBtn from "./drop-down-nav-btn";
 import { useState } from "react";
 import clsx from "clsx";
@@ -12,7 +12,7 @@ export default function NavDropDown({
 }: {
   handleClose: () => void;
 }) {
-  const { data, error, isLoading } = useCategory();
+  const { data, isLoading } = useCategory();
 
   const [active, setActive] = useState(false);
 

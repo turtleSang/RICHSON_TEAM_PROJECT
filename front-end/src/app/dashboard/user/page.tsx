@@ -1,6 +1,5 @@
 "use client";
 
-import InputTxt from "@/components/input-txt";
 import NotFoundComponent from "@/components/not-found-component";
 import NotificationComponent, {
   NotificationProps,
@@ -17,11 +16,7 @@ export default function UserManagerPage() {
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [totalPage, setTotalPage] = useState<number>(1);
   const [nameSearch, setNameSearch] = useState<string>("");
-  const { data, error, isLoading } = useListUser(
-    pageSize,
-    pageNumber,
-    nameSearch
-  );
+  const { data, isLoading } = useListUser(pageSize, pageNumber, nameSearch);
   const [listUser, setListUser] = useState<UserProfile[]>([]);
   const [notification, setNotification] = useState<NotificationProps | null>({
     mess: "",

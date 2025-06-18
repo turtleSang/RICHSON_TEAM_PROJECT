@@ -29,6 +29,7 @@ const getListCategory = async (url: string) => {
         const listCategory: CategoryType[] = res.data
         return listCategory
     } catch (error) {
+        console.error(error)
         return null
     }
 }
@@ -42,7 +43,6 @@ export const useCategory = () => {
 
 // Project
 export const getListProject = async (url: string, page: number, size: number, type: TypeShort, short: boolean) => {
-
     const res = await axios.get(url, {
         params: {
             page,
@@ -81,6 +81,7 @@ const getListNameProject = async (url: string, txtSearch: string) => {
         const listName: ProjectNameSearch[] = res.data
         return listName;
     } catch (error) {
+        console.error(error);
         return null;
     }
 }
@@ -103,7 +104,7 @@ const getListUser = async (url: string, pageNumber: number, pageSize: number) =>
         const res = await axios.get(url, {
             withCredentials: true,
             params: {
-                pageNumber, pageSize, name
+                pageNumber, pageSize
             }
         })
         const { listUser, totalPage } = res.data;
@@ -121,7 +122,6 @@ export const useListUser = (pageSize: number, pageNumber = 1, name?: string) => 
     if (name) {
         url = `${process.env.NEXT_PUBLIC_API_URL}/user/list/${encodeURIComponent(name)}`;
     }
-
     const { data, error, isLoading } = useSWR([url, pageSize, pageNumber], ([url, pageSize, pageNumber]) => getListUser(url, pageNumber, pageSize))
 
     return { data, error, isLoading }

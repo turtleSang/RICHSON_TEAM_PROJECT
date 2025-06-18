@@ -8,13 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-export default function ProjectCard({
-  project,
-  position,
-}: {
-  project: ProjectCardType;
-  position: number;
-}) {
+export default function ProjectCard({ project }: { project: ProjectCardType }) {
   const imgUrl = project.thumb?.id
     ? `${process.env.NEXT_PUBLIC_API_URL}/image/${project.thumb.id}`
     : "/not-found.png";

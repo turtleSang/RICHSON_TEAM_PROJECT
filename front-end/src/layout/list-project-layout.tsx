@@ -3,10 +3,7 @@
 import DropDownBtn from "@/components/drop-down-btn";
 import ListProject from "@/components/project-list";
 import TitleSection from "@/components/title-section";
-import { HeaderFont1 } from "@/font/font";
 import { TypeShort } from "@/types/define.type";
-import clsx from "clsx";
-import { p } from "framer-motion/client";
 import { useState } from "react";
 
 export default function ListProjectLayOut({

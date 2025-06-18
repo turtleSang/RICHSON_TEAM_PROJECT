@@ -1,10 +1,8 @@
-import DeleteProject from "@/components/delete-project";
 import NotFoundComponent from "@/components/not-found-component";
 import ProjectOwnerNav from "@/components/project-owner-nav";
 import ProjectDetailLayout from "@/layout/project-detail";
 import { ProjectDetail } from "@/types/define.type";
 import axios from "axios";
-import Link from "next/link";
 
 export default async function PageDetailProject({
   params,

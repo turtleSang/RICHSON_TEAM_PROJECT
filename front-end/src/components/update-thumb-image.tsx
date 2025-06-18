@@ -1,9 +1,5 @@
 "use client";
-import { useState } from "react";
 import InputSingleImage from "./imput-single-image";
-import NotificationComponent, {
-  NotificationProps,
-} from "./notification-component";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useProjectContext } from "@/layout/update-project-layout";
@@ -40,6 +36,7 @@ export default function UpdateThumbForm() {
       handleNofication({ mess, type: "success" });
       router.refresh();
     } catch (error) {
+      console.error(error);
       handleNofication({ mess: "Server error", type: "error" });
     }
     handleUpload(false);

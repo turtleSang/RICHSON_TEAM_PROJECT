@@ -1,9 +1,5 @@
-import { li, ul } from "framer-motion/client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import NavDropDown from "./nav-dropdown";
-import { useCategory } from "@/libs/fetching-client";
-import { useEffect } from "react";
 
 const listItem: { name: string; link: string }[] = [
   {

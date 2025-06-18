@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import { span } from "framer-motion/client";
 
 export default function PageNumberNav({
   pageNumber,

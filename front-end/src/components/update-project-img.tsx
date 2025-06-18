@@ -1,5 +1,4 @@
 "use client";
-import { FileWithPath } from "react-dropzone";
 import InputMultipleImage from "./input-mutiple-image";
 import axios from "axios";
 import { useProjectContext } from "@/layout/update-project-layout";
@@ -38,6 +37,7 @@ export default function UpdateProjectImg() {
       };
       handleNofication(newNotification);
     } catch (error) {
+      console.error(error);
       handleNofication({
         mess: "server error",
         type: "error",

@@ -72,6 +72,7 @@ export default function UpdateRatingForm({
       const mess = res.data as string;
       handleNotification({ mess, type: "success" });
     } catch (error) {
+      console.error(error);
       handleNotification({ mess: "Server Error", type: "error" });
     }
     setIsUpload(false);

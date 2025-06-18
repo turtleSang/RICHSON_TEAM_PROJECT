@@ -1,10 +1,6 @@
-import NoPermission from "@/components/no-permission";
 import LayoutUpdateProject from "@/layout/update-project-layout";
-import { GetProfileServer } from "@/libs/fetching-server";
 import { ProjectDetail } from "@/types/define.type";
 import axios from "axios";
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export default async function UpdateProjectPage({
   params,

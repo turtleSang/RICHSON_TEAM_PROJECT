@@ -1,5 +1,4 @@
 import Carousel from "@/components/carousel";
-import ListProject from "@/components/project-list";
 import AboutUsHome from "@/layout/about-us-home";
 import ContactHome from "@/layout/contact-home";
 import GroupCategory from "@/layout/group-category";

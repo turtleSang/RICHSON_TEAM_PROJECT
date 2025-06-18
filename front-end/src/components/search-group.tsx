@@ -1,7 +1,7 @@
 "use client";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { motion, Variants } from "framer-motion";
 import SearchForm from "./search-form";
 

@@ -1,4 +1,3 @@
-import ListProject from "@/components/project-list";
 import ListProjectLayOut from "@/layout/list-project-layout";
 
 export default function ProjectPage() {

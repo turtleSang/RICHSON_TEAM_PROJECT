@@ -2,7 +2,7 @@
 import { ProjectDetail } from "@/types/define.type";
 import ModalGroup from "./modal-group";
 import { useRouter } from "next/navigation";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { useState } from "react";
 import NotificationComponent, {
   NotificationProps,
@@ -30,6 +30,8 @@ export default function DeleteProject({ project }: { project: ProjectDetail }) {
         router.replace("/project");
       }, 2000);
     } catch (error) {
+      console.error(error);
+
       setNotification({
         mess: "Server error",
         type: "error",

@@ -9,13 +9,13 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function ProjectNav() {
-  const { data, error, isLoading } = useCategory();
+  const { data } = useCategory();
   const { category } = useParams<{ category: string }>();
   const [activeTab, setActiveTab] = useState<CategoryType | null>(null);
 
   useEffect(() => {
     if (data) {
-      const categoryChossen = data.find((val, index) => {
+      const categoryChossen = data.find((val) => {
         return val.link === category;
       });
       if (categoryChossen) {
@@ -40,7 +40,7 @@ export default function ProjectNav() {
           return (
             <div
               className="relative cursor-pointer  rounded-md text-center overflow-hidden "
-              key={category.id}
+              key={`${category.id}-${index}`}
               onClick={() => handleActiveTab(category)}
             >
               <Link

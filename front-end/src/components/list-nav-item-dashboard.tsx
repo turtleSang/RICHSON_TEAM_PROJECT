@@ -2,7 +2,6 @@
 import clsx from "clsx";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const listNavItem = ["", "category", "project", "user", "carousel"];

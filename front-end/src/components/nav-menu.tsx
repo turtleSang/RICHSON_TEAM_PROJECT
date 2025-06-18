@@ -1,18 +1,13 @@
 "use client";
-import useScrollY from "@/libs/scroll-state";
+
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { AnimatePresence, motion, Variants } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 import ListItemMenu from "./list-menu-nav";
 
 export default function NavMenu() {
   const [active, setActive] = useState(false);
-
-  const buttonVariant: Variants = {
-    open: { opacity: 1 },
-    close: { opacity: 0 },
-  };
 
   const menuVariant = {
     open: { x: 0 },
