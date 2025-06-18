@@ -32,7 +32,7 @@ export default function SearchGroup() {
       <button
         onClick={handleActive}
         type="button"
-        className="cursor-pointer hover:text-hover duration-200 text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop"
+        className="text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop cursor-pointer hover:text-hover duration-200"
       >
         <FontAwesomeIcon icon={faMagnifyingGlass} />
       </button>

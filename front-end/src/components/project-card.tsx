@@ -24,7 +24,7 @@ export default function ProjectCard({ project }: { project: ProjectCardType }) {
       scale: 0.9,
     },
     hidden: {
-      translateX: 20,
+      translateX: 10,
       translateY: 20,
       opacity: 0,
       visibility: "hidden",
@@ -55,7 +55,7 @@ export default function ProjectCard({ project }: { project: ProjectCardType }) {
             onError={() => handleImgErr()}
           />
         </div>
-        <div className="absolute w-11/12 z-10 bottom-0 left-3 duration-200 md:translate-y-3/4 bg-black/50 px-3 rounded-t-xl md:group-hover:translate-y-0">
+        <div className="absolute w-12/12 z-10 bottom-0 left-0 duration-200 md:translate-y-1/2 bg-black/30 px-3 md:group-hover:translate-y-0">
           <h2
             className={clsx(
               ContentFont.className,
@@ -64,30 +64,29 @@ export default function ProjectCard({ project }: { project: ProjectCardType }) {
           >
             {TruncateTxt(project.name, 20)}
           </h2>
-          <p className="hidden md:block py-1 text-body-mobile md:text-body-tablet lg:text-body-desktop">
-            {TruncateTxt(project.description, 30)}
-          </p>
-          <h3 className="flex flex-row items-center">
-            <Image
-              src={project.author.avatar}
-              width={30}
-              height={30}
-              alt={`${project.author.name} avartar`}
-              className="rounded-full mr-3"
-            />
-            <span>{project.author.name}</span>
-          </h3>
-          <div className="flex flex-row flex-wrap justify-start gap-3 py-3 items-center ">
-            {project.categoryList.map((category) => {
-              return (
-                <div
-                  className="ml-2 text-black text-body-mobile text-nowrap bg-hover py-1 px-2 rounded-2xl"
-                  key={`${project.id}-${category.id}`}
-                >
-                  <span>{category.name}</span>
-                </div>
-              );
-            })}
+          <div className="flex flex-row justify-between pb-3">
+            <h3 className="flex flex-row items-center">
+              <Image
+                src={project.author.avatar}
+                width={30}
+                height={30}
+                alt={`${project.author.name} avartar`}
+                className="rounded-full mr-3"
+              />
+              <span>{project.author.name}</span>
+            </h3>
+            {/* <div className="flex flex-row flex-wrap justify-start gap-3 py-3 items-center ">
+              {project.categoryList.map((category) => {
+                return (
+                  <div
+                    className="ml-2 text-black text-body-mobile text-nowrap bg-hover py-1 px-2 rounded-2xl"
+                    key={`${project.id}-${category.id}`}
+                  >
+                    <span>{category.name}</span>
+                  </div>
+                );
+              })}
+            </div> */}
           </div>
         </div>
       </Link>

@@ -17,7 +17,7 @@ export default async function SearchKeywordPage({
           HeaderFont2.className
         )}
       >
-        Search result for keyword {decodeURI(keyword)}
+        Search result for keyword &quot;{decodeURI(keyword)}&quot;
       </h1>
       <GroupSearchProject keyword={keyword} />
     </div>

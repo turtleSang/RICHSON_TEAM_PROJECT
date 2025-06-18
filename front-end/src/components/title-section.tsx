@@ -26,7 +26,7 @@ export default function TitleSection({ title }: { title: string }) {
         transition={{ duration: 0.5 }}
         className={clsx(
           HeaderFont1.className,
-          "mb-5 md:mb-7 lg:mb-10 text-center uppercase text-hero-mobile md:text-hero-tablet lg:text-hero-desktop "
+          "mb-2 md:mb-4 text-center uppercase text-hero-mobile md:text-hero-tablet lg:text-hero-desktop "
         )}
       >
         {title}

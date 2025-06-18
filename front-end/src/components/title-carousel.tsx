@@ -18,7 +18,7 @@ export default function TitleCarousel() {
   };
 
   return (
-    <div className={"absolute bottom-10 left-12"}>
+    <div className={"absolute top-1/2 left-1/2 -translate-1/2 text-center"}>
       <motion.h1
         variants={variants}
         initial="hide"
@@ -28,7 +28,7 @@ export default function TitleCarousel() {
         }}
         className={
           (HeaderFont1.className,
-          "text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop")
+          "text-nowrap text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop")
         }
       >
         ALL SHOWCASE OF OUR TEAM PROJECT
@@ -41,9 +41,12 @@ export default function TitleCarousel() {
           type: "spring",
           delay: 0.2,
         }}
-        className="text-body-mobile md:text-body-tablet lg:text-body-desktop"
+        className="text-body-mobile md:text-body-tablet lg:text-body-desktop mt-3 uppercase"
       >
-        <Link className="hover:text-btnBg duration-200" href={"/contact"}>
+        <Link
+          className="inline-block px-3 py-2 cursor-pointer bg-hover text-background duration-200 rounded-lg hover:text-text"
+          href={"/contact"}
+        >
           Contact with us
         </Link>
       </motion.h2>

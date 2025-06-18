@@ -13,7 +13,7 @@ export default function ListCategoryHome({
   return (
     <div
       className={
-        "grid gap-1 -z-10 w-full overflow-hidden grid-cols-2 xl:grid-cols-4"
+        "grid gap-2 -z-10 w-full overflow-hidden grid-cols-2 xl:grid-cols-4"
       }
     >
       {listCategory.map((val, index) => {

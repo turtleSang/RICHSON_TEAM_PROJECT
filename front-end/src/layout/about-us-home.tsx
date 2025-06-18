@@ -57,7 +57,7 @@ export default function AboutUsHome() {
             <button
               className={clsx(
                 HeaderFont1.className,
-                "uppercase text-textsc cursor-pointer relative block mx-auto mt-10 after:duration-200 after:-bottom-1 after:z-30 after:left-0 after:absolute after:h-0.5 after:w-0 after:bg-btnBg hover:after:w-full hover:text-btnBg "
+                "uppercase text-textsc cursor-pointer relative block mx-auto mt-10 after:duration-200 after:-bottom-1 after:z-30 after:left-0 after:absolute after:h-0.5 after:w-0 after:bg-hover hover:after:w-full hover:text-hover "
               )}
             >
               Read more

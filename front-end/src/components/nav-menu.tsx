@@ -10,7 +10,7 @@ export default function NavMenu() {
   const [active, setActive] = useState(false);
 
   const menuVariant = {
-    open: { x: 0 },
+    open: { x: -5 },
     close: { x: "105%" },
   };
 
@@ -36,13 +36,13 @@ export default function NavMenu() {
       <motion.button
         onClick={handleClick}
         type="button"
-        className="text-section-title-mobile md:text-section-title-mobile lg:text-section-title-desktop sticky z-40 cursor-pointer overflow-hidden "
+        className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 text-section-title-mobile md:text-section-title-mobile lg:text-section-title-desktop sticky z-40 cursor-pointer overflow-hidden "
         layout
       >
         <AnimatePresence>
           {active ? (
             <motion.span
-              className="inline-block"
+              className="inline-block text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop"
               key={"close-icon"}
               initial={{ opacity: 0, y: "100%" }}
               animate={{ opacity: 1, y: 0 }}
@@ -52,7 +52,7 @@ export default function NavMenu() {
             </motion.span>
           ) : (
             <motion.span
-              className="inline-block"
+              className="inline-block text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop"
               key={"open-icon"}
               initial={{ opacity: 0, y: "100%" }}
               animate={{ opacity: 1, y: 0 }}

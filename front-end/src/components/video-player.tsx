@@ -27,7 +27,7 @@ export default function VideoPlayer({
   };
 
   return (
-    <div className="w-10/12 mx-auto">
+    <div className="w-full">
       {videoId ? <Plyr source={srcInfo} /> : <NotFoundComponent name="video" />}
     </div>
   );

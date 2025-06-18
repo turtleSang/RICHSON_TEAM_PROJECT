@@ -30,7 +30,7 @@ export default function ListImgProject({
   };
 
   return (
-    <div className="w-10/12 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-3">
+    <div className=" mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-3">
       {listUrlImg.map((val, index) => {
         return (
           <div

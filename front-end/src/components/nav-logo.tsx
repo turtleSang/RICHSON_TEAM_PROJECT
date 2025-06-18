@@ -9,7 +9,7 @@ export default function Logo() {
     <h1
       className={clsx(
         HeaderFont1.className,
-        "sm:text-hero-mobile md:text-hero-mobile lg:text-hero-desktop"
+        "sm:text-section-title-mobile md:text-section-title--mobile lg:text-section-title-desktop"
       )}
     >
       <Link className="drop-shadow-sm drop-shadow-text" href={"/"}>

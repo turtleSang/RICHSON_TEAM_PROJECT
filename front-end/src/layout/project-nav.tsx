@@ -39,12 +39,12 @@ export default function ProjectNav() {
         data.map((category, index) => {
           return (
             <div
-              className="relative cursor-pointer  rounded-md text-center overflow-hidden "
+              className="mt-3 relative cursor-pointer rounded-md text-center overflow-hidden "
               key={`${category.id}-${index}`}
               onClick={() => handleActiveTab(category)}
             >
               <Link
-                className="block h-full uppercase border-2  px-3 py-2  border-border rounded-md"
+                className="block h-full uppercase border-2  px-3 py-2  border-hover rounded-md"
                 href={`/project/${category.link}`}
               >
                 {category.name}
@@ -53,7 +53,7 @@ export default function ProjectNav() {
               {activeTab?.link === category.link && (
                 <motion.div
                   layoutId="box"
-                  className="absolute -z-10 top-0 left-0 w-full h-full bg-border"
+                  className="absolute -z-10 top-0 left-0 w-full h-full bg-hover"
                 ></motion.div>
               )}
             </div>
