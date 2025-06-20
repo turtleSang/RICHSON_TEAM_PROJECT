@@ -24,7 +24,21 @@ export default function ListProjectHighlight() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         {data?.listProject &&
           data.listProject.map((val, index) => {
-            return <ProjectCard project={val} key={`${val.id}-${index}`} />;
+            return (
+              <motion.div
+                initial={{ opacity: 0, translateY: 10 }}
+                whileInView={{
+                  opacity: 1,
+                  translateY: 0,
+                }}
+                transition={{
+                  delay: 0.5 * (index + 1),
+                }}
+                key={`${val.id}-${index}`}
+              >
+                <ProjectCard project={val} />
+              </motion.div>
+            );
           })}
       </div>
       <div className="text-center text-body-mobile md:text-body-tablet lg:text-body-desktop mt-3">

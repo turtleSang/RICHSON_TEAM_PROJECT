@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 import { motion, Variants } from "framer-motion";
 
@@ -20,6 +20,13 @@ export default function VideoBackGround({ src }: { src: string }) {
     },
   };
 
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.setAttribute("playsinline", "true");
+      videoRef.current.setAttribute("webkit-playsinline", "true");
+    }
+  }, []);
+
   return (
     <motion.div
       variants={variants}
@@ -30,7 +37,7 @@ export default function VideoBackGround({ src }: { src: string }) {
         delay: 0.5,
       }}
     >
-      <video className="w-full h-auto z-30" autoPlay loop muted ref={videoRef}>
+      <video className="w-full h-auto -z-30" autoPlay loop muted ref={videoRef}>
         <source src={src} type="video/mp4" />
       </video>
     </motion.div>

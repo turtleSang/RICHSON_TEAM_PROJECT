@@ -29,7 +29,7 @@ export default function NavBar() {
       )}
     >
       <Logo />
-      <div className="flex flex-row w-1/4 md:w-4/12 lg:w-3/12 justify-between items-center">
+      <div className="flex flex-row w-2/4 md:w-4/12 lg:w-3/12 justify-between items-center">
         <SearchGroup />
         <ProfileInfo />
         <NavMenu />

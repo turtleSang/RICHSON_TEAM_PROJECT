@@ -18,7 +18,7 @@ export default function AboutUsHome() {
           whileInView={{
             translateX: 0,
           }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
         >
           <div className="aspect-video relative rounded-md overflow-hidden">
             <Image
@@ -36,7 +36,7 @@ export default function AboutUsHome() {
           whileInView={{
             translateX: 0,
           }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
         >
           <p
             className={clsx(

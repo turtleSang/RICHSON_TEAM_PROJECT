@@ -45,7 +45,10 @@ export default function ProjectCard({ project }: { project: ProjectCardType }) {
       whileHover={"hover"}
       className={clsx("overflow-hidden group col-span-1")}
     >
-      <Link className="relative z-0" href={`/project/detail/${project.id}`}>
+      <Link
+        className="block relative z-0"
+        href={`/project/detail/${project.id}`}
+      >
         <div className="relative block z-0 w-full aspect-video overflow-hidden">
           <Image
             src={imgSrc}
@@ -55,7 +58,7 @@ export default function ProjectCard({ project }: { project: ProjectCardType }) {
             onError={() => handleImgErr()}
           />
         </div>
-        <div className="absolute w-12/12 z-10 bottom-0 left-0 duration-200 md:translate-y-1/2 bg-black/30 px-3 md:group-hover:translate-y-0">
+        <div className="absolute w-full z-10 bottom-0 left-0 duration-200 md:translate-y-1/2 bg-black/30 px-3 md:group-hover:translate-y-0">
           <h2
             className={clsx(
               ContentFont.className,
@@ -75,18 +78,6 @@ export default function ProjectCard({ project }: { project: ProjectCardType }) {
               />
               <span>{project.author.name}</span>
             </h3>
-            {/* <div className="flex flex-row flex-wrap justify-start gap-3 py-3 items-center ">
-              {project.categoryList.map((category) => {
-                return (
-                  <div
-                    className="ml-2 text-black text-body-mobile text-nowrap bg-hover py-1 px-2 rounded-2xl"
-                    key={`${project.id}-${category.id}`}
-                  >
-                    <span>{category.name}</span>
-                  </div>
-                );
-              })}
-            </div> */}
           </div>
         </div>
       </Link>

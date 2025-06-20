@@ -10,7 +10,7 @@ export default function NavMenu() {
   const [active, setActive] = useState(false);
 
   const menuVariant = {
-    open: { x: -5 },
+    open: { x: 30 },
     close: { x: "105%" },
   };
 

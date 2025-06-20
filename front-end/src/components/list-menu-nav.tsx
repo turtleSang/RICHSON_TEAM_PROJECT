@@ -26,7 +26,7 @@ export default function ListItemMenu({
   handleClose: () => void;
 }) {
   return (
-    <ul className="text-hero-mobile md:text-hero-tablet h-[70vh] flex flex-col justify-around">
+    <ul className="text-section-title-mobile md:text-section-title-tablet lg:text-section-title-desktop h-[70vh] flex flex-col justify-around">
       {listItem.map((val, index) => {
         return (
           <motion.li

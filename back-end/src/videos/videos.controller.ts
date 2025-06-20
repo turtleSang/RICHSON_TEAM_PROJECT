@@ -32,10 +32,11 @@ import { ProjectEntity } from 'src/project/entity/project-entity';
 import { MulterConfigsVideoCategory } from 'src/configs/multer-configs-video-category';
 import { MulterCarousel } from 'src/configs/muter-configs-carousel';
 import { join } from 'path';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('api/video')
 export class VideosController {
-  constructor(private videosService: VideosService) { }
+  constructor(private videosService: VideosService, private configService: ConfigService) { }
 
   @Get('/stream/:id')
   async streamVideos(@Param('id', ParseIntPipe) videoId: number, @Req() req: Request, @Res() res: Response) {
@@ -63,27 +64,52 @@ export class VideosController {
     res.setHeader('Accept-Ranges', 'bytes');
     res.setHeader('Content-Type', 'video/mp4');
     res.setHeader('Content-Length', chunkSize);
+    res.setHeader('Access-Control-Allow-Origin', this.configService.get('FRONT_END_URL'));
     res.status(206)
     fileStream.pipe(res);
   }
 
 
   @Get('/carousel')
-  async getCarousel(@Res() res: any) {
-    const path = join(process.env.MULTER_DEST, 'videos/carousel/carousel.mp4')
+  async getCarousel(@Res() res: any, @Req() req: any) {
+    const path = join(process.env.MULTER_DEST, 'videos/carousel/carousel.mp4');
+
     if (!existsSync(path)) {
       return res.status(404).send('File not found');
     }
-    const fileStreamm = createReadStream(path);
 
-    fileStreamm.on('close', () => {
-      fileStreamm.destroy();
-    });
+    const stat = statSync(path);
+    const fileSize = stat.size;
+    const range = req.headers.range;
 
-    fileStreamm.on('error', (err) => {
-      fileStreamm.destroy();
-    })
-    fileStreamm.pipe(res);
+    if (range) {
+      // Parse range
+      const parts = range.replace(/bytes=/, "").split("-");
+      const start = parseInt(parts[0], 10);
+      const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+
+      const chunkSize = end - start + 1;
+      const file = createReadStream(path, { start, end });
+
+      res.writeHead(206, {
+        'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+        'Accept-Ranges': 'bytes',
+        'Content-Length': chunkSize,
+        'Content-Type': 'video/mp4',
+        'Access-Control-Allow-Origin': this.configService.get('FRONT_END_URL'),
+      });
+
+      file.pipe(res);
+    } else {
+      // Fallback if no Range header
+      res.writeHead(200, {
+        'Content-Length': fileSize,
+        'Content-Type': 'video/mp4',
+        'Access-Control-Allow-Origin': this.configService.get('FRONT_END_URL'),
+      });
+
+      createReadStream(path).pipe(res);
+    }
   }
 
   @Post('upload/project/:id')
