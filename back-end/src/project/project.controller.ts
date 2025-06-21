@@ -26,7 +26,7 @@ export class ProjectController {
 
   @Get('list')
   async getProjects(
-    @Query(new ValidatorPipe) query: ListProjectQueryDto
+    @Query(new ValidatorPipe()) query: ListProjectQueryDto
   ) {
     const { listProject, maxPage } = await this.projectService.getListProject(query.page, query.size, query.type, query.short);
     if (listProject.length === 0) {
@@ -56,9 +56,11 @@ export class ProjectController {
   ) {
 
     const { listProject, maxPage } = await this.projectService.getListProjectByCategory(categoryLink, query.page, query.size, query.type, query.short);
+
     if (listProject.length === 0) {
       throw new NotFoundException("Not found project")
     }
+
     return { listProject, maxPage };
   }
 

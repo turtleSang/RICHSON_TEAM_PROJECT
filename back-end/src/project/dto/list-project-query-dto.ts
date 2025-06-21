@@ -1,4 +1,4 @@
-import { Type } from "class-transformer";
+import { Transform, Type } from "class-transformer";
 import { IsBoolean, IsEnum, IsInt, IsNumber, IsOptional, IsPositive } from "class-validator";
 import { ProjectShort } from "./short-condition-dto";
 
@@ -19,7 +19,11 @@ export class ListProjectQueryDto {
     type: ProjectShort;
 
 
-    @Type(() => Boolean)
+    @Transform(({ value }) => {
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        return value;
+    })
     @IsBoolean()
     short: boolean;
 }

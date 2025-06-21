@@ -55,6 +55,7 @@ export class ProjectService {
     async getListProject(pageNumber: number, pageSize: number, type: ProjectShort, short: boolean
     ) {
         const skip: number = (pageNumber - 1) * pageSize;
+        const shortCondition = short ? "DESC" : "ASC";
         const [listProject, count] = await this.projectRepository
             .createQueryBuilder("project")
             .select(["project.id", "project.name", 'project.description', "project.rating", "project.createAt", 'project.updateAt'])
@@ -64,7 +65,7 @@ export class ProjectService {
             .addSelect(["categories.name", "categories.link", "categories.id"])
             .leftJoin('project.thumb', 'thumb')
             .addSelect('thumb.id')
-            .orderBy(type, short ? "DESC" : "ASC")
+            .orderBy(type, shortCondition)
             .skip(skip)
             .take(pageSize)
             .getManyAndCount();

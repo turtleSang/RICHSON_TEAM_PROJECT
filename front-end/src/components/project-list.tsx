@@ -41,6 +41,8 @@ export default function ListProject({
   }, [typeShort, short]);
 
   useEffect(() => {
+    console.log(data);
+
     if (data && data.maxPage) {
       if (data.maxPage > pageNumber) {
         setCanShowMore(true);
